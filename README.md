@@ -1,16 +1,16 @@
-# XenForo 2.0 Documentation
+# Документация XenForo 2.0
 
-## Developer Documentation for XenForo 2.0.
+## Документация разработчика для XenForo 2.0
 
-Welcome to the initial release of Developer Documentation for XF2.
+Добро пожаловать в первый выпуск документации для разработчиков XF2.
 
-The documentation hosted in this repo is far from finished, but is still a good start to familiarise yourself with:
+Документация, размещенная в этом репозитории, далека от завершения, но все же это хорошее начало для ознакомления:
 
-* Installing XF 2.0 from the command line
-* The new add-on structure in XF2
-* Some new concepts in XF2 including entities, finders and repositories
-* A full tutorial to build your own portal add-on in XF2
+* Установка XF 2.0 из командной строки
+* Новая структура аддонов в XF2
+* Некоторые новые концепции в XF2, включая объекты, средства поиска и репозитории
+* Полное руководство по созданию собственного аддона портала в XF2
 
-Please feel free to post any [issues](https://github.com/xenforo-ltd/docs/issues) you may find with the documentation. If you'd like to contribute changes to our documentation then you should first read our guidelines and other useful information [here](https://github.com/xenforo-ltd/docs/blob/master/CONTRIBUTING.md).
+Пожалуйста, не стесняйтесь публиковать любые [проблемы](https://github.com/xenforo-ltd/docs/issues), которые Вы можете найти в документации. Если Вы хотите внести изменения в нашу документацию, Вам следует сначала прочитать наши рекомендации и другую полезную информацию [здесь](https://github.com/xenforo-ru/docs/blob/main-ru/CONTRIBUTING.md).
 
-Please also use the main [XenForo community](https://xenforo.com/community) for help with XF2 development, providing feedback on XenForo 2.0 and reporting bugs with the software.
+Также используйте основное [сообщество XenForo](https://xenforo.com/community) для получения помощи в разработке XF2, предоставления отзывов о XenForo 2.0 и сообщений об ошибках в программном обеспечении.
