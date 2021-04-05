@@ -1,114 +1,114 @@
-# Contributing documentation changes
+# Внесение изменений в документацию
 
-If you're reading this, **THANK YOU** for considering helping us improve and expand our developer documentation 👍
+Если Вы читаете это, **СПАСИБО** за то, что решили помочь нам улучшить и расширить нашу документацию для разработчиков 👍
 
-There are three important things to note about documentation, generally:
+Как правило, следует отметить три важных момента в документации:
 
-1. It's the **best** thing ever. We already have a massive pool of talent within the [XenForo community](https://xenforo.com/community) and a considerable number of them got to where they are today with almost no documentation at all! Not everyone can learn a new code language / framework in this way, and so this documentation is important so the massive pool of talent only gets bigger and better.
-2. It's the **worst** thing ever. At least for some people. Some developers **hate** writing documentation. It's time consuming and not easy.
-3. It's a **rewarding** and **admirable** task to be able to impart our own knowledge onto others. This is the most important bit, so refer back to #1 😉
+1. Это **лучшая** вещь на свете. У нас уже есть огромный пул талантов в [сообществе XenForo](https://xenforo.com/community) и значительная их часть достигла своего нынешнего уровня практически без документации! Не каждый может выучить новый язык/фреймворк таким образом, и поэтому эта документация важна, поэтому огромный пул талантов становится только больше и лучше.
+2. Это **худшая** вещь на свете. По крайней мере, для некоторых. Некоторые разработчики **ненавидят** писать документацию. Это трудоемко и непросто.
+3. Возможность делиться своими знаниями с другими - это **полезная** и **достойная восхищения** задача. Это самый важный бит, поэтому вернитесь к #1 😉
 
-These guidelines aim to set out some of the processes involved in editing our documentation, and some best practices. Feel free to modify these guidelines in a pull request if required.
+Это руководство направлено на определение некоторых процессов, связанных с редактированием нашей документации, и некоторых передовых методов. Не стесняйтесь изменять эти рекомендации в пулл реквесте, если это необходимо.
 
-#### Table of contents
+#### Оглавление
 
-* [Getting started with MkDocs](#getting-started-with-mkdocs)
-  * [What is MkDocs?](#what-is-mkdocs)
-  * [Great, but what is Markdown?](#great-but-what-is-markdown)
-  * [Installing MkDocs](#installing-mkdocs)
-  * [Using MkDocs](#using-mkdocs)
-* [Documentation structure](#documentation-structure)
-* [Modifying existing pages/sections](#modifying-existing-pages-sections)
-* [Adding new pages/sections](#adding-new-pages-sections)
-* [Submitting your changes](#submitting-your-changes)
-* [General guidelines](#general-guidelines)
+* [Начало работы с MkDocs](#начало-работы-с-mkdocs)
+  * [Что такое MkDocs?](#что-такое-mkdocs)
+  * [Отлично, но что такое Markdown?](#отлично-но-что-такое-markdown)
+  * [Установка MkDocs](#установка-mkdocs)
+  * [Использование MkDocs](#использование-mkdocs)
+* [Структура документации](#структура-документации)
+* [Изменение существующих страниц/разделов](#изменение-существующих-страниц-разделов)
+* [Добавление новых страниц/разделов](#добавление-новых-страниц-разделов)
+* [Отправка Ваших изменений](#отправка-ваших-изменений)
+* [Общие рекомендации](#общие-рекомендации)
 
-## Getting started with MkDocs
+## Начало работы с MkDocs
 
-### What is MkDocs?
+### Что такое MkDocs?
 
-[MkDocs](http://www.mkdocs.org/) is a "static site generator" geared towards building project documentation. We chose MkDocs because of its ease of use and, well, if we're honest, so we didn't have to build our own system like we did for the [XenForo 1 Manual](https://xenforo.com/help/manual/). It also makes it insanely easy for us to be able to accept changes from our contributors.
+[MkDocs](http://www.mkdocs.org/) - это «генератор статических сайтов», предназначенный для создания проектной документации. Мы выбрали MkDocs из-за его простоты использования и, если честно, нам не пришлось создавать нашу собственную систему, как мы это делали для [Руководства по XenForo 1](https://xenforo.com/help/manual/). Это также позволяет нам безумно легко принимать изменения от наших участников.
 
-Not only that, but editing the documentation is as simple as adding or editing files using Markdown.
+Более того, редактировать документацию так же просто, как добавлять или редактировать файлы с помощью Markdown.
 
-### Great, but what is Markdown?
+### Отлично, но что такое Markdown?
 
-Well, generally awesome is what it is 😁 
+Ну вообще классно то, что есть 😁
 
-> Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).
+> Markdown - это инструмент преобразования текста в HTML для веб-авторов. Markdown позволяет Вам писать, используя простой для чтения и записи простой текстовый формат, а затем преобразовывать его в структурно допустимый XHTML (или HTML).
 
-To put it another way, it's simply a way to write plain text and later have it converted to HTML. All documentation written in MkDocs are simply text files with a `.md` extension. Markdown has become insanely popular over the last few years. If you'd like to learn more about it, GitHub has a [great guide](https://guides.github.com/features/mastering-markdown/) to get you started.
+Другими словами, это просто способ написать простой текст, а затем преобразовать его в HTML. Вся документация, написанная в MkDocs, представляет собой просто текстовые файлы с расширением `.md`. Markdown стал безумно популярным за последние несколько лет. Если Вы хотите узнать об этом больше, на GitHub есть [отличное руководство](https://guides.github.com/features/mastering-markdown/), с которого можно начать.
 
-### Installing MkDocs
+### Установка MkDocs
 
-MkDocs can be installed using a variety of OS package managers, and this is the recommended approach to installing it.
+MkDocs можно установить с помощью различных менеджеров пакетов ОС, и это рекомендуемый подход к его установке.
 
 * [Homebrew](http://brew.sh/) (macOS)
 * [Chocolatey](https://chocolatey.org/) (Windows)
 * [yum](http://yum.baseurl.org/), [apt-get](https://help.ubuntu.com/community/AptGet/Howto), [DNF](http://dnf.readthedocs.io/en/latest/index.html) (Linux)
 
-You can also find some more detailed instructions [here](http://www.mkdocs.org/#installation).
+Вы также можете найти более подробные инструкции [здесь](http://www.mkdocs.org/#installation).
 
-For editing the documentation, installing MkDocs is entirely optional as the documentation can be modified directly via the interface provided on GitHub. If you'd like to learn more about setting up MkDocs you can read the section below.
+Для редактирования документации установка MkDocs не является обязательной, поскольку документация может быть изменена непосредственно через интерфейс, представленный на GitHub. Если Dы хотите узнать больше о настройке MkDocs, Dы можете прочитать раздел ниже.
 
-### Using MkDocs
+### Использование MkDocs
 
-The first step to using MkDocs alongside this documentation is to pull the documentation down from this repo. You can either use a Git client for this, or use Git on the command line.
+Первым шагом к использованию MkDocs вместе с этой документацией является извлечение документации из этого репозитория. Вы можете использовать для этого клиент Git или использовать Git в командной строке.
 
-In the desired directory, simply run the following command:
+В желаемом каталоге просто выполните следующую команду:
 
 ```
 git clone git@github.com:xenforo-ltd/docs.git
 ```
 
-This will create a new directory named `docs` containing the contents of this repo.
+Это создаст новый каталог с именем `docs`, содержащий содержимое этого репозитория.
 
-Using the command line, change directory to the new `docs` directory and run the following command:
+Используя командную строку, перейдите в новый каталог `docs` и выполните следующую команду:
 
 ```
 mkdocs serve
 ```
 
-This will load up a local web server based on the directory contents which is now accessible from the URL `http://localhost:8000/` and it will start watching the documentation for changes and reload automatically.
+Это загрузит локальный веб-сервер на основе содержимого каталога, который теперь доступен по URL-адресу `http://localhost:8000/`, и он начнет просматривать документацию на предмет изменений и автоматически перезагружаться.
 
-## Documentation structure
+## Структура документации
 
-All of the documentation files will appear in the `docs/docs` directory where you will find the top level pages for each section.
+Все файлы документации появятся в каталоге `docs/docs`, где Вы найдете страницы верхнего уровня для каждого раздела.
 
-These top level pages are also defined, along with their titles, inside the `docs/mkdocs.yml` file.
+Эти страницы верхнего уровня также определены вместе с их заголовками в файле `docs/mkdocs.yml`.
 
-Each of the top level pages are split into sections. Each header section (denoted by a heading starting with `##` characters) will appear in the navigation bar for each page.
+Каждая из страниц верхнего уровня разбита на разделы. Каждый раздел заголовка (обозначенный заголовком, начинающимся с символов `##`) будет отображаться на панели навигации для каждой страницы.
 
-## Modifying existing pages/sections
+## Изменение существующих страниц/разделов
 
-Once you've ascertained the section you would like to change, just edit the file directly in your preferred text editor. You can also edit the pages directly on GitHub.
+Как только Вы определились с разделом, который хотите изменить, просто отредактируйте файл прямо в предпочитаемом текстовом редакторе. Вы также можете редактировать страницы прямо на GitHub.
 
-## Adding new pages/sections
+## Добавление новых страниц/разделов
 
-If you'd like to add entirely new pages/sections, you can either add new sections to an exisitng page under an appropriate header (again, denoted by `##` characters) or create new pages entirely.
+Если Вы хотите добавить полностью новые страницы/разделы, Вы можете либо добавить новые разделы к существующей странице под соответствующим заголовком (опять же, обозначенным символами `##`), либо полностью создать новые страницы.
 
-Creating new pages involves creating the actual pages themselves, and also modifying the `docs/mkdocs.yml` file to reference those pages.
+Создание новых страниц включает в себя создание самих страниц, а также изменение файла `docs/mkdocs.yml` для ссылки на эти страницы.
 
-We do not generally recommend editing the `docs/mkdocs.yml` file outside of the process of adding new pages.
+Обычно мы не рекомендуем редактировать файл `docs/mkdocs.yml` вне процесса добавления новых страниц.
 
-## Submitting your changes
+## Отправка Ваших изменений
 
-If you followed the instructions to clone this repo and set up MkDocs, and you want to submit your changes to our repository you will need to create a [pull request](https://git-scm.com/docs/git-request-pull).
+Если Вы следовали инструкциям по клонированию этого репозитория и настройке MkDocs, и хотите отправить свои изменения в наш репозиторий, Вам потребуется создать [запрос на перенос](https://git-scm.com/docs/git-request-pull).
 
-If you are editing/adding the files directly on GitHub, a pull request will be submitted automatically.
+Если Вы редактируете/добавляете файлы непосредственно на GitHub, запрос на перенос будет отправлен автоматически.
 
-Once your changes have been submitted, they will periodically be reviewed and either approved and merged, rejected, or discussion will take place related to the desired changes before being accepted.
+После того, как ваши изменения будут отправлены, они будут периодически проверяться и либо утверждаться и объединяться, либо отклоняться, либо проводиться обсуждение желаемых изменений, прежде чем они будут приняты.
 
-## General guidelines
+## Общие рекомендации
 
-We do not want to impose too many rules as a barrier to updating our documentation, but please bear the following in mind:
+Мы не хотим вводить слишком много правил в качестве препятствия для обновления нашей документации, но имейте в виду следующее:
 
-1. Changes should generally be limited to editing/adding pages/sections.
-2. Large changes to the overall documentation structure will not be accepted but if they are necessary they should be discussed first by creating an issue.
-3. Similarly, changes to the config `docs/mkdocs.yml` file or changes to the styling of the documentation will not be accepted.
-4. Any content submitted should be written in English and not contain any content that would not circumvent our usual [rules for user generated content](https://xenforo.com/community/help/terms/).
-5. Finally, by submitting changes to the documentation you:
-    1. agree that changes you submit can be included in our published documentation
-    2. agree that once the changes are approved they can in the future be modified or removed by us or another contributor if that becomes necessary
-    3. agree not to contest any subsequent modification or removal of content you have submitted
-    4. agree that the documentation content you submit will ultimately be owned by XenForo Ltd.
+1. Как правило, изменения следует ограничивать редактированием/добавлением страниц/разделов.
+2. Крупные изменения в общей структуре документации не принимаются, но если они необходимы, их следует обсудить в первую очередь, создав проблему.
+3. Аналогично, изменения в файле конфигурации `docs/mkdocs.yml` или изменения стиля документации не принимаются.
+4. Любой представленный контент должен быть написан на английском языке и не содержать никакого контента, который не противоречил бы нашим обычным [правилам для пользовательского контента](https://xenforo.com/community/help/terms/).
+5. Наконец, отправляя изменения в документацию, Вы:
+    1. согласны с тем, что внесенные Вами изменения могут быть включены в нашу опубликованную документацию
+    2. согласны с тем, что после утверждения изменений они могут быть изменены или удалены в будущем нами или другим участником, если это станет необходимым
+    3. соглашайтесь не оспаривать любые последующие изменения или удаление содержания, которое Вы отправили
+    4. соглашаетесь с тем, что предоставленная Вами документация в конечном итоге будет принадлежать XenForo Ltd
