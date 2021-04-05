@@ -1,10 +1,11 @@
 site_name: Документация XenForo 2
-site_description: Документация разработчика для XenForo 2.
-site_author: XenForo Ltd.
-site_translator: Hkr32
+site_description: Документация разработчика для XenForo 2
+site_author: Hkr32
 site_favicon: xenforo-favicon.png
 
-theme: readthedocs
+theme:
+  name: readthedocs
+  language: ru
 custom_dir: xf2
 extra_css:
   - 'https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap'
@@ -36,12 +37,12 @@ nav:
     - Visual Studio Code and Xdebug: vscode.md
     - Scotch Box: scotchbox.md
 
-repo_url: https://github.com/xenforo-ltd/docs/
-edit_uri: edit/main/docs/
+repo_url: https://github.com/xenforo-ru/docs/
+edit_uri: edit/main-ru/docs/
 
 markdown_extensions:
   - admonition
   - toc:
       permalink: 
 
-copyright: <a href="https://xenforo.com/" target="_blank">Developer documentation for XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a>
+copyright: <a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a>
