@@ -12,8 +12,8 @@ extra_css:
   - 'extra.css'
 
 nav:
-- Overview:
-  - Getting started: index.md
+- Обзор:
+  - Начало работы: index.md
 - Site Administrators (or common):
   - Template syntax: template-syntax.md
   - REST API: rest-api.md

@@ -1,90 +1,76 @@
-# Welcome to XenForo 2!
+# Добро пожаловать в XenForo 2!
 
-This documentation aims to get you started with XenForo 2.0 development. Pre-requisites for this documentation assume you
-will be familiar with, amongst other things, PHP and MySQL. It is not essential to have experience with a previous
-version of XenForo, but it would be an advantage.
+Эта документация призвана помочь Вам начать разработку с XenForo 2.0. Предварительные условия для этой документации предполагают, что Вы, помимо прочего, знакомы с PHP и MySQL. Необязательно иметь опыт работы с предыдущей версией XenForo, но это было бы преимуществом.
 
-On the subsequent pages we will walk you through a brief overview of how to setup a local server, getting ready for
-installation, doing a clean install of XenForo 2.0, and run through some of the concepts of XF2 development.
+На следующих страницах мы проведем Вас через краткий обзор того, как настроить локальный сервер, подготовиться к установке, выполнить чистую установку XenForo 2.0 и познакомиться с некоторыми концепциями разработки XF2.
 
-## What's new for developers?
+## Что нового для разработчиков?
 
-Although XenForo 2.0 adds a lot of improvements for your forums and its members, a significant amount of effort has
-been put into improving the underlying framework of XenForo. You can read more information about these changes in
-the following threads:
+Хотя XenForo 2.0 добавляет множество улучшений для Ваших форумов и его участников, значительные усилия были приложены для улучшения базовой структуры XenForo. Вы можете прочитать дополнительную информацию об этих изменениях в следующих темах:
 
  * <a href="https://xenforo.com/community/threads/xenforo-2-0-development-updates-from-xf2demo.139565/post-1205086" target="_blank">
- 	What's new for developers in XenForo 2 (part 1)
+ 	Что нового в XenForo 2 для разработчиков (часть 1)
    </a>
  * <a href="https://xenforo.com/community/threads/xenforo-2-0-development-updates-from-xf2demo.139565/post-1205088" target="_blank">
- 	What's new for developers in XenForo 2 (part 2)
+ 	Что нового в XenForo 2 для разработчиков (часть 2)
    </a>
 
-## Getting started
+## Начало работы
 
-Getting started with XF development is easy. You just need to download the files, upload them to a web server and
-trigger the install.
+Начать разработку XF легко. Вам просто нужно скачать файлы, загрузить их на веб-сервер и запустить установку.
 
-If you don't have a web server, yet, don't worry, you can set one up on your local machine.
+Если у Вас еще нет веб-сервера, не волнуйтесь, Вы можете настроить его на своем локальном компьютере.
 
-## Downloading XF 2.0
+## Скачивание XF 2.0
 
-To download XF 2.0, just visit the [Customer Area](https://xenforo.com/customers) and log in as normal. Locate the
-correct license and click the "Download XenForo" link. Select the version you wish to download, the package type and
-accept the license agreement. Finally, click the Download button to download the files.
+Чтобы загрузить XF 2.0, просто посетите [Зону обслуживания клиентов](https://xenforo.com/customers) и войдите в систему как обычно. Найдите нужную лицензию и щелкните ссылку «Загрузить XenForo». Выберите версию, которую Вы хотите загрузить, тип пакета и примите лицензионное соглашение. Наконец, нажмите кнопку «Загрузить», чтобы загрузить файлы.
 
-## XF 2.0 requirements
+## Требования XF 2.0
 
-The requirements for running XF 2.0 have changed since XF 1.5. The recommended requirements are as follows:
+Требования для работы XF 2.0 изменились по сравнению с XF 1.5. Рекомендуемые требования следующие:
 
 * PHP: 5.4.0+
 * MySQL: 5.5+
-* PHP extensions: MySQLi, GD (with JPEG support), PCRE, SPL, SimpleXML, DOM, JSON, iconv, ctype, cURL
+* Расширения PHP: MySQLi, GD (с поддержкой JPEG), PCRE, SPL, SimpleXML, DOM, JSON, iconv, ctype, cURL
 
-[Download the requirements test script.](https://xenforo.com/purchase/requirements-zip)
+[Скачать скрипт тестирования требований.](https://xenforo.com/purchase/requirements-zip)
 
-## Setting up a local server
+## Настройка локального сервера
 
-It's often more convenient to set up a local web server for development. There are generally two approaches for this:
+Часто для разработки удобнее настроить локальный веб-сервер. Обычно для этого есть два подхода:
 
-1. Install Apache (or nginx), MySQL (or MariaDB) and PHP yourself.
-1. Install a pre-built virtual machine
-1. Install a pre-built stack.
+1. Установить Apache (или nginx), MySQL (или MariaDB) и PHP самостоятельно.
+1. Установить готовую виртуальную машину
+1. Установить предварительно собранный стек.
 
-Setting things up yourself is more complicated, but tends to give you more control over how everything is set up.
+Самостоятельная настройка более сложна, но дает Вам больше контроля над тем, как все настроено.
 
-### Pre-built virtual machine
+### Готовая виртуальная машина
 
-There are a variety of pre-built virtual machines available on the Internet, which provide the advantage of having all of the necessary services to run XenForo neatly packaged into one place, without having to install and maintain them directly on your own computer.
+В Интернете доступно множество готовых виртуальных машин, которые обеспечивают то преимущество, что все необходимые службы для запуска XenForo аккуратно упакованы в одном месте, без необходимости их установки и обслуживания непосредственно на Вашем компьютере.
 
-Some of the XenForo developers use a virtual machine called [Scotch Box](https://box.scotch.io/), which includes everything you need to run XenForo with zero configuration required. We have a [step-by-step guide](scotchbox.md) to getting a XenForo development server up and running - you can have a working virtual web and database server up and running in just a few minutes by running a handful of commands.
+Некоторые разработчики XenForo используют виртуальную машину под названием [Scotch Box](https://box.scotch.io/), которая включает в себя все необходимое для запуска XenForo с нулевой конфигурацией. У нас есть [пошаговое руководство](scotchbox.md) по настройке и запуску сервера разработки XenForo - Вы можете запустить рабочий виртуальный веб-сервер и сервер базы данных всего за несколько минут, выполнив несколько команд.
 
-[Installing Scotch Box for use with XenForo](scotchbox.md)
+[Установка Scotch Box для использования с XenForo](scotchbox.md)
 
-### Pre-built stack
+### Готовый стек
 
-There are many pre-built stacks out there and they may vary in feature set, performance and reliability. Bitnami maintain a number of stacks, including [LAMP](https://bitnami.com/stack/lamp),
-[MAMP](https://bitnami.com/stack/mamp) and [WAMP](https://bitnami.com/stack/wamp) stacks for use on Linux, Mac and
-Windows respectively. They all include a fully configured installation of Apache, MySQL and PHP and include PhpMyAdmin for
-managing MySQL.
+Существует множество готовых стеков, которые могут различаться по набору функций, производительности и надежности. Bitnami поддерживает несколько стеков, включая [LAMP](https://bitnami.com/stack/lamp), [MAMP](https://bitnami.com/stack/mamp) и [WAMP](https://bitnami.com/stack/wamp) для использования в Linux, Mac и Windows соответственно. Все они включают полностью настроенную установку Apache, MySQL и PHP и включают PhpMyAdmin для управления MySQL.
 
-## Uploading
+## Загрузка
 
-To install XF 2.0, you simply need to extract the ZIP file downloaded from the Customer Area and upload
-some of the files and directories within.
+Чтобы установить XF 2.0, Вам просто нужно распаковать ZIP-файл, загруженный из области клиентов, и загрузить некоторые файлы и каталоги внутри.
 
-Once extracted you will see a directory named `upload`. You need to go into
-that directory and upload the files and directories to your server's web root. This would usually be in a directory named
-`public_html`, `htdocs` or `www`.
+После извлечения Вы увидите каталог с именем `upload`. Вам нужно зайти в этот каталог и загрузить файлы и каталоги в корневой каталог Вашего сервера. Обычно он находится в каталоге с именем `public_html`, `htdocs` или `www`.
 
-## Creating src/config.php
+## Создание src/config.php
 
-If using the CLI to install XF 2.0, you will need to create the config.php file manually. To do this, enter the `src` directory within the XF 2.0 files you uploaded to your server. Create a new file named config.php and populate it with the host, port, username, password and database name for your MySQL server.
+Если Вы используете CLI для установки XF 2.0, Вам нужно будет создать файл `config.php` вручную. Для этого войдите в каталог `src` в файлах XF 2.0, которые Вы загрузили на свой сервер. Создайте новый файл с именем config.php и укажите в нем хост, порт, имя пользователя, пароль и имя базы данных для Вашего сервера MySQL.
 
 !!! note
-	Make sure you create the config file in within the `src` directory. The `library` directory is only used for legacy purposes.
+	Убедитесь, что Вы создали файл конфигурации в каталоге `src`. Каталог `library` используется только для устаревших целей.
 
-Once finished, it should look like the following:
+После завершения он должен выглядеть следующим образом:
 
 ```php
 <?php
@@ -96,103 +82,100 @@ $config['db']['password'] = 'mypassword';
 $config['db']['dbname'] = 'xf2';
 ```
 
-You're now ready to install!
+Теперь Вы готовы к установке!
 
-If you are using MySQL 5.5 and above and you wish to have full unicode support (for things like emoji) you should also add the following before install:
+Если Вы используете MySQL 5.5 и выше и хотите иметь полную поддержку Unicode (для таких вещей, как эмодзи), Вы также должны добавить следующее перед установкой:
 
 ```php
 $config['fullUnicode'] = true;
 ```
 
-## A note on file permissions
+## Примечание о правах доступа к файлам
 
-XenForo will need to write files to specific locations while running. In normal operation, this is limited to the `data` and `internal_data` directories (and their sub-directories). These file writes will be triggered by things like attachment uploads, so they will normally be triggered by the user PHP as running as within your web server. Therefore, it is necessary to ensure that permissions are set in these directories so that the web server can write to them. You will need to do this before installation can begin.
+XenForo нужно будет записывать файлы в определенные места во время работы. При нормальной работе это ограничено каталогами `data` и `internal_data` (и их подкаталогами). Эти записи в файл будут запускаться такими вещами, как загрузка вложений, поэтому они обычно будут запускаться пользователем PHP, как на Вашем веб-сервере. Следовательно, необходимо убедиться, что в этих каталогах установлены разрешения, чтобы веб-сервер мог писать в них. Вам нужно будет сделать это до начала установки.
 
-When the CLI is involved, this situation gets trickier as there are now potentially two users that need to be able to write to the files. As such, it's important to take steps to avoid problems writing to these files. Here are a few options.
+Когда задействован интерфейс командной строки, эта ситуация усложняется, поскольку теперь потенциально есть два пользователя, которым необходимо иметь возможность писать в файлы. Таким образом, важно принять меры, чтобы избежать проблем с записью в эти файлы. Вот несколько вариантов.
 
-1. Use the same user for the CLI and the web server. This may take the form of you switching to the web server user before running any installation or upgrade command (or any other that will write files).
-2. If available, consider applying ACLs to the `data` and `internal_data` directories. This concept varies by OS and configuration, but the general idea is described [here](http://symfony.com/doc/current/setup/file_permissions.html).
-3. Force specific permissions on what is written by PHP. This can be done via the src/config.php file with a line like this: `$config['chmodWritableValue'] = 0666;` This approach is potentially the simplest for development purposes.
+1. Используйте одного и того же пользователя для интерфейса командной строки и веб-сервера. Это может иметь форму переключения на пользователя веб-сервера перед запуском любой команды установки или обновления (или любой другой, которая будет записывать файлы).
+2. Если возможно, рассмотрите возможность применения ACL к каталогам `data` и `internal_data`. Эта концепция зависит от ОС и конфигурации, но общая идея описана [здесь](http://symfony.com/doc/current/setup/file_permissions.html).
+3. Установите особые разрешения на то, что написано на PHP. Это можно сделать с помощью файла `src/config.php` с такой строкой: `$config['chmodWritableValue'] = 0666;`. Этот подход потенциально самый простой для целей разработки.
 
-Note that if you are developing add-ons, you may potentially have other locations that need to be written to by the CLI and web server users. Notably, this includes the `_output` directory within add-ons. In this situation, having your web server run as your CLI user may cause the least friction. If you go down any other route, you may need to ensure that your web server can write to your entire XenForo installation; this is not recommended in production.
+Обратите внимание, что если Вы разрабатываете дополнение, у Вас потенциально могут быть другие места, в которые нужно будет писать пользователям интерфейса командной строки и веб-сервера. Примечательно, что сюда входит каталог `_output` в надстройках. В этой ситуации запуск Вашего веб-сервера от имени пользователя CLI может вызвать наименьшее трение. Если Вы выберете любой другой путь, Вам может потребоваться убедиться, что Ваш веб-сервер может писать для всей Вашей установки XenForo; в продакшене это не рекомендуется.
 
-## Installation
+## Установка
 
-The current way to install XF 2.0 is via the new CLI system. A lot of development processes can only be performed
-using the CLI so let's get stuck into using it to install XF 2.0. To run these commands, you will need access to a
-terminal/shell, the php CLI command and the current working directory should be the root of where you uploaded the
-XF 2.0 files.
+Текущий способ установки XF 2.0 - через новую систему командной строки. Многие процессы разработки могут быть выполнены только с использованием интерфейса командной строки, поэтому давайте остановимся на его использовании для установки XF 2.0. Для запуска этих команд Вам понадобится доступ к терминалу/оболочке, команда php CLI и текущий рабочий каталог должны быть корнем того, куда Вы загрузили файлы XF 2.0.
 
 !!! warning
-	To eliminate file permission problems, we recommend running the installer as the same user that PHP runs as via your web server. If you don't do this, you should take steps to ensure that permissions are set correctly. See the above section for more details.
+	Чтобы устранить проблемы с правами доступа к файлам, мы рекомендуем запускать установщик от имени того же пользователя, что и PHP, через Ваш веб-сервер. Если Вы этого не сделаете, Вам следует предпринять шаги, чтобы убедиться, что разрешения установлены правильно. Смотрите более подробную информацию в разделе выше.
 
-To start the install, just enter the below command:
+Чтобы начать установку, просто введите следующую команду:
 
 !!! terminal
     *$* php cmd.php xf:install
 
-You will be asked a number of questions, such as the initial administrator username and password, board title. After this,
-the XF 2.0 database tables and master data will be imported.
+Вам будет задан ряд вопросов, таких как начальное имя пользователя и пароль администратора, название форума. После этого,
+таблицы базы данных XF 2.0 и основные данные будут импортированы.
 
-XF 2.0 is now installed!
+XF 2.0 установлен!
 
-## Reinstallation
+## Переустановка
 
-Occasionally it may be necessary to reinstall XF2. This is particularly true during the Development Preview stage which does not support upgrading. If you are ready to do a reinstall, download the new files (if applicable) as per the [Downloading XF 2.0](#downloading-xf-20) section above. It should generally be possible to just merge and overwrite your existing files. If you're doing a full clean re-install, you may want to save a copy of your config.php file or re-create it as per the instructions in the [Creating src/config.php](#creating-srcconfigphp).
+Иногда может потребоваться переустановка XF2. Это особенно верно на этапе предварительного просмотра, который не поддерживает обновление. Если Вы готовы выполнить переустановку, загрузите новые файлы (если применимо) в соответствии с разделом [Загрузка XF 2.0](#downloading-xf-20) выше. Как правило, должно быть возможно просто объединить и перезаписать существующие файлы. Если Вы выполняете полную чистую переустановку, Вы можете сохранить копию файла `config.php` или воссоздать его в соответствии с инструкциями в [Создание src/config.php](#creating-srcconfigphp).
 
-Before uploading the new files, you should delete the contents of your `data` and `internal_data` directories.
+Перед загрузкой новых файлов Вы должны удалить содержимое Ваших каталогов `data` и `internal_data`.
 
-Finally, you will just need to start the installation, similar to above. You will need to use the `--clear` option which will delete all of the existing xf_ tables.
+Наконец, Вам просто нужно будет начать установку, как описано выше. Вам нужно будет использовать параметр `--clear`, который удалит все существующие таблицы xf_.
 
 !!! terminal
     *$* php cmd.php xf:install --clear
 
-Once the re-install has been completed, you should now be able to log back on.
+После завершения переустановки Вы сможете снова войти в систему.
 
-If you have been developing add-ons, and you have chosen to keep or backup your existing `src/addons` directory, you can restore your add-on data with the [Import development output](development-tools.md#import-development-output) command.
+Если Вы разрабатывали надстройки и выбрали сохранение или резервную копию существующего каталога `src/addons`, Вы можете восстановить данные надстройки с помощью команды [Импортирования выходных данных разработки](development-tools.md#import-development-output).
 
 !!! warning
-    Be careful if you choose to back up and restore your `src/addons` directory. The `XF` directory within contains the XF master data, and should not be restored from a backup to ensure you always have the most up to date version of the files.
+    Будьте осторожны, если Вы решите создать резервную копию и восстановить каталог `src/addons`. Каталог `XF` внутри содержит основные данные XF и не должен восстанавливаться из резервной копии, чтобы у Вас всегда была самая последняя версия файлов.
 
-    Performing a reinstall in this way is a destructive operation and it will remove all data you have created. Additionally, bear in mind that only tables with the `xf_` prefix are cleared. This is a significant reason for the recommendation that all tables, even for add-ons, should be prefixed with `xf_`.
+    Выполнение переустановки таким образом является разрушительной операцией и приведет к удалению всех созданных Вами данных. Кроме того, имейте в виду, что очищаются только таблицы с префиксом `xf_`. Это важная причина для рекомендации, что все таблицы, даже для надстроек, должны иметь префикс `xf_`.
 
-## Verifying file integrity
+## Проверка целостности файла
 
-When you install XF2, we perform a file integrity check in the installation. If necessary, and you can't otherwise perform the check via the page in the Admin CP, you can run the CLI command to perform that check.
+Когда Вы устанавливаете XF2, мы выполняем проверку целостности файла при установке. Если необходимо, и в противном случае Вы не можете выполнить проверку через страницу в Admin CP, Вы можете запустить команду CLI, чтобы выполнить эту проверку.
 
 !!! terminal
     *$* php cmd.php xf:file-check _[addon_id]_
 
-If you wish to do a file health check on all files, including XF itself, just omit the `[addon_id]` argument. For XF only, just use `XF` in place of the argument, or for a specific add-on, just specify the add-on ID you wish to check.
+Если Вы хотите проверить работоспособность всех файлов, включая сам XF, просто опустите аргумент `[addon_id]`. Только для XF, просто используйте `XF` вместо аргумента, или для конкретного дополнения просто укажите идентификатор дополнения, который Вы хотите проверить.
 
-## Add-on management commands
+## Команды управления дополнениями
 
-In addition to the above commands for installing XF2, there are also several commands for managing add-ons.
+Помимо вышеперечисленных команд для установки XF2, есть также несколько команд для управления надстройками.
 
-### Install
+### Установка
 
 !!! terminal
     *$* php cmd.php xf:addon-install _[addon_id]_
 
-Installs the specified add-on, as long as it is available, and passes the file health check. If development output is available, you will be asked to confirm if you wish to use that for the installation, instead of the exported data XML files.
+Устанавливает указанное дополнение, если он доступен, и проходит проверку работоспособности файла. Если доступны выходные данные разработки, Вам будет предложено подтвердить, хотите ли Вы использовать их для установки вместо файлов XML с экспортированными данными.
 
-### Upgrade
+### Обновление
 
 !!! terminal
     *$* php cmd.php xf:addon-upgrade _[addon_id]_
 
-Upgrades the specified add-on, as long as it is upgradeable, and passes the file health check. Can optionally perform import from development output.
+Обновляет указанное дополнение, если его можно обновить, и проходит проверку работоспособности файла. При желании можно выполнить импорт из результатов разработки.
 
-### Rebuild
+### Перестроение
 
 !!! terminal
     *$* php cmd.php xf:addon-rebuild _[addon_id]_
 
-Rebuilds the master data for the specified add-on, as long as it is rebuildable, and passes the file health check. This re-imports the add-on's data. Can optionally perform import from development output.
+Восстанавливает основные данные для указанного дополнения, если они могут быть перестроены, и проходит проверку работоспособности файла. Это повторно импортирует данные дополнения. При желании можно выполнить импорт из результатов разработки.
 
-### Uninstall
+### Удаление
 
 !!! terminal
     *$* php cmd.php xf:addon-uninstall _[addon_id]_
 
-Uninstalls the specified add-on, as long as it is uninstallable.
+Удаляет указанное дополнение до тех пор, пока оно не будет удалено.
