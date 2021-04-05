@@ -1,213 +1,218 @@
-# Template syntax
+# Синтаксис шаблона
 
-The XenForo 2 template syntax is a powerful tool for both developers and forum administrators, giving you complete control over the layout of your XenForo pages.
+Синтаксис шаблона XenForo 2 - мощный инструмент как для разработчиков, так и для администраторов форумов, дающий Вам полный контроль над макетом Ваших страниц XenForo.
 
-## Best practices
-- XenForo tags, by convention, are `lowercase`.
-- All XenForo tags are prefixed with the `xf:` namespace.
+## Лучшие практики
+- Теги XenForo, по соглашению, пишутся строчными буквами `lowercase`.
+- Все теги XenForo имеют префикс пространства имен `xf:`.
 
-## Useful information
+## Полезная информация
 
-### Commenting up your templates
-If you want to comment out some template code (or an inspirational message) that you don't want viewable in the final page source, you can use the `xf:comment` tag.
+### Комментирование ваших шаблонов
+
+Если Вы хотите закомментировать код шаблона (или вдохновляющее сообщение), который Вы не хотите отображать в исходном коде финальной страницы, Вы можете использовать тег `xf:comment`.
 
 ```html
 <xf:comment>
-If you stop seeing the world in terms of what you like
-and what you dislike and saw things for what they truly are in themselves,
-you will find a great deal more peace in your life.
+Если Вы перестанете смотреть на мир с точки зрения того, 
+что Вам нравится и что Вам не нравится, и будете видеть вещи такими, 
+какие они есть на самом деле, Вы найдете в своей жизни гораздо больше покоя.
 </xf:comment>
 ```
 
-### Including another template in a template
+### Включение другого шаблона в шаблон
 
-The `xf:include` tag allows you to include a different template in your current template.
+Тег `xf:include` позволяет Вам включить другой шаблон в Ваш текущий шаблон.
 
 ```html
 <xf:include template="my_template" />
 ```
 
-Simply set the `template  ` attribute to the name of the template you want to include.
+Просто установите атрибут `template` для имени шаблона, который Вы хотите включить.
 
+## Макросы шаблона
 
+Макросы шаблона - очень мощный аспект синтаксиса шаблона XenForo.
 
-## Template macros
-Template macros are a very powerful aspect of the XenForo template syntax.
+Как правило, Вы должны использовать макрос в любом месте, где Вы будете использовать функцию или подпрограмму на языке программирования.
 
-You should generally use a macro any place you would use a function or subroutine in a programming language.
-For non-programmers, I'd summarize this as: **either** use a macro any place you want to produce the same thing multiple times in multiple different files **or** to produce something different under different circumstances (this would probably make more sense if you check the guide on defining a macro).
+Для не программистов я бы резюмировал это следующим образом: **либо** используйте макрос в любом месте, где Вы хотите создать одно и то же несколько раз в нескольких разных файлах, **либо** для создания чего-то другого при разных обстоятельствах (это будет вероятно, будет иметь больше смысла, если Вы посмотрите руководство по определению макроса).
 
 !!! warning
-	For readability reasons, you should not use a macro tag as a variable. You should instead use the Set tag and treat the variable as you would any template variable.
+    По причинам удобочитаемости не следует использовать тег макроса в качестве переменной. Вместо этого Вы должны использовать тег Set и обращаться с переменной, как с любой переменной шаблона.
 
-### Defining a macro
+### Определение макроса
+
 ```html
 <xf:macro
     name="my_macro_name">
 
-    <!-- Your macro content -->
+    <!-- Ваш макрос-контент -->
 
 </xf:macro>
 ```
-At its simplest, a macro can be defined with a `name` attribute and the content you want repeated inside the macro tag.
+В самом простом случае макрос может быть определен с помощью атрибута `name` и содержимого, которое Вы хотите повторить внутри тега макроса.
 
 !!! note
-	When you're using a macro in multiple files, it's best practice to put the macro in it's own template.
+    Когда Вы используете макрос в нескольких файлах, лучше всего поместить макрос в собственный шаблон.
 
-#### Macro arguments
+#### Макро аргументы
 ```html
 <xf:macro
     name="my_macro_name"
     arg-message="My amazing macro message!">
 
-    <h1>Message</h1>
+    <h1>Сообщение</h1>
     <p>{$message}</p>
 
 </xf:macro>
 ```
-In this example, a macro is defined with a default value for `arg-message` (`My amazing macro message!`).
-This value would be overridden if the macro was called with the message argument.
+В этом примере макрос определен со значением по умолчанию для `arg-message` (`Мое удивительное макро-сообщение!`).
 
-Sometimes it's necessary to mark an argument as required. This can be done by setting the argument value to `!` in the macro definition.
+Это значение было бы переопределено, если бы макрос был вызван с аргументом сообщения.
 
-### Including & using macros
+Иногда необходимо пометить аргумент как обязательный. Это можно сделать, установив значение аргумента на `!` в определении макроса..
+
+### Включение и использование макросов
+
 ```html
 <xf:macro template="my_macro_template" name="my_macro_name" />
 ```
-At it's simplest, you include a macro by setting the `name` attribute and leaving the tag empty.
+В самом простом случае Вы включаете макрос, устанавливая атрибут `name` и оставляя тег пустым.
 
 !!! note
-	When using a macro tag, you should use the self-closing form of the tag to allow someone to more easily distinguish the difference between a definition and usage of a macro.
+    При использовании тега макроса следует использовать самозакрывающуюся форму тега, чтобы позволить кому-то более легко различать разницу между определением и использованием макроса.
 
-#### Macro arguments
-You can also provide arguments to the macro:
+#### Макро аргументы
+
+Вы также можете предоставить макросу аргументы:
 
 ```html
 <xf:macro template="my_macro_template" name="my_macro_name" arg-argName="argValue" />
 ```
 
-Where `argName` is the name of the macro argument.
+Где `argName` - имя аргумента макроса.
 
 !!! note
-	You should use `lowerCamelCase` for your macro argument names.
+    Вы должны использовать `lowerCamelCase` для имен Ваших аргументов макроса.
 
-## Template control structures
+## Структуры управления шаблоном
 
-The XenForo 2 template syntax supports certain control structures to make certain tasks easier to achieve.
+Синтаксис шаблона XenForo 2 поддерживает определенные управляющие структуры, чтобы облегчить выполнение определенных задач.
 
-### If tag
+### Тег if
 
-The if template tag can be used to conditionally display some HTML or a part of a template.
+Тег шаблона `if` может использоваться для условного отображения некоторого HTML или части шаблона.
 
 ```html
-<!-- Shows content only if a user is signed in... -->
+<!-- Показывает контент, только если пользователь вошел в систему... -->
 <xf:if is="$xf.visitor.user_id">
-	<!-- Do something... -->
+    <!-- Сделайте что-нибудь... -->
 </xf:if>
 ```
 
-The if tag takes the following attributes:
+Тег `if` принимает следующие атрибуты:
 
-- `is` - The condition which, when met, the tags contents should be shown.
+- `is` - Условие, при выполнении которого должно отображаться содержимое тегов.
 
-#### Conditions
+#### Условия
 
-The `is` attribute supports a few logical operators:
+Атрибут `is` поддерживает несколько логических операторов:
 
-- `OR` - Used to link alternative conditions. (Alternatives: `||`)
-- `AND` - Used to link additional conditions. (Alternatives: `&&`)
-- `!` - Place before a condition to invert it. (Known as: 'not') 
-- `XOR` - Returns true if only one of two conditions is true. (Known as: Exclusive OR)
+- `OR` - Используется для связывания альтернативных условий. (Альтернативы: `||`)
+- `AND` - Используется для связывания дополнительных условий. (Альтернативы: `&&`)
+- `!` - Поставьте перед условием для его инвертирования. (Известен как: 'not') 
+- `XOR` - Возвращает истину, если истинно только одно из двух условий. (Известно как: Исключающее ИЛИ)
 
-### Else/Else-If tag
+### Теги Else/Else-If
 
-The else and else-if tags are used in conjunction with the if tag to conditionally display HTML in the way that the name suggests.
+Теги else и else-if используются вместе с тегом if для условного отображения HTML в соответствии с названием.
 
-**Example usage of else:**
+**Пример использования else:**
 
 ```html
 <xf:if is="$xf.visitor.is_admin">
-	<!-- Content here will only be shown to Administrators... -->
+    <!-- Содержимое здесь будет показано только Администраторам... -->
 <xf:else />
-    <!-- Content here will be shown to anyone who is not an Administrator! -->
+    <!-- Содержимое здесь будет показано всем, кто не является Администратором! -->
 </xf:if>
 ```
 
-**Example usage of else-if:**
+**Пример использования else-if:**
 
 ```html
 <xf:if is="$xf.visitor.is_admin">
     
-	<!-- Content here will only be shown to Administrators... -->
+    <!-- Содержимое здесь будет показано только Администраторам... -->
     
 <xf:elseif is="$xf.visitor.is_moderator" />
     <!--
-		Content here will only be shown to Moderators
-		(excluding users who are also Administrators).
-	-->
+        Содержимое здесь будет показано только модераторам
+        (за исключением пользователей, которые также являются администраторами).
+    -->
 <xf:else />
     <!-- 
-		Content here will be shown to anyone who is not
-		an Administrator, or a Moderator.
-	-->
+        Содержимое здесь будет показано всем, 
+        кто не является администратором или модератором.
+    -->
 </xf:if>
 ```
 
-As you can see, once a condition has been met, the rest of the if statement is ignored. (So, in this case, if the user is an Administrator, the top `xf:if` section is run but then the rest of the if statement is ignored.)
+Как видите, после выполнения условия остальная часть оператора if игнорируется. (Итак, в этом случае, если пользователь является администратором, запускается верхний раздел `xf:if`, но затем остальная часть оператора if игнорируется.)
 
-### For-each tag
+### Тег for-each
 
-The for-each tag allows you to loop over an array of items, printing a block of HTML for each item.
+Тег for-each позволяет Вам перебирать массив элементов, печатая блок HTML для каждого элемента.
 
 ```html
 <xf:set var="$names" value="{{ ['Patrick', 'Theresa', 'Kimball', 'Wayne', 'Grace'] }}" />
 
 <xf:foreach loop="$names" key="$key" value="$name" i="$i">
-	<p>Hello there, {$name}. This is name number {$i}. Array key of this element: {$key}</p>
+    <p>Привет, {$name}. Это имя под номером {$i}. Ключ массива этого элемента: {$key}</p>
 </xf:foreach>
 ```
 
-The for-each tag takes the following attributes:
+Для каждого тега используются следующие атрибуты:
 
-- `loop` - The array to loop over.
-- `key` - A variable name to use in the loop to get current element's array key. Can be integer (ordinary array) or string (associative array).
-- `value` - A variable name to use within the loop, containing the current array item.
-- `i` -  A variable name to use in the loop for the current index.
+- `loop` - Массив для обхода.
+- `key` - Имя переменной для использования в цикле для получения ключа массива текущего элемента. Может быть целым числом (обычный массив) или строкой (ассоциативный массив).
+- `value` - Имя переменной для использования в цикле, содержащее текущий элемент массива.
+- `i` - Имя переменной для использования в цикле для текущего индекса.
 
-#### Example Output
+#### Пример вывода
 
-> Hello there, Patrick. This is name number 1.
+> Привет, Patrick. Это имя под номером 1.
 >
-> Hello there, Theresa. This is name number 2.
+> Привет, Theresa. Это имя под номером 2.
 >
-> Hello there, Kimball. This is name number 3.
+> Привет, Kimball. Это имя под номером 3.
 >
-> Hello there, Wayne. This is name number 4.
+> Привет, Wayne. Это имя под номером 4.
 >
-> Hello there, Grace. This is name number 5.
+> Привет, Grace. Это имя под номером 5.
 
-## Template tags
+## Теги template
 
-### Avatar tag
+### Тег avatar
 
-Inserts a user's avatar in the page.
+Вставляет аватар пользователя на страницу.
 
 ```html
 <xf:avatar user="{$xf.visitor}" size="o" canonical="true" />
 ```
 
-The avatar tag takes the following attributes:
+Тег аватара принимает следующие атрибуты:
 
--   `user` - The XenForo User object to generate the avatar for.
--   `size` - The size of the image to generate. (See image sizes)
--   `canonical` - Whether to use the full SEO-friendly URL. This value is only respected for `custom` avatars.
--   `notooltip` - Whether the tool-tip displayed when hovering over the avatar should be disabled.
--   `forcetype` - Can be used to force getting the `gravatar` or `custom` avatars by setting the value to either of those.
--   `defaultname` - The username to use if the `user` attribute contains an invalid user.
+-   `user` - Объект пользователя XenForo, для которого создается аватар.
+-   `size` - Размер создаваемого изображения. (Смотрите размеры изображения).
+-   `canonical` - Использовать ли полный URL-адрес, оптимизированный для SEO. Это значение соблюдается только для аватаров `custom`.
+-   `notooltip` - Должна ли быть отключена всплывающая подсказка, отображаемая при наведении курсора на аватар.
+-   `forcetype` - Может использоваться для принудительного получения аватаров `gravatar` или `custom`, задав значение любого из них.
+-   `defaultname` - Имя пользователя, которое будет использоваться, если атрибут `user` содержит недопустимого пользователя.
 
-#### Image sizes
+#### Размеры изображения
 
-If an avatar of invalid size is provided, the code will fallback to size '`s`'.
+Если указан аватар недопустимого размера, код вернется к размеру '`s`'.
 
 -   `o` - `384px`
 -   `h` - `384px`
@@ -215,42 +220,48 @@ If an avatar of invalid size is provided, the code will fallback to size '`s`'.
 -   `m` - `96px`
 -   `s` - `48px`
 
-### Breadcrumb tag
+### Тег breadcrumb 
 
-Modifies the page breadcrumb.
+Изменяет иерархию страницы.
+
 ```html
 <xf:breadcrumb href="{{ link('my_page') }}">{{ phrase('my_page_name') }}</xf:breadcrumb>
 ```
-The breadcrumb tag takes the following attributes:
 
--   `href` - The link to set for the final element in the breadcrumb.
+Тег хлебной крошки принимает следующие атрибуты:
 
-The value of the tag can be used to set the name of the final element in the breadcrumb.
+-   `href` - Ссылка, которую нужно установить для последнего элемента в хлебной крошке.
 
-#### Alternative uses
+Значение тега можно использовать для установки имени последнего элемента в строке навигации.
+
+#### Альтернативные варианты использования
+
 ```html
 <xf:breadcrumb source="$category.getBreadcrumbs(false)" />
 ```
-You can also define your own breadcrumb programmatically by calling your function in the `source` attribute of the breadcrumb tag.
 
-The `source` parameter essentially takes an array of objects with `href` and `value` attributes (multidimensional array), where each object is a breadcrumb element.
+Вы также можете программно определить свою собственную навигационную цепочку, вызвав свою функцию в атрибуте `source` тега хлебной крошки.
+
+Параметр `source` по существу принимает массив объектов с атрибутами `href` и `value` (многомерный массив), где каждый объект является элементом навигации.
 
 !!! note
-	If you want to change the root breadcrumb, you can change the "Root breadcrumb" option in the "Basic board information" options section.
+    Если Вы хотите изменить корневую цепочку навигации, Вы можете изменить параметр «Корневая цепочка навигации» в разделе параметров «Основная информация».
 
-### Button tag
+### Тег button
 
-Adds a button element with the appropriate classes and optionally an icon.
+Добавляет элемент кнопки с соответствующими классами и, при необходимости, иконку.
+
 ```html
 <xf:button icon="save"></xf:button>
 ```
-The button tag takes the following attributes:
 
--   `icon` - The icon class to apply to the button. (See button icons)
+Тег кнопки принимает следующие атрибуты:
 
-#### Button icons
+-   `icon` - Класс иконки, применяемый к кнопке. (Смотрите иконки кнопок)
 
-By default, XenForo buttons support the following icons (created with CSS):
+#### Иконки кнопки
+
+По умолчанию кнопки XenForo поддерживают следующие иконки (созданные с помощью CSS):
 
 -   `add`
 -   `confirm`
@@ -300,21 +311,23 @@ By default, XenForo buttons support the following icons (created with CSS):
 -   `lock`
 -   `unlock`
 
-### Callback tag
+### Тег callback
 
-Executes a PHP Callback method.
+Выполняет метод обратного вызова PHP.
+
 ```html
 <xf:callback class="Vendor\Addon\Class" method="getX" params="['abc']"></xf:callback>
 ```
-The callback tag takes the following attributes:
 
--   `class` - The class (from the root namespace) containing the method to run.
--   `method` - The method to run. (See callback methods)
--   `params` - An array of parameters to provide to the method.
+Тег обратного вызова принимает следующие атрибуты:
 
-#### Callback methods
+-   `class` - Класс (из корневого пространства имен), содержащий запускаемый метод.
+-   `method` - Метод для запуска. (Смотрите методы обратного вызова)
+-   `params` - Массив параметров, передаваемых методу.
 
-For a method to be considered a callback method, it must be named appropriately or it will throw an error '`callback_method_x_does_not_appear_to_indicate_read_only`'. For it to be considered read-only, the method name must begin with one of the following prefixes:
+#### Методы обратного вызова
+
+Чтобы метод считался методом обратного вызова, он должен быть назван соответствующим образом, иначе будет выдана ошибка '`callback_method_x_does_not_appear_to_indicate_read_only`'. Чтобы он считался доступным только для чтения, имя метода должно начинаться с одного из следующих префиксов:
 
 -   `are`
 -   `can`
@@ -339,17 +352,20 @@ For a method to be considered a callback method, it must be named appropriately 
 -   `verify`
 -   `view`
 
-### CSS tag
+### Тег CSS
 
-Includes a CSS or LESS template file.
+Включает файл шаблона CSS или LESS.
+
 ```html
 <xf:css src="mycss_file.css"  />
 ```
-The CSS tag takes the following attributes:
 
--   `src` - The CSS or LESS template file to include.
+Тег CSS принимает следующие атрибуты:
 
-#### Alternative uses
+-   `src` - Файл шаблона CSS или LESS для включения.
+
+#### Альтернативные варианты использования
+
 ```html
 <xf:css>
 html, body {
@@ -357,222 +373,247 @@ html, body {
 }
 </xf:css>
 ```
-If the CSS tag is not empty, anything in the tag will be converted into inline CSS.
 
-#### Further notes
+Если тег CSS не пустой, все в теге будет преобразовано во встроенный CSS.
 
-> For [CSS], forget about calling them as files. Copy and paste them into new templates.
+#### Дальнейшие примечания
 
-Chris D, XenForo developer **Source**: [https://xenforo.com/community/threads/including-external-library-js-and-css.136153/post-1185631](https://xenforo.com/community/threads/including-external-library-js-and-css.136153/post-1185631)
+> Для [CSS] забудьте о называниях файлов. Скопируйте и вставьте их в новые шаблоны.
 
-### JS tag
+Крис Д., разработчик XenForo **Источник**: [https://xenforo.com/community/threads/including-external-library-js-and-css.136153/post-1185631](https://xenforo.com/community/threads/including-external-library-js-and-css.136153/post-1185631)
 
-Includes a JavaScript file.
+### Тег JS
+
+Включает файл JavaScript.
+
 ```html
 <xf:js src="myaddon/vendor/scripts/myjs_file.js"  />
 ```
-The JS tag takes the following attributes:
 
--   `src` - The JS file to include in the template.
--   `prod` - The JS file to include in the template, only for production mode.
--   `dev` - The JS file to include in the template, only for development mode.
--   `min` - Whether or not to include the minified version of the file. (Replaces `.js` with `.min.js`)        -   Respected only in production mode.
--   `addon` - Whether or not the development JS URL should be used.        -   Respected only in development mode.
+Тег JS принимает следующие атрибуты:
+
+-   `src` - Файл JS для включения в шаблон.
+-   `prod` - Файл JS для включения в шаблон, только для режима продакшена.
+-   `dev` - Файл JS для включения в шаблон, только для режима разработки.
+-   `min` - Включать или не включать уменьшенную версию файла. (Заменяет `.js` на `.min.js`)        -   Соблюдается только в продакшен режиме.
+-   `addon` - Следует ли использовать URL-адрес JS для разработки.        -   Соблюдается только в дев режиме.
 
 !!! warning
-	The `src` tag cannot be used in conjunction with either the `prod` or `dev` tags.
+    Тег `src` нельзя использовать вместе с тегами `prod` или `dev`.
 
-#### Alternative uses
+#### Альтернативные варианты использования
+
 ```html
 <xf:js>
-alert("The truth hurts, I know. It's biologically based actually.");
+alert("Я знаю, правда ранит. На самом деле это биологически основано.");
 </xf:js>
 ```
-If the JS tag is not empty, anything in the tag will be converted to inline JS.
 
-#### Further notes
+Если тег JS не пуст, все в теге будет преобразовано во встроенный JS.
 
-JavaScript files are served relative to the `/js` directory. Although not recommended, you can also include external resources with this tag.
+#### Дальнейшие примечания
 
-A good example of this tag is in the `editor` template.
+Файлы JavaScript обслуживаются относительно каталога `/js`. Хотя это не рекомендуется, Вы также можете включать в этот тег внешние ресурсы.
 
-### Set tag
+Хороший пример этого тега - в шаблоне `editor`.
 
-The set tag allows you to create a reference to another variable or create a new variable. You should use the set tag anywhere you would use a variable in a programming language.
+### Тег set
+
+Тег set позволяет Вам создать ссылку на другую переменную или создать новую переменную. Вы должны использовать тег set везде, где Вы используете переменную в языке программирования.
+
 ```html
 <xf:set var="$visitor" value="{$xf.visitor}" />
 ```
 
 !!! warning
-	Do not use the Set tag for a group of elements you wish to use in multiple templates, you should instead use the Macro Tag.
+    Не используйте тег Set для группы элементов, которые Вы хотите использовать в нескольких шаблонах, вместо этого следует использовать тег макроса.
 
 !!! warning
-	The variable name (`var` attribute) must begin with a `$`.
+    Имя переменной (атрибут `var`) должно начинаться с символа `$`.
 
-The set tag takes the following attributes:
+Тег set принимает следующие атрибуты:
 
--   `var` - The name of the variable you wish to define (essentially, the alias).
--   `value` - A variable to reference to or a variable value.
+-   `var` - Имя переменной, которую Вы хотите определить (по сути, псевдоним).
+-   `value` - Переменная, на которую нужно ссылаться, или значение переменной.
 
-#### Alternative uses
+#### Альтернативные варианты использования
+
 ```html
 <xf:set var="$myVariableName">
-My Variable Value!
-This could be a callback, or simply a group of phrases.
+Мое значение переменной!
+Это может быть обратный вызов или просто группа фраз.
 </xf:set>
 ```
-When the `value` attribute is not provided, and the tag is not empty, the variable value will be set to the contents of the tag.
+
+Если атрибут `value` не указан и тег не пуст, значение переменной будет установлено равным содержимому тега.
 
 !!! warning
-	When you use the Set tag in this form, the value will be escaped and the resulting value will be a string.
-	The `value` attribute, whilst not supporting HTML or HTML-like tags does not have this limitation.
+    Когда Вы используете тег Set в этой форме, значение будет экранировано, и результирующее значение будет строкой.
+    Атрибут `value`, хотя он не поддерживает HTML или HTML-подобные теги, не имеет этого ограничения.
 
-### Likes tag
+### Тег Likes
 
-Displays the number of likes on a post and a few of the users who've liked the post.
+Отображает количество лайков посту и нескольких пользователей, которым понравился пост.
 
 ```html
 <xf:likes content="{$post}" url="" />
 ```
 
-The likes tag takes the following attributes:
+Тег лайков принимает следующие атрибуты:
 
-- `content` - The `XF\Entity\Post` or `XF\Entity\ProfilePost` entity to display the 'likes' text for.
-- `url` - The URL to display when the 'likes' text is clicked.
+- `content` - Сущность `XF\Entity\Post` или `XF\Entity\ProfilePost`, для которой отображается текст «Нравится».
+- `url` - URL-адрес, отображаемый при нажатии на текст «Нравится».
 
-#### Format
+#### Формат
 
-> You, tlisbon, kcho and 2 others
+> Вы, лиссабон, эхо и еще 2 человека
 
-The format is [👍 `abc` and x others] (where the 👍 'thumbs up' emoji represents the 'likes' icon and `abc` represents the usernames of the last three users who liked the post.)
+Формат [👍 `abc` и x других] (где 👍 «палец вверх» обозначает иконку «нравится», а `abc` обозначает имена трех последних пользователей, которым понравился пост).
 
-### Sidebar tag
+### Тег Sidebar
 
-See [Sectioned Tags](#sectioned-tags).
+Смотрите [Разделенные теги](#sectioned-tags).
 
-### SideNav tag
+### Тег SideNav
 
-See [Sectioned Tags](#sectioned-tags).
+Смотрите [Разделенные теги](#sectioned-tags).
 
-### Title tag
+### Тег Title
 
-Sets the page's title, both on the page in the `h1` tag and in the browser tab.
+Устанавливает заголовок страницы как на странице в теге `h1`, так и во вкладке браузера.
+
 ```html
 <xf:title>{{ phrase('my_page_title') }}</xf:title>
 ```
-#### Further notes
 
-Whilst the title can, of course, be hardcoded, it is **highly recommended** that you use a phrase, both for internationalization and for the added customizability on the site administrator's end.
+#### Дальнейшие примечания
 
-### Widget tag
+Хотя заголовок, конечно, можно жестко запрограммировать, **настоятельно рекомендуется** использовать фразу как для интернационализации, так и для дополнительной настройки со стороны администратора сайта.
 
-Includes a widget in the page, or adds a widget to a widget position.
+### Тег widget
+
+Включает виджет на страницу или добавляет виджет в позицию виджета.
+
 ```html
 <xf:widget key="widget_name" />
 ```
-The widget tag takes the following attributes:
 
--   `key` - The widget key, as defined in the widget settings.
--   `position` - If set, changes the position that the widget will be rendered.
--   `class` - Not to be confused with HTML class, this is the PHP class containing the widget definition.
-	- `title` - When the `class` attribute is used, you can use the `title` attribute to set the widget title.
-	- You can also provide widget-specific options as attributes when the `class` attribute is used.
+Тег виджета принимает следующие атрибуты:
+
+- `key` - Ключ виджета, как определено в настройках виджета.
+- `position` - Если установлено, изменяет позицию, в которой будет отображаться виджет.
+- `class` - Не путать с классом HTML, это класс PHP, содержащий определение виджета.
+- `title` - Когда используется атрибут `class`, Вы можете использовать атрибут `title` для установки заголовка виджета.
+- Вы также можете предоставить параметры, специфичные для виджета, в качестве атрибутов, когда используется атрибут `class`.
 
 !!! warning
-	The `class` tag cannot be used in conjunction with the `key` tag.
+    Тег `class` не может использоваться вместе с тегом `key`.
 
-### UserActivity tag
+### Тег UserActivity
 
-Displays the status of a user, in terms of their last action and when that action occurred.
+Отображает статус пользователя с точки зрения его последнего действия и времени его совершения.
+
 ```html
 <xf:useractivity user="{$xf.visitor}" />
 ```
-The UserActivity tag takes the following attributes:
 
--   `user` - The user to display the status of.
+Тег UserActivity принимает следующие атрибуты:
 
-#### Format
+-   `user` - Пользователь, отображающий статус.
 
-> Viewing page _Latest Case Files_ · 4 minutes ago
+#### Формат
 
-The format is **[Activity Name]**  **· [Time]**
+> Просмотр страницы _Последние файлы дела_ · 4 минуты назад
 
-### UserBanners tag
+Формат: **[Название действия]**  **· [Время]**
 
-Displays the user's banners in a horizontal list.
+### Тег UserBanners
+
+Отображает баннеры пользователя в горизонтальном списке.
+
 ```html
 <xf:userbanners user="{$xf.visitor}" />
 ```
-The UserBanners tag takes the following attributes:
 
--   `user` - The user to display the user banners of.
+Тег UserBanners принимает следующие атрибуты:
 
-#### Example
+-   `user` - Пользователь для отображения пользовательских баннеров.
 
-![An example result of the UserBanners tag.](files/images/example-userbanners-tag.png)
+#### Пример
 
-An example result of the UserBanners tag.
+![Пример результата тега UserBanners.](files/images/example-userbanners-tag.png)
 
-### UserBlurb tag
+Пример результата тега UserBanners.
 
-Displays a one-line summary of a user's profile.
+### Тег UserBlurb
+
+Отображает однострочную сводку профиля пользователя.
+
 ```html
 <xf:userblurb user="${xf.visitor}" />
 ```
-The UserBlurb tag takes the following attributes:
 
--   `user` - The XenForo User Object to display the blurb of.
+Тег UserBlurb принимает следующие атрибуты:
 
-#### Format
+-   `user` - Пользовательский объект XenForo для отображения аннотации.
 
-> FBI Consultant · 43 · From United States of America
+#### Формат
 
-The format is **[Role / Custom Title] · Age · Location**
+> Консультант ФБР · 43 · Из Соединенных Штатов Америки
 
-### Username tag
+Формат: **[[Роль / Пользовательский заголовок] · Возраст · Местоположение]**
 
-Displays the user's username, optionally with a tool-tip.
+### Тег Username
+
+Отображает имя пользователя, необязательно со всплывающей подсказкой.
+
 ```html
 <xf:username user="{$xf.visitor.username}" notooltip="true" />
 ```
-The Username tag takes the following attributes:
 
--   `user` - The XenForo User Object to display the name of.
--   `notooltip` - Whether or not the tool-tip should be disabled.
--   `href` - The link to navigate to when the username is clicked.
+Тег имени пользователя принимает следующие атрибуты:
+
+-   `user` - Пользовательский объект XenForo, имя которого отображается.
+-   `notooltip` - Нужно ли отключать всплывающую подсказку.
+-   `href` - Ссылка, по которой следует переходить при клике по имени пользователя.
 
 !!! warning
-	The tool-tip will not be displayed if an `href` is set, as it won't work and might be misleading to users.
+    Всплывающая подсказка не будет отображаться, если установлен `href`, так как он не будет работать и может вводить пользователей в заблуждение.
 
-### UserTitle tag
+### Тег UserTitle
 
-Displays the user's title.
+Отображает заголовок пользователя.
+
 ```html
 <xf:usertitle user="{$xf.visitor}" />
 ```
-The UserTitle tag takes the following attributes:
 
--   `user` - The XenForo User Object to display the user title of.
+Тег UserTitle принимает следующие атрибуты:
 
-### Sectioned tags
+-   `user` - Пользовательский объект XenForo, для которого отображается пользовательский заголовок.
 
-Sectioned Tags all call the function `modifySectionedHtml`.
-The HTML element that they change is simply the tag name. So the `sidebar` tag will modify the sidebar HTML, etc.
+### Разделенные теги
 
-#### Example
+Все секционированные теги вызывают функцию `modifySectionedHtml`.
+
+Элемент HTML, который они изменяют, - это просто имя тега. Таким образом, тег `sidebar` изменит HTML-код боковой панели и т. д.
+
+#### Пример
+
 ```html
 <xf:sidebar>
- <h1>My Magical Sidebar!</h1>
+ <h1>Моя магическая боковая панель!</h1>
 </xf:sidebar>
 ```
-#### Common attributes
 
--   `mode` - The mode of the modification. (See Modification modes)
+#### Общие атрибуты
 
-#### Modification modes
+-   `mode` - Режим модификации. (Смотрите режимы модификации).
 
-By default, the modification mode is `replace`. (i.e. if the attribute is not specified.)
+#### Режимы модификации
 
--   `prepend` - Places the contents of the tag at the beginning of the element's HTML.
--   `append` - Places the contents of the tag at the end of the element's HTML.
--   `replace` - Replaces the element's HTML with the contents of the tag.
+По умолчанию режим модификации - `replace`. (т.е. если атрибут не указан.)
+
+-   `prepend` - Помещает содержимое тега в начало HTML элемента.
+-   `append` - Помещает содержимое тега в конец HTML-кода элемента.
+-   `replace` - Заменяет HTML-код элемента содержимым тега.

@@ -14,8 +14,8 @@ extra_css:
 nav:
 - Обзор:
   - Начало работы: index.md
-- Site Administrators (or common):
-  - Template syntax: template-syntax.md
+- Администраторы сайта (или обычные):
+  - Синтаксис шаблона: template-syntax.md
   - REST API: rest-api.md
 - Developers:
   - Add-on structure: add-on-structure.md
@@ -29,7 +29,7 @@ nav:
   - Let's build an add-on: lets-build-an-add-on.md
 - Designers:
   - Designing styles: designing-styles.md
-  - Template syntax: template-syntax.md
+  - Синтаксис шаблона: template-syntax.md
 - Appendix(es):
     - macOS Dev Environment: macos-dev.md
     - Linux Dev Environment: linux-dev.md
