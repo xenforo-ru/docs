@@ -3,7 +3,8 @@
 {%- block styles %}
 	<link rel="stylesheet" href="{{ base_url }}/css/theme.css" type="text/css" />
 	<link rel="stylesheet" href="{{ base_url }}/css/theme_extra.css" type="text/css" />
-	<link rel="stylesheet" href="{{ base_url }}/css/highlight.css">
+	<!-- <link rel="stylesheet" href="{{ base_url }}/css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
 	{%- for path in extra_css %}
 		<link href="{{ path }}?d={{ build_date_utc|urlencode }}" rel="stylesheet">
 	{%- endfor %}
