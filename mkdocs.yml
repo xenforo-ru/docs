@@ -6,7 +6,7 @@ site_favicon: xenforo-favicon.png
 theme:
   name: readthedocs
   language: ru
-custom_dir: xf2
+  custom_dir: xf2
 extra_css:
   - 'https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap'
   - 'extra.css'
