@@ -19,8 +19,8 @@ nav:
   - REST API: rest-api.md
 - Разработчики:
   - Структура дополнения: add-on-structure.md
-  - Development tools: development-tools.md
-  - General concepts: general-concepts.md
+  - Инструменты разработки: development-tools.md
+  - Общие концепции: general-concepts.md
   - Routing basics: routing-basics.md
   - Controller basics: controller-basics.md
   - Entities, finders, and repositories: entities-finders-repositories.md
