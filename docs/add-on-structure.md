@@ -1,68 +1,63 @@
-# Add-on structure
+# Структура дополнения
 
-In previous versions of XF, there were very few standards and conventions surrounding add-on development. We have done 
-a lot to change that in XF 2.0. Let's look at some of the changes:
+В предыдущих версиях XF было очень мало стандартов и соглашений, касающихся разработки дополнений. Мы сделали
+многие изменения в XF 2.0. Давайте посмотрим на некоторые изменения:
 
-## Add-on IDs and add-ons path
+## Идентификаторы дополнений и путь дополнений
 
-Each installed add-on must have a unique ID, and this ID dictates where on the filesystem that an add-on should store 
-its files. There are two possible formats for an add-on ID.
+Каждое установленное дополнение должно иметь уникальный идентификатор, и этот идентификатор указывает, где в файловой системе дополнение должно хранить свои файлы. Существует два возможных формата идентификатора дополнения.
 
-The first "simple" type should be a single word and not contain any special characters. For example, `Demo`.
+Первый «простой» тип должен состоять из одного слова и не содержать специальных символов. Например, `Demo`.
 
-Simple add-on IDs must adhere to the following rules:
+Простые идентификаторы дополнений должны соответствовать следующим правилам:
 
-* Must only contain a-z or A-Z
-* Can contain 0-9 but not at the start of the ID
-* Can not contain any special characters such as slashes, dashes or underscores
+* Должен содержать только буквы a-z или A-Z
+* Может содержать 0-9, но не в начале идентификатора
+* Не может содержать специальные символы, такие как косая черта, тире или нижнее подчеркивание
 
-The second contains a vendor prefix, so if you release add-ons under a specific brand or company, the add-on ID can 
-indicate that. For example, `SomeVendor/Demo`.
+Второй содержит префикс поставщика, поэтому, если Вы выпускаете дополнения под определенным брендом или компанией, идентификатор дополнения может указывать на это. Например, `SomeVendor/Demo`.
 
-The vendor type add-on ID should adhere to the following rules:
+Идентификатор дополнения типа поставщика должен соответствовать следующим правилам:
 
-* Must only contain a-z or A-Z
-* Can contain a single `/` character but not at the start or the end
-* Can contain 0-9 but not at the start of either part of the add-on ID
+* Должен содержать только буквы a-z или A-Z
+* Может содержать один символ `/`, но не в начале или в конце
+* Может содержать 0–9, но не в начале любой части идентификатора дополнения
 
-Once you have decided what your add-on ID is, we know exactly where the files for this add-on will be stored. All XF 2.0 add-ons are stored within a subdirectory of the `src/addons` directory. 
+Как только Вы определились с идентификатором Вашего дополнения, мы точно знаем, где будут храниться файлы этого дополнения. Все дополнения XF 2.0 хранятся в подкаталоге каталога `src/addons`. 
 
-If you have a simple add-on ID, e.g. `Demo`, the files for your add-on will be stored in the following location: 
- `src/addons/Demo`.
- 
-If you have a vendor based add-on ID, e.g. `SomeVendor/Demo`, the files will be stored in the following location: 
-`src/addons/SomeVendor/Demo`.
+Если у Вас простой идентификатор дополнения, например, `Demo`, файлы для Вашего дополнения будут храниться в следующем месте: `src/addons/Demo`.
 
-The add-on ID you choose will also become your class namespace prefix (see [Namespaces](general-concepts.md#namespaces) for more information).
+Если у Вас есть идентификатор дополнения на основе поставщика, например, `SomeVendor/Demo`, файлы будут храниться в следующем месте: `src/addons/SomeVendor/Demo`.
 
-## Recommended version string format
+Выбранный Вами идентификатор дополнения также станет префиксом пространства имен Вашего класса (дополнительную информацию смотрите в разделе [Пространства имен](general-concepts.md#namespaces)).
 
-XF itself uses a MAJOR.MINOR.PATCH principle (e.g. 2.0.0 for the first stable XF2 release) to its version numbering and we recommend a similar approach is taken towards the versioning of your own add-ons. In basic terms, increment the
+## Рекомендуемый формат строки версии
 
-* MAJOR version when you make major feature changes, especially changes that break backwards compatibility
-* MINOR version when you add functionality preferably in a backwards compatible manner, and
-* PATCH version when you make backwards-compatible bug fixes
+Сам XF использует принцип MAJOR.MINOR.PATCH (например, 2.0.0 для первого стабильного выпуска XF2) для своей нумерации версий, и мы рекомендуем использовать аналогичный подход для управления версиями Ваших собственных дополнений. В общих чертах, увеличьте
 
-## Recommended version ID format
+* MAJOR версию, когда Вы вносите серьезные изменения в функции, особенно изменения, которые нарушают обратную совместимость
+* MINOR версию, когда Вы добавляете функциональность, желательно обратно совместимой, и
+* PATCH версию при исправлении ошибок с обратной совместимостью
 
-Version IDs for add-ons are basic integers which are used for internal version comparisons. It allows us to more easily detect when one version is older than another. Each version of your add-on should increase the version ID by at least 1, but a convention we use internally for XF itself, is potentially useful also for add-ons. Our version IDs are in the format of `aabbccde`.
+## Рекомендуемый формат идентификатора версии
 
-* `aa` represents the major version
-* `bb` represents the minor version
-* `cc` represents the patch version
-* `d` represents the state, e.g. `1` for alpha releases, `3` for beta releases, `5` for release candidates and `7` for stable releases
-* `e` represents the state version
+Идентификаторы версии для дополнения - это базовые целые числа, которые используются для внутреннего сравнения версий. Это позволяет нам легче определять, когда одна версия старше другой. Каждая версия Вашего дополнения должна увеличивать идентификатор версии как минимум на 1, но соглашение, которое мы используем внутри самого XF, потенциально полезно также для дополнения. Наши идентификаторы версий имеют формат `aabbccde`.
 
-For example, an add-on with version string of 1.7.3 release candidate 4 would have an ID of `1070354`. The final stable release XF2 will have an ID of `2000070`. Version 1.5.0 Beta 3 of XF had an ID of `1050033`. Stable version 99.99.99 would have an ID of `99999970`... and maybe you should slow down a bit 😉
+* `aa` представляет основную (major) версию
+* `bb` представляет дополнительную (minor) версию
+* `cc` представляет версию патча (patch)
+* `d` представляет состояние, например, `1` для альфа (alpha) релизов, `3` для бета (beta) релизов, `5` для кандидатов (rc) в релизы и `7` для стабильных (stable) релизов
+* `e` представляет версию состояния (state)
 
-## Common add-on files and directories
+Например, дополнение со строкой версии 1.7.3 релиз-кандидат 4 будет иметь идентификатор `1070354`. Последний стабильный выпуск XF2 будет иметь идентификатор `2000070`. Версия 1.5.0 бета 3 XF имела идентификатор `1050033`. Стабильная версия 99.99.99 будет иметь идентификатор `99999970`... и, возможно, Вам стоит немного притормозить 😉
 
-There are a number of files and directories within an add-on's directory that have a special purpose and meaning.
+## Общие файлы и каталоги дополнений
 
-### addon.json file
+В каталоге дополнения есть несколько файлов и каталогов, которые имеют особое назначение и значение.
 
-`addon.json` is a file which contains a number of pieces of information which are required to help XF 2.0 identify the 
-add-on and display information about it in the Admin CP. At minimum, your `addon.json` file should look like this:
+### Файл addon.json
+
+`addon.json` - это файл, который содержит ряд частей информации, которые необходимы, чтобы помочь XF 2.0 идентифицировать дополнение и отображать информацию о ней в Admin CP. Как минимум, Ваш файл `addon.json` должен выглядеть так:
 
 ```json
 {
@@ -73,85 +68,88 @@ add-on and display information about it in the Admin CP. At minimum, your `addon
 }
 ```
 
-A basic file will be created for you automatically when creating the add-on.
+Базовый файл будет создан автоматически при создании дополнения.
 
-Including a valid `addon.json` file is mandatory for your addon to be recognized but you can always [validate your addon.json file](development-tools.md#validate-your-addonjson-file).
+Включение действительного файла `addon.json` обязательно для распознавания Вашего дополнения, но Вы всегда можете [проверить свой файл addon.json](development-tools.md#validate-your-addonjson-file).
 
-#### Properties
+#### Свойства
+
 <table>
 <thead>
-<th>Property</th>
-<th>Description</th>
+<th>Свойство</th>
+<th>Описание</th>
 </thead>
 <tbody>
 <tr>
 <td><code>legacy_addon_id</code></td>
-<td>Used to enable automatic handling of addon ID changes when upgrading from XenForo 1 to XenForo 2.</td>
+<td>Используется для включения автоматической обработки изменений идентификатора дополнения при обновлении с XenForo 1 до XenForo 2.</td>
 </tr>
 
 <tr>
 <td><code>title</code></td>
-<td>The title of the addon. This will show in the Admin Panel.</td>
+<td>Название дополнения. Это будет отображаться в панели администратора.</td>
 </tr>
 
 <tr>
 <td><code>description</code></td>
-<td>A description of the addon. This will show in the Admin Panel.</td>
+<td>Описание дополнения. Это будет отображаться в панели администратора.</td>
 </tr>
 
 <tr>
 <td><code>version_id</code></td>
-<td>The internal ID used by XenForo to track updates to your addon. This must be incremented every release.</td>
+<td>Внутренний идентификатор, используемый XenForo для отслеживания обновлений Вашего дополнения. Это должно увеличиваться с каждым выпуском.</td>
 </tr>
 
 <tr>
 <td><code>version_string</code></td>
-<td>The human-readable addon version. This will show in the Admin Panel instead of the <code>version_id</code> property.</td>
+<td>Удобочитаемая версия дополнения. Это будет отображаться в панели администратора вместо свойства <code>version_id</code>.</td>
 </tr>
 
 <tr>
 <td><code>dev</code></td>
-<td>The name of the developer of the addon. This will show in the Admin Panel.</td>
+<td>Имя разработчика дополнения. Это будет отображаться в панели администратора.</td>
 </tr>
 
 <tr>
 <td><code>dev_url</code></td>
-<td>If set, the developer's name will show in the Admin Panel as a hyperlink, with this as the target (href).</td>
+<td>Если установлено, имя разработчика будет отображаться в панели администратора в виде гиперссылки с этой целью (href).</td>
 </tr>
 
 <tr>
 <td><code>faq_url</code></td>
-<td>If set, an FAQ hyperlink will show in the Admin Panel, with this as the target (href).</td>
+<td>Если задано, гиперссылка на часто задаваемые вопросы будет отображаться в панели администратора с этой целью (href).</td>
 </tr>
 
 <tr>
 <td><code>support_url</code></td>
-<td>If set, a support hyperlink will show in the Admin Panel, with this as the target (href).</td>
+<td>Если установлено, в панели администратора будет отображаться гиперссылка на поддержку, указанная в качестве цели (href).</td>
 </tr>
 
 <tr>
 <td><code>extra_urls</code></td>
-<td>This allows you to display links to other things related to the add-on (perhaps a bug reports link, a manual - whatever you like).<br>An array of JSON objects, where the key is the link text and the value is the link target (href).</td>
+<td>Это позволяет отображать ссылки на другие вещи, связанные с дополнением (например, ссылку на отчеты об ошибках, руководство - что угодно). <br> Массив объектов JSON, где ключ - это текст ссылки, а значение - цель ссылки (href).</td>
 </tr>
 
 <tr>
 <td><code>require</code></td>
-<td>A set of requirements that need to be met for XenForo to allow installation of the addon. See <a href="#the-requirements-property">'The requirements property'</a> for more information.</td>
+<td>Набор требований, которые необходимо выполнить для XenForo, чтобы разрешить установку дополнения. Смотрите <a href="#the-requirements-property">'свойство требований'</a> для получения дополнительной информации.</td>
 </tr>
 
 <tr>
 <td><code>icon</code></td>
-<td>The icon of the resource. This can be a Font Awesome icon name (e.g. <code>fa-shopping-bag</code>, or the path to an image file.)</td>
+<td>Иконка ресурса. Это может быть имя иконки Font Awesome (например, <code>fa-shopping-bag</code> или путь к файлу изображения.)</td>
 </tr>
-
 </tbody>
 </table>
 
-##### The requirements property
-The require property is the standard way of blocking an add-on install or upgrade if the environment doesn't support or meet the requirements.  
-You can use it to require other add-ons to be installed first, certain PHP extensions to be present or enabled and/or to enforce a minimum PHP version.
+##### Свойство требований
 
-Here's an example snippet:
+Свойство require - это стандартный способ заблокировать установку или обновление дополнения, если среда не поддерживает или не соответствует требованиям.
+
+Вы можете использовать его, чтобы потребовать, чтобы сначала были установлены другие дополнения, присутствовали или были включены определенные расширения PHP и/или для обеспечения минимальной версии PHP.
+
+Вот пример фрагмента:
+
 ```json
 ...
   "require": {
@@ -162,78 +160,75 @@ Here's an example snippet:
 ...
 ```
 
-Each requirement, is a named array:
+Каждое требование представляет собой именованный массив:
 
-- The name of the array is the product ID (e.g. `XF` or `php`).  
-- The first array element is the version of the product (e.g. `2000010` or `5.4.0`). You can use use `*` to refer to any version of the product.  
-- The second element is the human-readable text of that requirement and this is what's used in messages (e.g. `XenForo 2.0.0+` or `PHP 5.4.0+`).
+- Имя массива - это идентификатор продукта (например, `XF` или `php`).
+- Первый элемент массива - это версия продукта (например, `2000010` или `5.4.0`). Вы можете использовать `*` для обозначения любой версии продукта.
+- Второй элемент - это читаемый человеком текст этого требования, и он используется в сообщениях (например, `XenForo 2.0.0+` или `PHP 5.4.0+`).
 
-Here's a summary of the supported product IDs:
+Вот сводка поддерживаемых идентификаторов продуктов:
+
 <table>
 <thead>
-<th>Product/Requirement Name</th>
-<th>Refers to...</th>
-<th>Value</th>
+<th>Наименование Продукта/Требования</th>
+<th>Относится к...</th>
+<th>Значение</th>
 </thead>
 <tbody>
 
 <tr>
 <td><code>XF</code></td>
-<td>The XenForo installation version.</td>
-<td>The XenForo version ID, for example <code>200010</code>.<br>You can get your current XenForo version by checking the  top of the <code>/src/XF.php</code> file for the <code>$versionId</code> definion or by printing the value of <code>\XF::$versionId</code>.</td>
+<td>Установленная версия XenForo.</td>
+<td>Идентификатор версии XenForo, например, <code>200010</code>.<br>Вы можете получить текущую версию XenForo, проверив верхнюю часть файла <code>/src/XF.php</code> на предмет определения <code>$versionId</code> или распечатав значение <code>\XF::$versionId</code>.</td>
 </tr>
 
 <tr>
 <td><code>php</code></td>
-<td>The PHP version.</td>
-<td>The PHP version, for example <code>5.4.0</code>.<br>It's recommended that you keep this as low as possible; updating a PHP version can be quite a complex task - especially if other add-ons conflict with newer PHP versions.</td>
+<td>Версия PHP.</td>
+<td>Версия PHP, например, <code>5.4.0</code>.<br>Рекомендуется держать это значение как можно ниже; обновление версии PHP может быть довольно сложной задачей, особенно если другие дополнения конфликтуют с более новыми версиями PHP.</td>
 </tr>
 
 <tr>
 <td><code>php-ext/(extension name)</code></td>
-<td>A PHP extension - where <code>(extension name)</code> is the name of the extension.</td>
-<td>The PHP extension version.<br>This is checked using the PHP <code>version_compare</code> function, so it even works for version strings in the official full PHP format like <code>7.1.19-1+ubuntu16.04.1+deb.sury.org+1</code>.</td>
+<td>Расширение PHP - где <code>(имя расширения)</code> - это имя расширения.</td>
+<td>Версия расширения PHP.<br>Это проверяется с помощью функции PHP <code>version_compare</code>, поэтому она работает даже для строк версии в официальном полном формате PHP, например <code>7.1.19-1+ubuntu16.04.1+deb.sury.org+1</code>.</td>
 </tr>
 
 <tr>
 <td><code>(any addon ID)</code></td>
-<td>Any XenForo addon such as <code>Demo/Addon</code>.<br>If you're unsure about an addon's ID, check it's <code>addon.json</code> file.</td>
-<td>The addon version ID.<br>You can refer to the <a href="#recommended-version-id-format">Recommended version ID format</a> for more information.</td>
+<td>Любое дополнение XenForo, например <code>Demo/Addon</code>.<br>Если Вы не уверены в идентификаторе дополнения, проверьте его файл <code>addon.json</code>.</td>
+<td>Идентификатор версии дополнения.<br>Вы можете обратиться к <a href="#recommended-version-id-format">рекомендуемому формату идентификатора версии</a> для получения дополнительной информации.</td>
 </tr>
-
 </tbody>
 </table>
 
-### hashes.json file
+### Файл hashes.json
 
-`hashes.json` is the new way to add support for the File health check system, and the best part is -- it's generated 
-automatically!
+`hashes.json` - это новый способ добавить поддержку системы проверки работоспособности файлов, и самое приятное то, что она создается автоматически!
 
-As part of the build process (more on that later) we will do a quick inventory of all your add-on's files and write the calculated hash of the file contents.
+В рамках процесса сборки (подробнее об этом позже) мы проведем быструю инвентаризацию всех файлов Вашего дополнения и запишем рассчитанный хэш содержимого файла.
 
-### Setup.php file
+### Файл Setup.php
 
-`Setup.php` is the new home for any code you require to run during install, upgrade or uninstallation of your add-on.
+`Setup.php`- это новый дом для любого кода, который Вам нужно запустить во время установки, обновления или удаления Вашего дополнения.
 
-We will go into more detail about how to create a Setup class [below](#setup-class).
+Мы более подробно рассмотрим, как создать класс установки [ниже](#setup-class).
 
-### _data directory
+### Каталог _data
 
-The `_data` directory is where the master data for your add-on is stored. Each add-on data type will have its own XML 
-file (rather than a single one for all types). The hashes for these files are included inside `hashes.json` so we can 
-ensure that an add-on has complete and consistent data before allowing an add-on to be installed.
+Каталог `_data`- это место, где хранятся основные данные для Вашего дополнения. Каждый дополнительный тип данных будет иметь свой собственный XML-файл (а не один для всех типов). Хэши для этих файлов включены в `hashes.json`, чтобы мы могли убедиться, что дополнение имеет полные и согласованные данные, прежде чем разрешить установку дополнения.
 
-### _output directory
+### Каталог _output
 
-The `_output` directory is not required for a successful installation of an add-on, and shouldn't be included when releasing the add-on. This directory is purely for development purposes and is only used if development mode is enabled (see [Enabling development mode](development-tools.md#enabling-development-mode)).
+Каталог `_output` не требуется для успешной установки дополнения, и его не следует включать при релизе дополнения. Этот каталог предназначен исключительно для целей разработки и используется только в том случае, если включен режим разработки (смотрите [Включение режима разработки](development-tools.md#enabling-development-mode)).
 
-Each item of add-on data is stored in a separate file. Mostly they are stored as JSON files, but in the case of phrases they are stored as TXT files and for templates they are stored as HTML/CSS/LESS files. All template types are editable in the filesystem directly, and changes made to these files are written back to the database automatically on load.
+Каждый элемент дополнительных данных хранится в отдельном файле. В основном они хранятся как файлы JSON, но в случае фраз они хранятся как файлы TXT, а для шаблонов они хранятся как файлы HTML/CSS/LESS. Все типы шаблонов доступны для редактирования непосредственно в файловой системе, и изменения, внесенные в эти файлы, автоматически записываются обратно в базу данных при загрузке.
 
-## Setup class
+## Класс установки
 
-To create a Setup class for your add-on, all you need to do is create a file named `Setup.php` in the root of your add-on directory.
+Чтобы создать класс установки для дополнения, все, что Вам нужно сделать, это создать файл с именем `Setup.php` в корне каталога дополнения.
 
-The Setup class should extend `\XF\AddOn\AbstractSetup` which requires, at minimum, to implement `install()`, `upgrade()` and `uninstall()` methods. Here's what a simple add-on Setup class might look like:
+Класс Setup должен расширять `\XF\AddOn\AbstractSetup`, что требует, как минимум, реализации методов `install()`, `upgrade()` и `uninstall()`. Вот как может выглядеть простой класс установки дополнения:
 
 ```php
 <?php
@@ -268,4 +263,4 @@ class Setup extends \XF\AddOn\AbstractSetup
 }
 ```
 
-The Setup class also supports running each of the actions in different steps. To implement this behavior your Setup class can use the `StepRunnerInstallTrait`, `StepRunnerUpgradeTrait` and/or `StepRunnerUninstallTrait` [traits](http://php.net/manual/en/language.oop5.traits.php). These implement the required methods automatically, and you just need to add the relevant steps, e.g. `installStep1()`, `upgrade1000170Step1()`, `upgrade1000170Step2()` and `uninstallStep1()`, where `1000170` etc. in the upgrade methods are the add-on version IDs (see [Recommended version ID format](#recommended-version-id-format)).
+Класс Setup также поддерживает выполнение каждого действия на разных этапах. Для реализации этого поведения Ваш класс установки может использовать `StepRunnerInstallTrait`, `StepRunnerUpgradeTrait` и/или `StepRunnerUninstallTrait` [трейты](http://php.net/manual/ru/language.oop5.traits.php). Они автоматически реализуют необходимые методы, и Вам просто нужно добавить соответствующие шаги, например, `installStep1()`, `upgrade1000170Step1()`, `upgrade1000170Step2()` и `uninstallStep1()`, где `1000170` и т. д. в методах обновления - это идентификаторы версии дополнения (смотрите [Рекомендуемый формат идентификатора версии](#recommended-version-id-format)).

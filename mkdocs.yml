@@ -17,8 +17,8 @@ nav:
 - Администраторы сайта (или обычные):
   - Синтаксис шаблона: template-syntax.md
   - REST API: rest-api.md
-- Developers:
-  - Add-on structure: add-on-structure.md
+- Разработчики:
+  - Структура дополнения: add-on-structure.md
   - Development tools: development-tools.md
   - General concepts: general-concepts.md
   - Routing basics: routing-basics.md
