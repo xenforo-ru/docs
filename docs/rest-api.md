@@ -1,88 +1,88 @@
 # REST API
 
-In XenForo 2.1, a REST API was added. This allows you to programmatically interact with many areas of a XenForo installation.
+В XenForo 2.1 был добавлен REST API. Это позволяет Вам программно взаимодействовать со многими областями установки XenForo.
 
-Accessing the API requires generating a key via the admin control panel. There is no unauthenticated access to the API and users cannot generate their own keys to access the API at this time.
+Для доступа к API необходимо сгенерировать ключ через панель управления администратора. Доступ к API без аутентификации отсутствует, и в настоящее время пользователи не могут генерировать свои собственные ключи для доступа к API.
 
-The API for a specific XenForo installation is accessible at `<XenForo base URL>/api/`. All endpoints are prefixed by this URL. For example, if XenForo is installed at `https://example.com/community/`, then the API URLs will start with `https://example.com/community/api/`. In this example, accessing a list of threads would be done via `https://example.com/community/api/threads/`.
+API для конкретной установки XenForo доступен по адресу `<XenForo base URL>/api/`. Все конечные точки имеют префикс этого URL. Например, если XenForo установлен по адресу `https://example.com/community/`, тогда URL-адреса API будут начинаться с `https://example.com/community/api/`. В этом примере доступ к списку потоков будет осуществляться через `https://example.com/community/api/threads/`.
 
-The API is enabled by default. If necessary, all API access can quickly be disabled by adding the following to **src/config.php**:
+API включен по умолчанию. При необходимости весь доступ к API можно быстро отключить, добавив в **src/config.php** следующее:
 
 ```php
 $config['enableApi'] = false;
 ```
 
-## API keys
+## Ключи API
 
-API keys are created via the admin control panel by going to **Setup > API keys**. As generating API keys can allow access to highly privileged data, only super administrators may access this system. All super admins will receive an email when an API key is generated to ensure that the request is valid.
+Ключи API создаются через панель управления администратора, выбрав **Настройка > Ключи API**. Поскольку создание ключей API может разрешить доступ к высокопривилегированным данным, только суперадминистраторы могут получить доступ к этой системе. Все суперадминистраторы получат электронное письмо, когда будет сгенерирован ключ API, чтобы убедиться, что запрос действителен.
 
-When a key is created, a random string will be generated and this will be used to authenticate yourself with the API. It is important that this key is kept secret. If you believe an API key has been compromised, you should immediately regenerate the key and update any code using the old key.  
+При создании ключа будет сгенерирована случайная строка, которая будет использоваться для Вашей аутентификации с помощью API. Важно, чтобы этот ключ держался в секрете. Если Вы считаете, что ключ API был скомпрометирован, Вам следует немедленно повторно создать ключ и обновить любой код, используя старый ключ.
 
-### Key types
+### Типы ключей
 
-All API access is done in the context of a specific user. For example, if I access the API as "John" and I make a request that posts a thread, that thread will have been created by "John". In most cases, the API will also respect permissions specified for this user, so they can't access data they wouldn't see when browsing the forum normally.
+Весь доступ к API осуществляется в контексте конкретного пользователя. Например, если я обращаюсь к API как «Джон» и делаю запрос, который публикует тему, эта тема будет создана «Джоном». В большинстве случаев API также будет учитывать разрешения, указанные для этого пользователя, поэтому они не могут получить доступ к данным, которые они не увидят при обычном просмотре форума.
 
-To allow control over this, there are three types of API keys:
+Для управления этим существует три типа ключей API:
 
-* **Guest key** - this key always accesses the API as a guest user. These requests will always respect the guest permissions. For example, if guests cannot reply to threads, an API request to reply to a thread would generate a no permission error.
-* **User key** - this key always accesses the API as a specified user and always respects that user's permissions, similar to a guest key.
-* **Super user key** - this key can access the API as any user by passing an additional value into it. Optionally, this key can bypass the requesting user's permissions, allowing them to take actions or view content they would not normally have access to.
+* **Guest key** - этот ключ всегда обращается к API как гостевой пользователь. Эти запросы всегда будут учитывать гостевые разрешения. Например, если гости не могут отвечать в темах, запрос API на ответ в теме приведет к ошибке отсутствия разрешения.
+* **User key** - этот ключ всегда обращается к API как указанный пользователь и всегда учитывает разрешения этого пользователя, аналогично гостевому ключу.
+* **Super user key** - этот ключ может получить доступ к API как любой пользователь, передав ему дополнительное значение. При желании этот ключ может обходить разрешения запрашивающего пользователя, позволяя им выполнять действия или просматривать контент, к которому у них обычно нет доступа.
 
-Super user keys are very useful for integrations with other systems or applications. For example, you may integrate with a third-party CMS that creates a thread whenever you post a new article. This type of key would allow you to create a thread with a different user depending on the article author or in a forum that users normally can't post in.
+Ключи суперпользователя очень полезны для интеграции с другими системами или приложениями. Например, Вы можете интегрироваться со сторонней CMS, которая создает цепочку всякий раз, когда Вы публикуете новую статью. Этот тип ключа позволит Вам создать тему с другим пользователем в зависимости от автора статьи или на форуме, на котором пользователи обычно не могут публиковать сообщения.
 
 
-### Key scopes
+### Области видимости ключа
 
-To help limit the amount of damage a compromised key can inflict, each key can control the API scopes that it can access. Scopes limit access to areas of the API, independent of the requesting user's permissions.
+Чтобы помочь ограничить размер ущерба, который может нанести скомпрометированный ключ, каждый ключ может управлять областями API, к которым он может получить доступ. Области ограничивают доступ к областям API, независимо от разрешений запрашивающего пользователя.
 
-Each endpoint in the API will be covered by one of more scopes. If the API has not been granted any of those scopes, the request will fail.
+Каждая конечная точка в API будет охвачена одной или несколькими областями. Если API не предоставлена ни одна из этих областей, запрос не будет выполнен.
 
-For security, we recommend you only grant a key the scopes that you require. If you require additional scopes at a later time, they can be added when needed.
+В целях безопасности мы рекомендуем предоставлять ключу только те области действия, которые Вам требуются. Если Вам потребуются дополнительные области позже, их можно будет добавить при необходимости.
 
-## Accessing the API
+## Доступ к API
 
-Once you know the URL to access the API and have a key, you can begin to make requests to it.
+Как только Вы узнаете URL-адрес для доступа к API и получите ключ, Вы можете начать делать запросы к нему.
 
-All API responses will be returned in JSON format, except in cases where a binary file is specifically requested (such as when downloading an attachment). Errors will always return a response code in the 400 range. Successful requests will return a 200 code. While not commonly used, redirects will return a 300-range code.
+Все ответы API будут возвращены в формате JSON, за исключением случаев, когда двоичный файл запрашивается специально (например, при загрузке вложения). Ошибки всегда возвращают код ответа в диапазоне 400. Успешные запросы вернут код 200. Редиректы обычно не используются, но возвращают код из 300 диапазонов.
 
-Requests bodies must be sent using the `application/x-www-form-urlencoded` encoding or, if a file is being uploaded,  the `multipart/form-data` encoding. Parameters may also be passed via the query string, although for non-GET requests we **strongly** recommend passing parameters via the request body.
+Тела запросов должны отправляться в кодировке `application/x-www-form-urlencoded` или, если файл загружается, в кодировке `multipart/form-data`. Параметры также могут передаваться через строку запроса, хотя для запросов, не связанных с GET, мы **настоятельно** рекомендуем передавать параметры через тело запроса.
 
-All request data must use the UTF-8 character set.
+Все данные запроса должны использовать набор символов UTF-8.
 
-Requests must pass the API key to use via the `XF-Api-Key` header. This must be present in all requests.
+Запросы должны передавать ключ API для использования через заголовок `XF-Api-Key`. Это должно присутствовать во всех запросах.
 
-If the API key selected is a super user key, you may pass the user ID of the context user via the `XF-Api-User` header. If no user ID is passed, the context will default to a guest.
+Если выбранный ключ API является ключом суперпользователя, Вы можете передать идентификатор пользователя контекста через заголовок `XF-Api-User`. Если идентификатор пользователя не передан, контекст по умолчанию будет гостевым.
 
-If the request is made with a super user key and you wish to bypass the context user's permissions, this may be done on a per-request basis by setting the `api_bypass_permissions` parameter to 1. (This can be passed via a query string or as part of the request body.)
+Если запрос выполняется с помощью ключа суперпользователя, и Вы хотите обойти разрешения контекстного пользователя, это можно сделать для каждого запроса, установив для параметра `api_bypass_permissions` значение 1. (Это можно передать через строку запроса или как часть тела запроса.)
 
-### Error handling
+### Обработка ошибок
 
-When an error is encountered, the response code will be in the 400 range. Occasionally, a 500-range error may occur, though this indicates that the server was unable to process the request. The API may be temporarily disabled or another server error has occurred.
+При обнаружении ошибки код ответа будет в диапазоне 400. Иногда может возникать ошибка диапазона 500, хотя это указывает на то, что сервер не смог обработать запрос. API может быть временно отключен или произошла другая ошибка сервера.
 
-Error messages have a standardized format. Here is an example:
+Сообщения об ошибках имеют стандартный формат. Вот пример:
 
 ```json
 {
     "errors": [
         {
             "code": "api_key_not_found",
-            "message": "API key provided in request was not found.",
+            "message": "Ключ API, указанный в запросе, не найден.",
             "params": []
         }
     ]
 }
 ```
 
-The top level will be an object with an `errors` key. This will be an array with 1 or more entries. Each entry is an object with the following parameters:
+Верхним уровнем будет объект с ключом `errors`. Это будет массив с 1 или более записями. Каждая запись представляет собой объект со следующими параметрами:
 
-* `code` - this is a machine readable code for the error. There are many possible error codes as they are situation dependent.
-* `message` - a human readable version of the error. This may change or may be translated and should not be used to identify the type of error.
-* `params` - this is a list of key-value parameters that are relevant to the error triggered. They may supplement the error code and message to give more specific details about the error.
+* `code` - это машиночитаемый код ошибки. Существует много возможных кодов ошибок, поскольку они зависят от ситуации.
+* `message` - удобочитаемая версия ошибки. Это может измениться или может быть переведено, и его не следует использовать для определения типа ошибки.
+* `params` - это список параметров ключ-значение, относящихся к сработавшей ошибке. Они могут дополнять код ошибки и сообщение, чтобы дать более подробную информацию об ошибке.
 
-## API endpoints
+## Конечные точки API
 
-The API features a number of endpoints and actions that can be taken. Additional endpoints and data may be added in the future.
+API имеет ряд конечных точек и действий, которые можно предпринять. Дополнительные конечные точки и данные могут быть добавлены в будущем.
 
-**[View the API endpoint documentation](https://xenforo.com/community/pages/api-endpoints/)**
+**[Смотрите документацию по конечной точке API](https://xenforo.com/community/pages/api-endpoints/)**
 
-This endpoint documentation has been generated from the API data and comments in the code. It will be expanded and updated over time.
+Эта документация по конечной точке была создана на основе данных API и комментариев в коде. Со временем он будет расширяться и обновляться.
