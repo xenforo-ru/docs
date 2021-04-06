@@ -1,51 +1,51 @@
-# Development tools
+# Инструменты разработки
 
-XF2 provides developers with a number of built in tools you can use to expedite development of add-ons and we'll go through some of these below.
+XF2 предоставляет разработчикам ряд встроенных инструментов, которые Вы можете использовать для ускорения разработки дополнений, и мы рассмотрим некоторые из них ниже.
 
-## Debug mode
+## Режим отладки
 
-Debug mode can be enabled in your `config.php` which will allow you to access certain development tools in the Admin CP (such as creating routes, permissions, admin navigation etd.) and it will also enable an output at the bottom of every page which details how long the page took to process, how many queries were executed to render the page and how much memory was used. A tooltip containing information about the current controller, action and template name is available on hover. You can also click on the time output and this will give you a detailed look at exactly what queries ran and the stack trace that led to that query being executed.
+Режим отладки может быть включен в Вашем `config.php`, что позволит Вам получить доступ к определенным инструментам разработки в Admin CP (таким как создание маршрутов, разрешений, административная навигация и т. д.), А также позволит выводить в нижней части каждой страницы, в котором подробно указано, сколько времени потребовалось для обработки страницы, сколько запросов было выполнено для отображения страницы и сколько памяти было использовано. Всплывающая подсказка, содержащая информацию о текущем контроллере, действии и имени шаблона, доступна при наведении курсора. Вы также можете щелкнуть вывод времени, и это даст Вам подробное представление о том, какие именно запросы выполнялись, и трассировку стека, которая привела к выполнению этого запроса.
 
- You can enable debug mode by adding the following to `config.php`:
+Вы можете включить режим отладки, добавив следующее в `config.php`:
 
 ```php
 $config['debug'] = true;
 ```
 
-## Enabling development mode
+## Включение режима разработки
 
-Development mode is a special mode, activated in your `config.php` file which will trigger XF to automatically write out your development files to your `_output` directory. This mode needs to be enabled for filesystem template editing to be enabled. As development mode will be writing files to your file system it is important to ensure you have the appropriate file permissions in place. This may vary depending on environment, but a typical configuration would be to ensure that for any add-on you are working on, you have its `_output` directory set chmod to `0777`. For example, if you are working on an add-on with an ID of `Demo`, its development output will be written out to `src/addons/Demo/_output` and therefore that directory will need to be fully writable.
+Режим разработки - это специальный режим, активированный в Вашем файле `config.php`, который заставит XF автоматически записать Ваши файлы разработки в Ваш каталог `_output`. Этот режим должен быть включен, чтобы было разрешено редактирование шаблона файловой системы. Поскольку режим разработки будет записывать файлы в Вашу файловую систему, важно убедиться, что у Вас есть соответствующие права доступа к файлам. Это может варьироваться в зависимости от среды, но типичная конфигурация должна гарантировать, что для любого дополнения, над которым Вы работаете, у Вас есть каталог `_output`, установленный chmod `0777`. Например, если Вы работаете над дополнением с идентификатором `Demo`, его результаты разработки будут записаны в `src/addons/Demo/_output`, и поэтому этот каталог должен быть полностью доступен для записи.
 
-Enabling development mode, also enables [debug mode](#debug-mode) automatically.
+Включение режима разработки также автоматически включает [режим отладки](#debug-mode).
 
-To enable development mode, add the following lines to your `config.php` file:
+Чтобы включить режим разработки, добавьте следующие строки в Ваш файл `config.php`:
 
 ```php
 $config['development']['enabled'] = true;
 $config['development']['defaultAddOn'] = 'SomeCompany/MyAddOn';
 ```
 
-The `defaultAddOn` value is optional, but adding that will automatically populate the specified add-on in the XF Admin CP when creating new content which will be associated to an add-on.
+Значение `defaultAddOn` является необязательным, но его добавление автоматически заполнит указанное дополнение в XF Admin CP при создании нового контента, который будет связан с дополнением.
 
-In addition to the above, you may find it necessary to add some additional configuration, especially if you are using more than one XF installation.
+В дополнение к вышесказанному Вам может потребоваться добавить некоторую дополнительную конфигурацию, особенно если Вы используете более одной установки XF.
 
 ```php
 $config['enableMail'] = false;
 ```
 
-This will disable all mail from being sent from your board. This is especially important if you are using a copy of live data with real users and real email addresses (though we would advise against this!).
+Это отключит отправку всей почты с Вашего форума. Это особенно важно, если Вы используете копию живых данных с реальными пользователями и реальными адресами электронной почты (хотя мы бы не советовали этого!).
 
-As an alternative to disabling mail directly, you may want to consider using a service such as [MailTrap.io](https://mailtrap.io). This provides you with a free mailbox that will receive all emails sent from your board, which is very useful for testing any emails your new add-on may be sending.
+В качестве альтернативы непосредственному отключению почты Вы можете рассмотреть возможность использования такой службы, как [MailTrap.io](https://mailtrap.io). Это предоставляет Вам бесплатный почтовый ящик, который будет получать все электронные письма, отправленные с Вашего форума, что очень полезно для тестирования любых электронных писем, которые может отправлять Ваше новое дополнение.
 
 ```php
 $config['cookie']['prefix'] = 'anything_';
 ```
 
-If you're using two or more XF installs on the same domain, you may experience issues with cookies being overwritten, which is caused by the installations sharing the same cookie prefix. It's therefore recommended to ensure you change the cookie prefix for each XF install you have set up. Without doing that, you will experience issues, for example, getting logged out of one XF install when logging into another.
+Если Вы используете две или более установки XF на одном домене, у Вас могут возникнуть проблемы с перезаписью файлов cookie, что вызвано установками, использующими один и тот же префикс cookie. Поэтому рекомендуется менять префикс файлов cookie для каждой установленной Вами установки XF. Без этого Вы столкнетесь с проблемами, например, с выходом из одной установки XF при входе в другую.
 
-## Preventing frequent logout for users with a dynamic IP
+## Предотвращение частого выхода из системы для пользователей с динамическим IP
 
-XenForo sessions are usually bound to your IP address. If your IP address is dynamic or you are using a VPN, proxy or load balancer, you may get loggout frequently. You can prevent this by adding the following to your `src/config.php` file:
+Сессии XenForo обычно привязаны к Вашему IP-адресу. Если Ваш IP-адрес динамический или Вы используете VPN, прокси или балансировщик нагрузки, Вы можете часто выходить из системы. Вы можете предотвратить это, добавив в файл `src/config.php` следующее:
 ```php
 $c->extend('session', function(\XF\Session\Session $session)
 {
@@ -58,94 +58,94 @@ $c->extend('session', function(\XF\Session\Session $session)
 ```
 
 !!! warning
-    You should never apply the above code to the config of a live/production site.
+    Никогда не применяйте приведенный выше код к конфигурации действующего/продакшен сайта.
 
-## Development commands
+## Команды разработки
 
-XF 2.0 ships with a number of general development and add-on CLI commands which are aimed to help you develop more efficiently or even possibly automate/script some common processes.
+XF 2.0 поставляется с рядом общих команд CLI для разработки и дополнений, которые призваны помочь Вам разрабатывать более эффективно или даже, возможно, автоматизировать/сценарий для некоторых общих процессов.
 
-In this section we'll go through some of the common tools and explain what they do.
+В этом разделе мы рассмотрим некоторые общие инструменты и объясним, что они делают.
 
-## Add-on specific commands
+## Специальные команды дополнений
 
-### Creating a new add-on
+### Создание нового дополнения
 
 !!! terminal
     *$* php cmd.php xf-addon:create
 
-The `xf-addon:create` command is how to initially set up and create a new add-on. Once it runs, all you need to answer are some basic questions:
+Команда `xf-addon:create` предназначена для первоначальной настройки и создания нового дополнения. После запуска все, что Вам нужно, это ответить на несколько основных вопросов:
 
-* Enter an ID for this add-on
-* Enter a title
-* Enter a version ID (e.g. 1000010)
-* Enter a version string (e.g. 1.0.0 Alpha)
+* Введите идентификатор для этого дополнения
+* Введите название
+* Введите идентификатор версии (например, 1000010)
+* Введите строку версии (например, 1.0.0 Alpha)
 
-You will then be given the option to create the add-on and write out its addon.json file, and asked some questions about  whether you want to add a Setup.php file.
+Затем Вам будет предоставлена возможность создать дополнение и записать его файл addon.json, а также задать несколько вопросов о том, хотите ли Вы добавить файл Setup.php.
 
-### Export _data .XML files
+### Экспорт _data .XML файлов
 
 !!! terminal
     *$* php cmd.php xf-addon:export _[addon_id]_
 
-This command is what you will use to export all of your add-on's data to XML files inside the `_data` directory. It exports the data from what is currently in the database (rather than from the development output files).
+Эту команду Вы будете использовать для экспорта всех данных дополнения в файлы XML внутри каталога `_data`. Он экспортирует данные из того, что в настоящее время находится в базе данных (а не из выходных файлов разработки).
 
-### Bump your add-on version
+### Поднимите версию дополнения
 
 !!! terminal
     *$* php cmd.php xf-addon:bump-version _[addon_id]_ --version-id 1020370 --version-string 1.2.3
 
 !!! note
-	If your version string contains spaces, you'll need to surround it with quotes.
+	Если Ваша строка версии содержит пробелы, Вам нужно будет заключить ее в кавычки.
 
-This command takes the add-on ID for your add-on, the new version ID and the new version string. This enables you to bump the version of your add-on in a single step, without having to perform upgrades and rebuilds yourself. The options above are optional, and if they are not provided you will be prompted for them. If you only specify the version ID, we will try and infer the correct version string from that automatically if it matches our [Recommended version ID format](add-on-structure.md#recommended-version-id-format). Once the command completes, it updates the `addon.json` file automatically and the database with the correct version details.
+Эта команда принимает идентификатор дополнения для Вашего дополнения, идентификатор новой версии и строку новой версии. Это позволяет Вам обновить версию дополнения за один шаг, без необходимости выполнять обновления и перестройку самостоятельно. Приведенные выше параметры являются необязательными, и если они не указаны, Вам будет предложено их ввести. Если Вы укажете только идентификатор версии, мы попытаемся автоматически вывести из него правильную строку версии, если она соответствует нашему [Рекомендуемому формату идентификатора версии](add-on-structure.md#recommended-version-id-format). Когда команда завершится, она автоматически обновит файл `addon.json` и базу данных, указав правильную информацию о версии.
 
-### Sync your addon.json to the database
+### Синхронизируйте свой addon.json с базой данных
 
 !!! terminal
     *$* php cmd.php xf-addon:sync-json _[addon_id]_
 
-Sometimes you might prefer to edit the JSON file directly with certain details. This could be the version, or a new icon, or a change of title or description. Changing the JSON in this way can cause the add-on system to believe there are pending changes or that the add-on is upgradeable. A rebuild or upgrade can be a destructive operation if you haven't yet exported your current data. Therefore, running this command is recommended as a way of importing that data in without affecting your existing data.
+Иногда Вы можете предпочесть отредактировать файл JSON напрямую, указав определенные детали. Это может быть версия, новая иконка, изменение названия или описания. Такое изменение JSON может привести к тому, что система дополнения будет полагать, что есть отложенные изменения или что дополнение можно обновить. Восстановление или обновление может оказаться разрушительной операцией, если Вы еще не экспортировали свои текущие данные. Поэтому рекомендуется запускать эту команду как способ импорта этих данных, не затрагивая существующие данные.
 
-### Validate your addon.json file
+### Валидация Вашего файла addon.json
 
 !!! terminal
     *$* php cmd.php xf-addon:validate-json _[addon_id]_
 
-If you'd like to check your JSON file contains the correct content and in the correct format, you can now validate it. The validator will check that the content can be decoded, that it contains all of the correct required fields (such as title and version ID) and also checks for the presence of the optional keys (such as description and icon). If any keys are missing, you will be offered to have the issues fixed for you. We also check to see if there are any unexpected fields within the JSON file. These may be deliberate or represent typos. You can run the command manually or the command will be run automatically while building your release.
+Если Вы хотите проверить, что Ваш файл JSON содержит правильное содержимое и в правильном формате, Вы можете проверить его. Валидатор проверит, можно ли декодировать контент, что он содержит все правильные обязательные поля (такие как заголовок и идентификатор версии), а также проверит наличие дополнительных ключей (таких как описание и иконка). Если какие-либо ключи отсутствуют, Вам будет предложено исправить проблему. Мы также проверяем, есть ли какие-либо неожиданные поля в файле JSON. Они могут быть преднамеренными или представлять собой опечатки. Вы можете запустить команду вручную или она будет запущена автоматически при сборке Вашего релиза.
 
-### Run a specific Setup step
+### Запустите определенный шаг установки
 
-Sometimes it's useful to check that your Setup class steps function correctly, without having to go through the process of uninstalling and reinstalling.
+Иногда полезно проверить, что шаги Вашего класса установки работают правильно, без необходимости выполнять процесс удаления и повторной установки.
 
-There are three commands which help with this. These commands will only work with Setup classes that are built using the default `StepRunner` traits.
+В этом помогают три команды. Эти команды будут работать только с классами Setup, которые построены с использованием трейта по умолчанию `StepRunner`.
 
-#### Run an install step
+#### Запуск шага установки
 
 !!! terminal
     *$* php cmd.php xf-addon:install-step _[addon_id]_ _[step]_
 
-#### Run an upgrade step
+#### Запуск шага обновления
 
 !!! terminal
     *$* php cmd.php xf-addon:upgrade-step _[addon_id]_ _[version]_ _[step]_
 
-#### Run an uninstall step
+#### Запуск шага удаления
 
 !!! terminal
     *$* php cmd.php xf-addon:uninstall-step _[addon_id]_ _[step]_
 
-## Building an add-on release
+## Сборка релиза дополнения
 
-Once all of the hard work has been done, it's a shame to have to go through a number of other processes before you can actually release it. Even the process of collecting all of the files into the correct place and creating the ZIP file manually can be time consuming and prone to errors. We can take care of that automatically, including generating the `hashes.json` file, with one simple command.
+После того, как вся тяжелая работа сделана, очень жаль, что Вам придется пройти через ряд других процессов, прежде чем Вы действительно сможете ее выпустить. Даже процесс сбора всех файлов в нужное место и создание ZIP-файла вручную может занять много времени и привести к ошибкам. Мы можем позаботиться об этом автоматически, включая создание файла `hashes.json`, с помощью одной простой команды.
 
 !!! terminal
     *$* php cmd.php xf-addon:build-release _[addon_id]_
 
-When you run this command, it will first run the `xf-addon:export` command before then collecting all of your files together into a temporary `_build` directory and writing them to a ZIP file. The finished ZIP will also include the `hashes.json` file. Once the ZIP has been created it will be saved to your `_releases` directory named and named `<ADDON ID>-<VERSION STRING>.zip`.
+Когда Вы запустите эту команду, она сначала запустит команду `xf-addon:export`, а затем соберет все Ваши файлы во временный каталог `_build` и запишет их в ZIP-файл. Готовый ZIP-файл также будет включать файл `hashes.json`. Как только ZIP-файл будет создан, он будет сохранен в Вашем каталоге `_releases` и именем `<ADDON ID>-<VERSION STRING>.zip`.
 
-### Customizing the build process
+### Настройка процесса сборки
 
-Aside from just creating the release ZIP there may be additional files you wish to include in your ZIP, other more advanced build processes you want to run such as minifying or concatenating JS or running certain shell commands. All of this can be taken care of in your `build.json` file. This is a typical `build.json` file:
+Помимо создания ZIP релиза, могут быть дополнительные файлы, которые Вы хотите включить в свой ZIP, другие более сложные процессы сборки, которые Вы хотите запустить, такие как минимизация или объединение JS или выполнение определенных команд оболочки. Обо всем этом можно позаботиться в Вашем файле `build.json`. Это типичный файл `build.json`:
 
 ```json
 {
@@ -168,56 +168,54 @@ Aside from just creating the release ZIP there may be additional files you wish 
 }
 ```
 
-If you have assets, such as JavaScript, which need to be served outside of your add-on directory, you can tell the build process to copy files or directories using the `additional_files` array within `build.json`. During development it isn't always feasible to keep files outside of your add-on directory, so if you prefer, you can keep the files in your add-on `_files` directory instead. When copying the additional files, we will check there first.
+Если у Вас есть ресурсы, такие как JavaScript, которые необходимо обслуживать вне каталога дополнения, Вы можете указать процессу сборки копировать файлы или каталоги, используя массив `additional_files` в `build.json`. Во время разработки не всегда возможно хранить файлы вне каталога дополнения, поэтому, если Вы предпочитаете, Вы можете вместо этого хранить файлы в каталоге дополнения `_files`. При копировании дополнительных файлов мы сначала проверим их.
 
-If you ship some JS files with your add-on, you may want to minify those files for performance reasons. You can specify which files you want to minify right inside your `build.json`. You can list these as an array or you can just specify it as `'*'` which will just minify everything in your `js` directory as long as that path has JS files within it after copying the additional files to the build. Any files minified will automatically have a suffix of `.min.js` instead of `.js` and the original files will still be in the package.
+Если Вы отправляете некоторые файлы JS вместе с дополнением, Вы можете минифицировать эти файлы по соображениям производительности. Вы можете указать, какие файлы Вы хотите минифицировать, прямо внутри Вашего `build.json`. Вы можете перечислить их в виде массива или просто указать его как `'*'`, что минифицирует все в Вашем каталоге `js`, если этот путь содержит файлы JS после копирования дополнительных файлов в сборку. Любые минифицированные файлы будут автоматически иметь суффикс `.min.js` вместо `.js`, а исходные файлы все еще будут в пакете.
 
-You may prefer to roll up your multiple JS files into a single file. If you do, you can use the `rollup` array to define that. The key is the resulting combined filename, and the items within that array are the paths to the JS files that will be combined into a single file.
+Возможно, Вы предпочтете объединить несколько файлов JS в один файл. Если Вы это сделаете, Вы можете использовать массив `rollup`, чтобы определить это. Ключ - это получившееся объединенное имя файла, а элементы в этом массиве - это пути к файлам JS, которые будут объединены в один файл.
 
-Finally, you may have certain processes that need to be run just before the package is built and finalised. This could be any combination of things. Ultimately, if it is a command that can be run from the shell (including PHP scripts) then you can specify it here. The example above is of course fairly useless, but it does at least demonstrate that certain placeholders can be used. These placeholders are replaced with scalar values you can get from the `XF\AddOn\AddOn` object which is generally any value available in the `addon.json` file, or the `AddOn` entity.
+Наконец, у Вас могут быть определенные процессы, которые необходимо запустить непосредственно перед сборкой и окончательной доработкой пакета. Это может быть любая комбинация вещей. В конечном счете, если это команда, которую можно запустить из оболочки (включая сценарии PHP), Вы можете указать ее здесь. Приведенный выше пример, конечно, бесполезен, но он, по крайней мере, демонстрирует, что можно использовать определенные заполнители. Эти заполнители заменяются скалярными значениями, которые Вы можете получить из объекта `XF\AddOn\AddOn`, который обычно представляет собой любое значение, доступное в файле `addon.json` или в объекте `AddOn`.
 
-## Development commands
+## Команды разработки
 
-There are actually quite a few development related commands, but only the two most important ones are being covered here.
+На самом деле существует довольно много команд, связанных с разработкой, но здесь рассматриваются только две наиболее важные.
 
-To use any of these commands, you must have [development mode](#enabling-development-mode) enabled in your
-`config.php` file.
+Чтобы использовать любую из этих команд, у Вас должен быть включен [режим разработки](#enabling-development-mode) в Вашем файле `config.php`.
 
 !!! warning
-	Both of the following commands can potentially cause data loss if there is a situation whereby the database and `_output`
-	directory become out of sync. It is always recommended to use a VCS (Version Control System) such as
-	[GitHub](https://github.com) to mitigate the impact of such mistakes.
+	Обе следующие команды могут потенциально вызвать потерю данных, если есть ситуация,
+	когда база данных и каталог `_output` перестают синхронизироваться. 
+	Всегда рекомендуется использовать VCS (систему контроля версий), такую как 
+	[GitHub](https://github.com), чтобы уменьшить влияние таких ошибок.
 
-### Import development output
+### Импорт результатов разработки
 
 !!! terminal
     *$* php cmd.php xf-dev:import --addon _[addon_id]_
 
-Running this command will import all of the development output files from your add-on `_output` directory into the
-database.
+Выполнение этой команды импортирует все выходные файлы разработки из каталога дополнения `_output` в базу данных.
 
-### Export development output
+### Экспорт результатов разработки
 
 !!! terminal
     *$* php cmd.php xf-dev:export --addon _[addon_id]_
 
-This will export all data currently associated to your add-on in the database to files within your
-`_output` directory.
+Это экспортирует все данные, которые в настоящее время связаны с Вашим дополнением в базе данных, в файлы в Вашем каталоге `_output`.
 
-## Debugging code
+## Отладка кода
 
-It should be possible to set up your favourite debugger tool (XDebug, Zend Debugger etc.) to work with XF2. Though, sometimes, debugging code can be as rudimentary as just quickly seeing what value (or value type) a variable holds at a given time.
+Должна быть возможность настроить Ваш любимый инструмент отладчика (XDebug, Zend Debugger и т. д.) для работы с XF2. Хотя иногда отладочный код может быть столь же рудиментарным, как и просто быстрое определение того, какое значение (или тип значения) хранится в переменной в данный момент времени.
 
-### Dump a variable
+### Дамп переменной
 
-PHP of course has a tool built-in to handle this. You'll likely know it as `var_dump()`. XF ships with two replacements for this:
+В PHP, конечно же, есть встроенный инструмент, позволяющий справиться с этим. Скорее всего, Вы знаете его как `var_dump()`. XF поставляется с двумя заменами для этого:
 
 ```php
 \XF::dump($var);
 \XF::dumpSimple($var);
 ```
 
-The simple version mostly just dumps out the value of a variable in plain text. For example, if you just use it to dump the value of an array, you will see an output at the top of the page like this:
+Простая версия в основном просто выгружает значение переменной в виде обычного текста. Например, если Вы просто используете его для выгрузки значения массива, Вы увидите вывод вверху страницы, подобный этому:
 
 ```plain
 array(2) {
@@ -226,6 +224,6 @@ array(2) {
 }
 ```
 
-This is actually the same output as a standard var_dump, but slightly modified for readability and wrapped inside `<pre>` tags to ensure whitespace is maintained when rendering.
+Фактически это тот же результат, что и стандартный var_dump, но немного измененный для удобства чтения и заключенный в теги `<pre>`, чтобы гарантировать сохранение пробелов при рендеринге.
 
-The alternative is actually a component named VarDumper from the Symfony project. It outputs HTML, CSS and JS to create a much more functional and potentially easier to read output. It allows you to collapse certain sections, and for certain values which can output a considerable amount of data, such as objects, it can collapse those sections automatically.  
+Альтернативой на самом деле является компонент VarDumper из проекта Symfony. Он выводит HTML, CSS и JS для создания более функционального и потенциально более удобного для чтения вывода. Он позволяет свернуть определенные разделы, а для определенных значений, которые могут выводить значительный объем данных, таких как объекты, он может автоматически свернуть эти разделы.
