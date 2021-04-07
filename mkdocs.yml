@@ -22,7 +22,7 @@ nav:
   - Инструменты разработки: development-tools.md
   - Общие концепции: general-concepts.md
   - Основы маршрутизации: routing-basics.md
-  - Controller basics: controller-basics.md
+  - Основы контроллера: controller-basics.md
   - Entities, finders, and repositories: entities-finders-repositories.md
   - Criteria: criteria.md
   - Managing the schema: managing-the-schema.md
