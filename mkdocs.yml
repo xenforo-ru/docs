@@ -21,7 +21,7 @@ nav:
   - Структура дополнения: add-on-structure.md
   - Инструменты разработки: development-tools.md
   - Общие концепции: general-concepts.md
-  - Routing basics: routing-basics.md
+  - Основы маршрутизации: routing-basics.md
   - Controller basics: controller-basics.md
   - Entities, finders, and repositories: entities-finders-repositories.md
   - Criteria: criteria.md
