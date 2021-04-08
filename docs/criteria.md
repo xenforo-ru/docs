@@ -1,67 +1,67 @@
-# Criteria
+# Критерии
 
-When XenForo needs to test something (user/page/post...) against some **user selected** conditions (criteria), it uses the Criteria system.
+Когда XenForo необходимо протестировать что-то (пользователя/страницу/сообщение...) на соответствие некоторым **выбранным пользователем** условиям (критериям), он использует систему критериев.
 
-Some places, where the Criteria system is used:
+Некоторые места, где используется система критериев:
 
--   Trophies
--   User-group promotions
--   Forum notices
+- Трофеи
+- Акции групп пользователей
+- Уведомления на форуме
 
-Addons can also use this system.
+Дополнения также могут использовать эту систему.
 
-## Criteria types
+## Типы критериев
 
-Consider the following criteria:
+Учитывайте следующие критерии:
 
--   User has/has no avatar
--   User has more than 300 messages
--   User is creating a thread right now
--   Current user's selected navigation tab is "Members"
+- У пользователя есть/нет аватара
+- У пользователя более 300 сообщений
+- Пользователь сейчас создает тему
+- Выбранная вкладка навигации текущего пользователя - "Members"
 
-The first two criteria refer to the user himself. The remaining ones refer to his current location on the forum. It appears we have different categories or **types** of criteria.
+Первые два критерия относятся к самому пользователю. Остальные относятся к его текущему местонахождению на форуме. Похоже, у нас разные категории или **типы** критериев.
 
-There are two criteria types in XenForo out of the box:
+В XenForo из коробки есть два типа критериев:
 
--   User criteria — handling criteria about the user himself
--   Page criteria — handling criteria about user's current location + time criteria
+- Пользовательские критерии - обработка критериев о самом пользователе
+- Критерии страницы - обработка критериев о текущем местоположении пользователя + критерии времени
 
-Some addons may also add their own criteria types.
+Некоторые дополнения могут также добавлять свои собственные типы критериев.
 
-From the code perspective, criteria types are simply children of an abstract `AbstractCriteria` class. They contain code for handling the selected criteria of certain type.
+С точки зрения кода типы критериев - это просто дочерние элементы абстрактного класса `AbstractCriteria`. Они содержат код для обработки выбранных критериев определенного типа.
 
-`AbstractCriteria`, in turn, provides a general methods to work with criteria regardless of their meaning.
+`AbstractCriteria`, в свою очередь, предоставляет общие методы работы с критериями независимо от их значения.
 
-## Criterion
+## Критерий
 
-Criterion is a user selectable predefined condition.
+Критерий - это предварительно определенное условие, выбираемое пользователем.
 
-**Why selectable?** Because admins/users can select them (remember trophy creation process).
+**Почему выбираются?** Потому что администраторы/пользователи могут выбирать их (помните процесс создания трофеев).
 
-**Why predefined?** Because XenForo already knows how to handle them (using criteria classes methods).
+**Почему предопределены?** Потому что XenForo уже знает, как их обрабатывать (используя методы классов критериев).
 
-Every criterion consists of two parts: **rule** and (optionally) **data**.
+Каждый критерий состоит из двух частей: **правило** и (необязательно) **данные**.
 
-### Rule
+### Правило
 
-The criterion rule is simply a sting in [snake case](https://en.wikipedia.org/wiki/Snake_case) (words_are_separated_with_underscore_character).
+Правило критерия - это просто укус в [snake case](https://en.wikipedia.org/wiki/Snake_case) (words_are_separated_with_underscore_character).
 
-It has two essential purposes:
+У него две основные цели:
 
-1. It is used to distinguish criteria
-2. When performing matching, the rule is converted into a [camel case](https://en.wikipedia.org/wiki/Camel_case) name of a method that handles this criterion (see ["How criteria works"](#how-criteria-works)).
+1. Он используется для различения критериев
+2. При выполнении сопоставления правило преобразуется в [camel case](https://en.wikipedia.org/wiki/Camel_case) имя метода, который обрабатывает этот критерий (смотрите [«Как работают критерии»](#how-criteria-works)).
 
-### Data
+### Данные
 
-It is just an optional array of additional criterion data. For example, "User has posted at least X messages" criterion has a data array with one element: a number of messages.
+Это просто необязательный массив дополнительных данных критерия. Например, критерий «Пользователь отправил не менее X сообщений» имеет массив данных с одним элементом: количество сообщений.
 
-## How criteria system works
+## Как работает система критериев
 
-In this sections, we describe how criteria system works from A to Z.
+В этих разделах мы опишем, как работает система критериев от А до Я.
 
-### Template
+### Шаблон
 
-It all starts from template code. Here is how criteria look inside templates:
+Все начинается с кода шаблона. Вот как критерии выглядят внутри шаблонов:
 
 ```html
 <xf:checkbox label="Criteria container">
@@ -78,17 +78,17 @@ It all starts from template code. Here is how criteria look inside templates:
 </xf:checkbox>
 ```
 
-As you can see, criterion is simply a checkbox with optional input fields inside (criterion data). Let's analyze the code:
+Как видите, критерий - это просто флажок с дополнительными полями ввода внутри (данные критерия). Разберем код:
 
--   `foo_criteria` and `bar_criteria` are the input containers and usually `foo` and `bar` parts refer to criteria type. For example, `user_criteria[...]` lets us know that this criteria belong to User criteria.
--   `value="criterion_1_rule"` and `value="criterion_2_rule"` are, obviously, the rules of criteria.
+- `foo_criteria` и `bar_criteria` являются входными контейнерами, и обычно части `foo` и `bar` относятся к типу критериев. Например, `user_criteria[...]` сообщает нам, что этот критерий принадлежит критериям пользователя.
+- `value="criterion_1_rule"` и `value="criterion_2_rule"`, очевидно, являются правилами критериев.
 
 !!! note
-    Keep in mind that `criterion_1/2_rule` in `name` attributes may not have to be criteria rules! These are just names for input containers. You can easily write `<xf:option name="foo[bar][rule]" value="criterion_rule" />` and it will work correctly. The criterion rule will be `criterion_rule`, not `bar`.
+    Имейте в виду, что `criterion_1/2_rule` в атрибутах `name` не обязательно должны быть правилами критериев! Это просто имена входных контейнеров. Вы можете легко написать `<xf:option name="foo[bar][rule]" value="criterion_rule" />`, и это будет работать правильно. Правило критерия будет `criterion_rule`, а не `bar`.
 
-### (Optionally) Storing selected criteria
+### (Необязательно) Сохранение выбранных критериев
 
-Inside the controller, the criteria form data from the previous section can be filtered, encoded and saved in database columns of `mediumblob` type for better days:
+Внутри контроллера данные формы критериев из предыдущего раздела могут быть отфильтрованы, закодированы и сохранены в столбцах базы данных типа `mediumblob` для лучших времен:
 
 ```php
 $fooCriteriaInput = $this->filter('foo_criteria', 'array');
@@ -100,7 +100,7 @@ $form->basicEntitySave($bazEntity, [
 ]);
 ```
 
-The example `$bazEntity` structure:
+Пример структуры `$bazEntity`:
 
 ```php
 public static function getStructure(Structure $structure)
@@ -118,9 +118,9 @@ public static function getStructure(Structure $structure)
 }
 ```
 
-### Criteria object
+### Объект критериев
 
-For using criteria system we need to create a criteria object from selected criteria form data. This can be done via app's `criteria()` method:
+Для использования системы критериев нам необходимо создать объект критериев из выбранных данных формы критериев. Это можно сделать с помощью метода приложения `criteria()`:
 
 ```php
 /** @var \Qux\Criteria\Foo $fooCriteria */
@@ -130,45 +130,45 @@ $fooCriteria = \XF::app()->criteria('Qux:Foo', $bazEntity->foo_criteria);
 $barCriteria = \XF::app()->criteria('Qux:Bar', $bazEntity->bar_criteria);
 ```
 
-From now, we can use all `AbstractCriteria` functionality plus everything we have additionally written in child `Foo`/`Bar` classes.
+С этого момента мы можем использовать все функции `AbstractCriteria` плюс все, что мы дополнительно написали в дочерних классах `Foo`/`Bar`.
 
-### Matching
+### Соответствие
 
-When we want to check, whether something (User) matches the selected criteria or not, we use `isMatched` method:
+Когда мы хотим проверить, соответствует ли что-то (Пользователь) выбранным критериям или нет, мы используем метод `isMatched`:
 
 ```php
 $visitor= \XF::visitor();
 
 if ($fooCriteria->isMatched($visitor))
 {
-    // Visitor matches all selected criteria
+    // Посетитель соответствует всем выбранным критериям
 }
 else
 {
-    // Visitor does not match one or more criteria
+    // Посетитель не соответствует одному или нескольким критериям
 }
 ```
 
-`isMacthed()` converts criterion rule into camel case name of a method with `_match` prefix: `criterion_1_rule` > `_matchCriterion1Rule` and tries to find such a method inside criteria type class (`Foo` class in our example):
+`isMacthed()` преобразует правило критерия в верблюжье имя метода с префиксом `_match`: `criterion_1_rule` > `_matchCriterion1Rule` и пытается найти такой метод внутри класса типа критериев (класс `Foo` в нашем примере):
 
 ```php
 // Qux/Criteria/Foo.php
 
 protected function _matchCriterion1Rule(array $data, \XF\Entity\User $user)
 {
-    /* ... Handling criteria ... */
+    /* ... Критерии обработки ... */
     
-    return true; // User matches current criteria
+    return true; // Пользователь соответствует текущим критериям
     
     /* OR */
     
-    return false; // User does not match current criteria
+    return false; // Пользователь не соответствует текущим критериям
 }
 ```
 
-If some method can't be found in class, `isMatched()` calls `isUnknownMatched()` which behaviour can be set in `AbstractCriteria` ancestors (returns `false` by default).
+Если какой-либо метод не может быть найден в классе, `isMatched()` вызывает `isUnknownMatched()`, поведение которого может быть установлено в предках `AbstractCriteria` (по умолчанию возвращает `false`).
 
-If none criteria were selected, `isMatched()` returns `$matchOnEmpty` variable which equals `true` by default. You can change this behaviour by calling `$crteriaObj->setMatchOnEmpty(false)` **before** using `isMatched()` method:
+Если ни один критерий не был выбран, `isMatched()` возвращает переменную `$matchOnEmpty`, которая по умолчанию равна `true`. Вы можете изменить это поведение, вызвав `$crteriaObj->setMatchOnEmpty(false)` **перед** использованием метода `isMatched()`:
 
 ```php
 $visitor= \XF::visitor();
@@ -177,28 +177,28 @@ $fooCriteria->setMatchOnEmpty(false);
 
 if ($fooCriteria->isMatched($visitor))
 {
-    // Visitor matches all selected criteria
+    // Посетитель соответствует всем выбранным критериям
 }
 else
 {
-    // Visitor does not match one or more criteria
+    // Посетитель не соответствует одному или нескольким критериям
 }
 ```
 
-## How criteria works (example)
+## Как работают критерии (пример)
 
-Imagine you want to award with a trophy all users who have an avatar and have received at least 5 likes.
+Представьте, что Вы хотите наградить трофеем всех пользователей, у которых есть аватар и которые получили не менее 5 лайков.
 
-When creating a trophy, you select "User has an avatar" (rule `has_avatar`) and "User has received at least X likes" (rule `like_count`) criteria. The last one also has a data array with one element: a number of likes.
+При создании трофея Вы выбираете критерии «У пользователя есть аватар» (правило `has_avatar`) и «Пользователь получил не менее X лайков» (правило `like_count`). Последний также имеет массив данных с одним элементом: количество лайков.
 
-Your selected criteria stores in `user_criteria` column in `xf_trophy` table.
+Выбранные Вами критерии хранятся в столбце `user_criteria` таблицы `xf_trophy`.
 
-When XenForo decides to check, whether to award a user with a trophy or not, it converts rules into camel case method names:
+Когда XenForo решает проверить, наградить пользователя трофеем или нет, он преобразует правила в имена методов camel case:
 
--   `like_count` > `_matchLikeCount()`
--   `has_avatar` > `_matchHasAvatar()`
+- `like_count` > `_matchLikeCount()`
+- `has_avatar` > `_matchHasAvatar()`
 
-Since both of selected criteria are User criteria, XenForo addresses the User criteria class and tries to find such methods in it:
+Поскольку оба выбранных критерия являются критериями пользователя, XenForo обращается к классу критериев пользователя и пытается найти в нем такие методы:
 
 ```php
 // XF/Criteria/User.php
@@ -216,21 +216,21 @@ protected function _matchHasAvatar(array $data, \XF\Entity\User $user)
 //...
 ```
  
-If **all** addressed methods return `true`, our user matches the selected criteria and therefore will be awarded with a trophy.
+Если **все** адресованные методы возвращают `true`, наш пользователь соответствует выбранным критериям и, следовательно, будет награжден призом.
 
-If some methods can't be found in User criteria class, XenForo calls `isUnknownMatched()` method, which in turn fires `criteria_user` event, allowing addon makers to add their custom criteria handlers (see ["Custom User/Page criterion example"](#custom-userpage-criterion-example)).
+Если некоторые методы не могут быть найдены в классе критериев пользователя, XenForo вызывает метод `isUnknownMatched()`, который, в свою очередь, запускает событие `criteria_user`, позволяя разработчикам надстроек добавить свои обработчики настраиваемых критериев (смотрите ["Пример настраиваемого критерия пользователя/страницы"](#custom-userpage-criterion-example)).
 
-## Extra criteria data
+## Данные дополнительных критериев
 
-Sometimes, when writing criteria template code, you need to access extra data, that is not passed with view params.
+Иногда при написании кода шаблона критериев Вам необходимо получить доступ к дополнительным данным, которые не передаются с параметрами представления.
 
-This is what `getExtraTemplateData()` method exists. By default, it contains existing user groups, languages, styles, time zones.
+Вот для чего существует метод `getExtraTemplateData()`. По умолчанию он содержит существующие группы пользователей, языки, стили, часовые пояса.
 
-You can override this method in you custom criteria type class .
+Вы можете переопределить этот метод в своем классе типов настраиваемых критериев.
 
-### Adding data in custom criteria type
+### Добавление данных в тип настраиваемых критериев
 
-Override `getExtraTemplateData()` method in your custom criteria class:
+Переопределите метод `getExtraTemplateData()` в Вашем пользовательском классе критериев:
 
 ```php
 public function getExtraTemplateData()
@@ -248,9 +248,9 @@ public function getExtraTemplateData()
 }
 ```
 
-### Adding data to existing criteria types
+### Добавление данных к существующим типам критериев
 
-You can use `criteria_template_data` event listener to add you own extra criteria data:
+Вы можете использовать прослушиватель событий `criteria_template_data`, чтобы добавить свои собственные дополнительные данные критериев:
 
 ```php
 public static function criteriaTemplateData(array &$templateData)
@@ -262,25 +262,25 @@ public static function criteriaTemplateData(array &$templateData)
 }
 ```
 
-## "helper_criteria" template
- 
-Whenever you as addon maker want to get a target user/admin a way to select User/Page/other addon's criteria (or even all at once), you can simply use `helper_criteria`.
+## Шаблон "helper_criteria"
 
-In short, `helper_criteria` is an admin template that allows to use criteria types checkbox-based interface in multiply places without copy-pasting the same code.
+Всякий раз, когда Вы, как создатель дополнения, хотите, чтобы целевой пользователь/администратор мог выбирать критерии пользователя/страницы/другого дополнения (или даже все сразу), Вы можете просто использовать `helper_criteria`.
 
-`helper_criteria` contains macros of **two** types: `*criteria_name*_tabs` and `*criteria_name*_panes` for every criteria type. Example: `user_tabs` and `user_panes` macros for User criteria type.
+Короче говоря, `helper_criteria` - это шаблон администратора, который позволяет использовать интерфейс на основе флажков типов критериев в нескольких местах без копирования и вставки одного и того же кода.
 
-### Tabs
+`helper_criteria` содержит макросы **двух** типов: `*criteria_name*_tabs` и `*criteria_name*_panes` для каждого типа критериев. Пример: макросы `user_tabs` и `user_panes` для типа критериев пользователя.
 
-Tabs are used to distinguish different criteria types within the template they are used:
+### Вкладки
 
-![Criteria tabs demonstration.](files/images/helper_criteria_tabs_example.png)
+Вкладки используются для различения различных типов критериев в используемом шаблоне:
 
-When using tabs, the first one often contains fields/options that are not related to criteria. Then goes criteria tabs.
+![Демонстрация вкладок критериев.](files/images/helper_criteria_tabs_example.png)
 
-In the image above, the first tab contains options for notice. First two tabs in the red box are related to User criteria type. The last one is related to Page criteria type.
+При использовании вкладок первая часто содержит поля/параметры, не связанные с критериями. Затем идут вкладки критериев.
 
-Tabs in `helper_criteria` are grouped under criteria types macros:
+На изображении выше первая вкладка содержит параметры для уведомления. Первые две вкладки в красном поле относятся к типу критериев пользователя. Последний относится к типу критериев Страницы.
+
+Вкладки в `helper_criteria` сгруппированы по макросам типов критериев:
 
 ```html
 <xf:macro name="foo_tabs" arg-container="" arg-active="">
@@ -300,13 +300,13 @@ Tabs in `helper_criteria` are grouped under criteria types macros:
 </xf:macro>
 ```
 
-In the code above, `foo` is a criteria type. It has two tabs, one for general foo criteria and another for extra foo criteria.
+В приведенном выше коде, `foo` - это тип критерия. В нем есть две вкладки, одна для общих критериев foo, а другая для дополнительных критериев foo.
 
-### Panes
+### Панели
 
-Panes simply contain criteria.
+Панели просто содержат критерии.
 
-Just like tabs, panes in `helper_criteria` are grouped under criteria types macros:
+Как и вкладки, панели в `helper_criteria` сгруппированы по макросам типов критериев:
 
 ```html
 <xf:macro name="foo_panes" arg-container="" arg-active="" arg-criteria="!" arg-data="!">
@@ -336,23 +336,23 @@ Just like tabs, panes in `helper_criteria` are grouped under criteria types macr
 </xf:macro>
 ```
 
-### Using "helper_criteria"
+### Использование "helper_criteria"
 
-To use "helper_criteria" functionality, you need to include its macros.
+Чтобы использовать функцию "helper_criteria", Вам необходимо включить ее макросы.
 
-#### Preparing data
+#### Подготовка данных
 
-This section can be skipped if you **don't have** your selected criteria saved somewhere in database or the criteria type you want to use **does't** require any extra data.
+Этот раздел можно пропустить, если у Вас **нет** Ваших выбранных критериев, сохраненных где-то в базе данных, или если тип критерия, который Вы хотите использовать, **не требует** дополнительных данных.
 
-First of all, you need to retrieve saved selected criteria and create a criteria object from them. In this section, we will be using Page criteria as an example:
+Прежде всего, Вам нужно получить сохраненные выбранные критерии и создать на их основе объект критериев. В этом разделе мы будем использовать критерии страницы в качестве примера:
 
 ```php
-$savedCriteria = /* Retrieve it somehow... */
+$savedCriteria = /* Как-нибудь получить... */
 
-// Criteria object
+// Объект критериев
 $criteria = $this->app()->criteria('XF:Page', $savedCriteria)->getCriteriaForTemplate();
 
-// Criteria extra data
+// Критерии дополнительных данных
 $criteriaData = $criteria->getExtraTemplateData();
 
 $viewParams = [
@@ -364,45 +364,45 @@ $viewParams = [
 return $this->view(/* ... */, $viewParams);
 ```
 
-#### Including without tabs
+#### В том числе без вкладок
 
-To include criteria without tabs you need to use an `<xf:macro...` tag with `arg-container` attribute set to `0`:
+Чтобы включить критерии без вкладок, Вам нужно использовать тег `<xf:macro...` с атрибутом `arg-container`, установленным на `0`:
 
 ```html
 <xf:macro template="helper_criteria" name="page_panes" arg-container="0" arg-criteria="{$criteria}" arg-data="{$criteriaData}" />
 ```
 
-If you don't have saved criteria, you can just pass empty array `{{ [] }}` to an `arg-criteria` attribute. Don't forget to replace `page` in `page_panes` to the name of criteria type you want to use.
+Если у Вас нет сохраненных критериев, Вы можете просто передать пустой массив `{{ [] }}` атрибуту `arg-criteria`. Не забудьте заменить `page` в `page_panes` на имя типа критерия, который вы хотите использовать.
 
-Keep in mind that all criteria is wrapped with `<li>` tag so you will need to apply some CSS styling (`list-style-type: none;` for example).
+Имейте в виду, что все критерии заключены в тег `<li>`, поэтому Вам нужно будет применить некоторые стили CSS (например, `list-style-type: none;`).
 
-#### With tabs
+#### С вкладками
 
-In order to use criteria tabs, you will need to organise the page. Stick to the following example structure:
+Чтобы использовать вкладки критериев, Вам необходимо организовать страницу. Придерживайтесь следующей примерной структуры:
 
 ```html
 <xf:form ... class="block">
 	<div class="block-container">
 	    
-	    <!-- Tabs -->
+	    <!-- Вкладки -->
 		<h2 class="block-tabHeader tabs hScroller" data-xf-init="h-scroller tabs" role="tablist">
 			<span class="hScroller-scroll">
-			    <!-- Main tab where fields/options are located -->
-				<a class="tabs-tab is-active" role="tab" tabindex="0" aria-controls="MAIN_TAB_ID">Main tab title</a>
+			    <!-- Основная вкладка, на которой расположены поля/параметры -->
+				<a class="tabs-tab is-active" role="tab" tabindex="0" aria-controls="MAIN_TAB_ID">Заголовок главной вкладки</a>
 				
-				<!-- Criteria tabs -->
+				<!-- Вкладки критериев -->
 				<xf:macro template="helper_criteria" name="page_tabs" arg-userTabTitle="Custom tab name (optionally)" />
 			</span>
 		</h2>
 
-        <!-- Panes -->
+        <!-- Панели -->
 		<ul class="block-body tabPanes">
-		    <!-- Main pane -->
+		    <!-- Основная панель -->
 			<li class="is-active" role="tabpanel" id="MAIN_TAB_ID">
-				<!-- Fields and options -->
+				<!-- Поля и параметры -->
 			</li>
 
-            <!-- Criteria panes -->
+            <!-- Панели критериев -->
 			<xf:macro template="helper_criteria" name="page_panes"
 				arg-criteria="{$criteria}"
 				arg-data="{$criteriaData}" />
@@ -413,19 +413,19 @@ In order to use criteria tabs, you will need to organise the page. Stick to the 
 </xf:form>
 ```
 
-Again, if you don't have any saved or even don't suppose to have it, pass `{{ [] }}` to an `arg-criteria` attribute.
+Опять же, если у Вас нет сохраненных данных или даже не предполагается, что они есть, передайте `{{ [] }}` атрибуту `arg-criteria`.
 
-### Adding custom criteria type to "helper_criteria"
+### Добавление типа настраиваемого критерия в "helper_criteria"
 
-If you want to add a custom criteria type to `helper_criteira` template, you will need to create a template modification of `helper_criteria` template.
+Если Вы хотите добавить пользовательский тип критериев к шаблону `helper_criteira`, Вам нужно будет создать модификацию шаблона шаблона `helper_criteria`.
 
-Go to "Appearance > Template modifications" in ACP, switch to "Admin" tab and hit "Add template modification" button.
+Перейдите в "Appearance > Template modifications" в ACP, перейдите на вкладку "Admin" и нажмите кнопку "Add template modification".
 
-We want to add our tab and pane at the very bottom of the template so switch "Search type" to "Regular expression".
+Мы хотим добавить нашу вкладку и панель в самый низ шаблона, поэтому переключите "Search type" на "Regular expression".
 
-Type `/$/` in "Find" field.
+Введите `/$/` в поле "Find".
 
-Finally, add the tab and the pane macros code in "Replace" field. Example:
+Наконец, добавьте вкладку и код макроса панели в поле "Replace". Пример:
 
 ```html
 <xf:macro name="foo_tabs" arg-container="" arg-active="">
@@ -471,24 +471,24 @@ Finally, add the tab and the pane macros code in "Replace" field. Example:
 </xf:macro>
 ```
 
-Now, you can use your criteria everywhere (see ["Using helper_criteria"](#using-helper_criteria)).
+Теперь Вы можете использовать свои критерии везде (смотрите ["Using helper_criteria"](#using-helper_criteria)).
 
-## Custom User/Page criterion example
+## Пример критерия пользовательского пользователя/страницы
 
-Let's say we want to create a criterion for checking whether our user has X or more likes on single message or not.
+Допустим, мы хотим создать критерий для проверки, есть ли у нашего пользователя X или более лайков на одно сообщение или нет.
 
-Since our criterion refers to user, we will be creating a criterion which belongs to User criteria.
+Поскольку наш критерий относится к пользователю, мы создадим критерий, который принадлежит критериям пользователя.
 
-### Adding template modification
+### Добавление модификации шаблона
 
-First of all, we need to add our criterion to User criteria list. Go to "Template modifications" page in ACP, select "Admin" tab and hit "Add template modification" button in the upper right corner.
+Прежде всего, нам нужно добавить наш критерий в список критериев пользователя. Перейдите на страницу "Template modifications" в ACP, выберите вкладку "Admin" и нажмите кнопку "Add template modification" в правом верхнем углу.
 
 !!! warning
-    If there is no "Admin" tab make sure you have enabled the [development mode](development-tools.md#enabling-development-mode)!
+    Если вкладки "Admin" нет, убедитесь, что вы включили [режим разработки](development-tools.md#enabling-development-mode)!
     
-We will be modifying the `helper_criteria` template so write it to the "Template" field. In this example I will be using `likes_on_single_message` "Modification key" for this template modification.
+Мы будем изменять шаблон `helper_criteria`, поэтому запишите его в поле "Template". В этом примере я буду использовать `likes_on_single_message` "Modification key" для этой модификации шаблона.
 
-Our criterion is about likes on messages. This means it should be under "Content and achievements" section. This means we simply need to find `<!--[XF:user:content_bottom]-->` and replace it with the following code:
+Наш критерий - лайки на сообщениях. Это означает, что он должен находиться в разделе "Content and achievements". Это означает, что нам просто нужно найти `<!--[XF:user:content_bottom]-->` и заменить его следующим кодом:
 
 ```html
 <xf:option name="user_criteria[likes_on_single][rule]" value="likes_on_single" selected="{$criteria.likes_on_single}"  label="Likes on single message:">
@@ -498,17 +498,17 @@ Our criterion is about likes on messages. This means it should be under "Content
 $0
 ```
 
-From this moment we can already see and even set a value for our criterion when creating trophies, notices and user-group promotions.
+С этого момента мы уже можем видеть и даже устанавливать значение для нашего критерия при создании трофеев, уведомлений и рекламных акций для групп пользователей.
 
-### Adding code event listener
+### Добавление прослушивателя событий кода
 
-We have created our criterion. But it is unknown for XenForo, which will always return `false` when matching such criteria. We need to tell XenForo, what to do when it meets unknown criteria. 
+Мы создали свой критерий. Но это неизвестно для XenForo, который всегда будет возвращать `false` при совпадении с такими критериями. Нам нужно сообщить XenForo, что делать, если он соответствует неизвестным критериям.
 
-Go to "Development > Code event listener" page and hit "Add code event listener" button.
+Перейдите на страниц "Development > Code event listener" и нажмите кнопку "Add code event listener".
 
-Select `criteria_user` in "Listen to event" field (`user` because our criterion belongs to User criteria). In "Execute callback" field we should specify class and method to be called when matching criteria.
+В поле "Listen to event" выберите `criteria_user` (`user`, потому что наш критерий принадлежит критериям пользователя). В поле "Execute callback" мы должны указать класс и метод, который будет вызываться при совпадении критериев.
 
-Create a file `Listener.php` in addon root folder if you haven't already and add a new method `criteriaUser` there:
+Создайте файл `Listener.php` в корневой папке аддона, если Вы еще этого не сделали, и добавьте туда новый метод `criteriaUser`:
 
 ```php
 <?php
@@ -524,11 +524,11 @@ class Listener
 }
 ```
 
-You can fill "Class" and "Method" fields with `YOUR_ADDON_ID\Listener` and `criteriaUser`, respectively.
+Вы можете заполнить поля "Class" и "Method" с помощью `YOUR_ADDON_ID\Listener` и `criteriaUser` соответственно.
 
-### Handling criterion
+### Критерий обработки
 
-Since our `criteriaUser` method is fired for every unknown criteria, we need to make sure `$rule` equals `likes_on_single` (the rule we specified in HTML markup):
+Так как наш метод `criteriaUser` запускается для каждого неизвестного критерия, нам нужно убедиться, что `$rule` равно `likes_on_single` (правило, которое мы указали в разметке HTML):
 
 ```php
 public static function criteriaUser($rule, array $data, \XF\Entity\User $user, &$returnValue)
@@ -536,23 +536,23 @@ public static function criteriaUser($rule, array $data, \XF\Entity\User $user, &
     switch ($rule)
     {
         case 'likes_on_single':
-            /** Handling code here! */
+            /** Код обработки здесь! */
             break;
     }
 }
 ```
 
-Now, we need to write the code that actually checks whether a user has a message with X or more likes.
+Теперь нам нужно написать код, который фактически проверяет, есть ли у пользователя сообщение с X или большим количеством лайков.
 
-This can be easily achieved via simple SQL query, which selects one record from `xf_post` with more than X likes (`likes` column) and `user_id` equals currently matching user ID.
+Этого легко добиться с помощью простого SQL-запроса, который выбирает одну запись из `xf_post` с более чем X лайками (столбец `likes`), а `user_id` равен текущему идентификатору пользователя.
 
-So, here is the query:
+Итак, вот запрос:
 
 ```SQL
 SELECT `likes` FROM `xf_post` WHERE `user_id` = ? ORDER BY `likes` DESC LIMIT 1
 ```
 
-And the method code:
+И код метода:
 
 ```php
 public static function criteriaUser($rule, array $data, \XF\Entity\User $user, &$returnValue)
@@ -561,18 +561,18 @@ public static function criteriaUser($rule, array $data, \XF\Entity\User $user, &
     {
         case 'likes_on_single':
 
-            // Getting the database
+            // Получение базы данных
             $db = \XF::db();
 
-            // Database query for selecting the maximum number of likes for single user post
+            // Запрос к базе данных для выбора максимального количества лайков для одного поста пользователя
             $query = "SELECT `likes` FROM `xf_post` WHERE `user_id` = ? ORDER BY `likes` DESC LIMIT 1";
 
-            // Retrieving the maximum number of likes
+            // Получение максимального количества лайков
             $likes = $db->fetchOne($query, [$user->user_id]);
 
-            // Checking that we have a result from database (we do expect a number)
+            // Проверяем, что у нас есть результат из базы данных (мы ожидаем число)
             if (is_int($likes)) {
-                // Returning true if user has a message with X or more likes or false if he has not
+                // Возвращает true, если у пользователя есть сообщение с X или более лайками, или false, если его нет
                 $returnValue = ($likes >= $data['likes']);
             } else {
                 $returnValue = false;
@@ -583,56 +583,56 @@ public static function criteriaUser($rule, array $data, \XF\Entity\User $user, &
 }
 ```
 
-Pay attention to the following:
+Обратите внимание на следующее:
 
--   We are using `$user` variable for retrieving currently matching user. We can use this variable since our criterion belongs to **User** criteria.
--   We can access data via `$data` array. It contains data from fields [we have added](#adding-template-modification) in template modification. We have only added one `<xf:numberbox...` which `name` attribute equals `user_criteria[likes_on_single][data][likes]`. That is why we can use `$data['likes']` in the code above.
+- Мы используем переменную `$user` для получения текущего совпадающего пользователя. Мы можем использовать эту переменную, поскольку наш критерий принадлежит критерию **Пользователь**.
+- Мы можем получить доступ к данным через массив `$data`. Он содержит данные из полей [мы добавили](#adding-template-modification) в модификации шаблона. Мы добавили только один `<xf:numberbox...` атрибут `name` которого равен `user_criteria[likes_on_single][data][likes]`. Вот почему мы можем использовать `$data['likes']` в приведенном выше коде.
 
-Everything is done right now. Let's test it!
+Все сделано прямо сейчас. Давай проверим!
 
-### Testing (trophy)
+### Тестирование (трофей)
 
-Create an "All for one" trophy. On "User criteria" tab, "Likes on single message" field with, for example, 5.
+Создайте трофей "All for one". На вкладке "User criteria" поле "Likes on single message", например, 5.
 
-Next, create a test message somewhere on you forum and then like it five times with five different users (or just set manually set a value of `likes` column).
+Затем создайте тестовое сообщение где-нибудь на своем форуме, а затем поставьте лайк пять раз для пяти разных пользователей (или просто установите вручную значение столбца `likes`).
 
-Then, go to "Tools > Cron entries" and run "Update user trophies" cron by hitting arrows-circle button.
+Затем перейдите в "Tools > Cron entries" и запустите "Update user trophies", нажав кнопку со стрелками и кружком.
 
-!["All for one" trophy awarded notification.](files/images/example-custom-criteria-awarded.png)
+![Уведомление о присуждении трофея "All for one".](files/images/example-custom-criteria-awarded.png)
 
-Nice!
+Хорошо!
 
 !!! warning
-    If you are not awarded with "All for one" trophy, try to sign out, sign in and re-running "Update user trophies" cron.
+    Если Вы не получили трофей "All for one", попробуйте выйти из системы, войти в систему и повторно запустить cron "Update user trophies".
 
-### Testing (notice)
+### Тестирование (уведомление)
 
-Go to "Communication > Notices" and hit "Add notice" button. On "User criteria" tab, set "Likes on single message" field with, again, 5. Save the notice.
+Перейдите в "Communication > Notices" и нажмите кнопку "Add notice". На вкладке "User criteria", установите поле "Likes on single message", опять же, 5. Сохраните уведомление.
 
-Next, create a test message somewhere on you forum and then like it five times with five different users (or just set manually set a value of `likes` column).
+Затем создайте тестовое сообщение где-нибудь на своем форуме, а затем поставьте лайк пять раз для пяти разных пользователей (или просто установите вручную значение столбца `likes`).
 
-Now, you should see a notice:
+Теперь вы должны увидеть уведомление:
 
-![Notice demonstration.](files/images/example-custom-criteria-notice.png)
+![Демонстрация уведомления.](files/images/example-custom-criteria-notice.png)
 
-You can [download](files/example-sources/all-for-one-criterion-2.0.10.zip) addon sources built based on this example (2.0.10).
+Вы можете [скачать](files/example-sources/all-for-one-criterion-2.0.10.zip) исходники дополнения, созданные на основе этого примера (2.0.10).
 
-## Custom criteria type example
+## Пример типа настраиваемого критерия
 
 Imagine we are creating an addon (addon ID: `PostsRemover`) for removing all posts that match selected criteria. A list of available criteria:
 
--   Post has at least X likes
--   Post author has an X username
--   Post was edited at least X times
--   Post was edited no more than X times
--   Post was published before X
--   Post was published after X
+- Пост имеет не менее X лайков
+- Автор сообщения имеет имя пользователя X
+- Сообщение редактировалось не менее X раз
+- Сообщение редактировалось не более X раз
+- Пост был опубликован до X
+- Пост был опубликован после X
 
-Obviously, for such criteria we need a new criteria type: Post criteria.
+Очевидно, что для таких критериев нам понадобится новый тип критериев: Критерии публикации.
 
-### Criteria type class
+### Класс типа критерия
 
-We should start by creating a new class `Post` that inherits `AbstractCriteria` within `Criteria` directory of our addon:
+Мы должны начать с создания нового класса `Post`, который наследует `AbstractCriteria` в каталоге `Criteria` нашего дополнения:
 
 ```php
 <?php
@@ -647,7 +647,7 @@ class Post extends AbstractCriteria
 }
 ```
 
-Now we need to write code for all criteria out addon supports. In this example, I will write the code for the first three criteria from the list above:
+Теперь нам нужно написать код для всех критериев, поддерживаемых дополнением. В этом примере я напишу код для первых трех критериев из списка выше:
 
 ```php
 <?php
@@ -658,31 +658,31 @@ use XF\Criteria\AbstractCriteria;
 
 class Post extends AbstractCriteria
 {
-    // Post has at least X likes
+    // У публикации не менее X лайков
     protected function _matchLikeCount(array $data, \XF\Entity\Post $post)
     {
         return ($post->likes && $post->likes >= $data['likes']);
     }
 
-    // Post author has an X username
+    // Автор сообщения имеет имя пользователя X
     protected function _matchUsername(array $data, \XF\Entity\Post $post)
     {
         return $post->username === $data['name'];
     }
 
-    // Post was edited at least X times
+    // Сообщение редактировалось не менее X раз
     protected function _matchEditedCount(array $data, \XF\Entity\Post $post)
     {
         return $post->edit_count && $post->edit_count >= $data['count'];
     }
 
-    /* ================ Handling other criteria ================ */
+    /* ================ Обработка других критериев ================ */
 }
 ```
 
-`isMatched(...)` method used to call `_match` methods we just created accepts only User entity, we are to write a custom variation of `isMatched()`, `isUnknownMatched()` and `isSpecialMatched()` methods.
+Метод `isMatched(...)`, используемый для вызова методов `_match`, который мы только что создали, принимает только сущность User, мы должны написать собственный вариант методов `isMatched()`, `isUnknownMatched()` и `isSpecialMatched()`.
 
-Since we are creating Post criteria, we need to create our own `isMatchedPost()` method:
+Поскольку мы создаем критерии публикации, нам нужно создать наш собственный метод `isMatchedPost()`:
 
 ```php
 public function isMatchedPost(\XF\Entity\Post $post)
@@ -739,17 +739,17 @@ protected function isUnknownMatchedPost($rule, array $data, \XF\Entity\Post $pos
 }
 ```
 
-We simply used `isMatched(...)` method code replacing `$user` variable of User entity type with `$post` variable of Post entity type.
+Мы просто использовали код метода `isMatched(...)`, заменив переменную `$user` типа сущности User на переменную `$post` типа сущности Post.
 
-As we do not plan to handle special and unknown criteria we return null in `isSpecialMatchedPost` and `false` in `isUnknownMathcedPost` methods.
+Поскольку мы не планируем обрабатывать особые и неизвестные критерии, мы возвращаем null в `isSpecialMatchedPost` и `false` в методах `isUnknownMathcedPost`.
 
 
-### Template
+### Шаблон
 
-Leaving the process of adding an admin route, writing a controller and doing other actions behind the scenes, let's jump right to our page's template code:
+Оставив процесс добавления маршрута администратора, написания контроллера и выполнения других действий за кулисами, давайте перейдем прямо к коду шаблона нашей страницы:
 
 ```html
-<xf:title>Posts Remover</xf:title>
+<xf:title>Удаление сообщений</xf:title>
 
 <xf:form action="{{ link('posts-remover/remove') }}" ajax="true" class="block">
 	<div class="block-container">
@@ -769,16 +769,16 @@ Leaving the process of adding an admin route, writing a controller and doing oth
 
 		</xf:checkboxrow>
 		
-		<!-- Template code for other criteria -->
+		<!-- Код шаблона для других критериев -->
 		
 		<xf:submitrow sticky="true" icon="delete"/>
 	</div>
 </xf:form>
 ```
 
-### Matching the criteria
+### Соответствие критериям
 
-In the controller of our page, we need to create a method called `actionRemove` for handling "Remove" button click:
+В контроллере нашей страницы нам нужно создать метод под названием `actionRemove` для обработки нажатия кнопки «Удалить»:
 
 ```php
 public function actionRemove()
@@ -786,28 +786,16 @@ public function actionRemove()
 }
 ```
 
-Firstly, let's retrieve `post_criteria` array from page form:
-
-```php
-public function actionRemove()
-{
-    $postCriteriaInput = $this->filter('post_criteria', 'array');
-}
-```
-
-Secondly, we need to create a criteria object from retrieved page form data:
+Во-первых, извлечем массив `post_criteria` из формы страницы:
 
 ```php
 public function actionRemove()
 {
     $postCriteriaInput = $this->filter('post_criteria', 'array');
-
-    /** @var \PostsRemover\Criteria\Post $postCriteria */
-    $postCriteria = $this->app()->criteria('PostsRemover:Post', $postCriteriaInput);
 }
 ```
 
-By default, out post **will match** the empty criteria (when nothing has been selected) which will result in deletion of all forum posts. To avoid this we need to manually set the result of matching the empty criteria via `setMatchOnEmpty()` method:
+Во-вторых, нам нужно создать объект критериев из полученных данных формы страницы:
 
 ```php
 public function actionRemove()
@@ -816,12 +804,10 @@ public function actionRemove()
 
     /** @var \PostsRemover\Criteria\Post $postCriteria */
     $postCriteria = $this->app()->criteria('PostsRemover:Post', $postCriteriaInput);
-
-    $postCriteria->setMatchOnEmpty(false); // If no criteria selected, nothing will be removed
 }
 ```
 
-Finally, we need to match all forum posts against selected criteria. If the post matches the criteria, we will delete it:
+По умолчанию наше сообщение **будет соответствовать** пустым критериям (когда ничего не было выбрано), что приведет к удалению всех сообщений форума. Чтобы избежать этого, нам нужно вручную установить результат соответствия пустым критериям с помощью метода `setMatchOnEmpty()`:
 
 ```php
 public function actionRemove()
@@ -831,9 +817,23 @@ public function actionRemove()
     /** @var \PostsRemover\Criteria\Post $postCriteria */
     $postCriteria = $this->app()->criteria('PostsRemover:Post', $postCriteriaInput);
 
-    $postCriteria->setMatchOnEmpty(false); // If no criteria selected, nothing will be removed
+    $postCriteria->setMatchOnEmpty(false); // Если критерии не выбраны, ничего не будет удалено
+}
+```
 
-    // Getting all forum posts
+Наконец, нам нужно сопоставить все сообщения на форуме по выбранным критериям. Если пост соответствует критериям, мы его удалим:
+
+```php
+public function actionRemove()
+{
+    $postCriteriaInput = $this->filter('post_criteria', 'array');
+
+    /** @var \PostsRemover\Criteria\Post $postCriteria */
+    $postCriteria = $this->app()->criteria('PostsRemover:Post', $postCriteriaInput);
+
+    $postCriteria->setMatchOnEmpty(false); // Если критерии не выбраны, ничего не будет удалено
+
+    // Получение всех сообщений на форуме
     $posts = $this->finder('XF:Post')->fetch();
 
     $deletedCounter = 0;
@@ -841,9 +841,9 @@ public function actionRemove()
     /** @var \XF\Entity\Post $post */
     foreach ($posts as $post)
     {
-        if ($postCriteria->isMatchedPost($post)) // Checking the post against selected criteria
+        if ($postCriteria->isMatchedPost($post)) // Проверка публикации по выбранным критериям
         {
-            $post->delete(); // Deleting it if the post matches the selected criteria
+            $post->delete(); // Удаление, если публикация соответствует выбранным критериям
             $deletedCounter++;
         }
     }
@@ -853,30 +853,30 @@ public function actionRemove()
 ```
 
 !!! note
-    Keep in mind that we use `isMatchedPost($post)` method for XenForo versions below 2.1!
+    Имейте в виду, что мы используем метод `isMatchedPost($post)` для версий XenForo ниже 2.1!
 
 !!! warning
-    It is generally a bad practice to retrieve all entities from database at once (`$this->finder('XF:Post')->fetch();` in the code above). There could be millions of forum posts and selecting them all at once is going to be a very long process, which might end up with an error.
-    Consider using a Job system for working with dozens (100+) of database items.
-    
-### Testing
+    Как правило, извлекать все объекты из базы данных сразу (`$this->finder('XF:Post')->fetch();` в приведенном выше коде) - плохая практика. На форуме могут быть миллионы сообщений, и выбор их всех одновременно будет очень долгим процессом, который может закончиться ошибкой.
+    Рассмотрите возможность использования системы заданий для работы с десятками (100+) элементов базы данных.
 
-Time to test our custom criteria type!
+### Тестирование
 
-I have created three posts on my test forum. The first one was liked 500 times, the second one was edited 5 times. The third one is just an ordinary untouched post without likes.
+Пришло время протестировать наш тип пользовательских критериев!
 
-![Before deleting demonstration.](files/images/example-custom-criteria-type-messages-before.png)
+Я создал три сообщения на своем тестовом форуме. Первый лайкнули 500 раз, второй отредактировали 5 раз. Третий - обычный нетронутый пост без лайков.
 
-Now, on our "Posts Remover" ACP page, let's select "Post has at least X likes" (with value of 250) and "Post was edited at least X times" (wih value of 5):
+![Демонстрация перед удалением.](files/images/example-custom-criteria-type-messages-before.png)
 
-![Selected criteria.](files/images/example-custom-criteria-type-remover.png)
+Теперь на нашей странице ACP "Posts Remover" выберите "Post has at least X likes" (со значением 250) и "Post was edited at least X times" (со значением 5):
 
-When I hit "Delete" button, I saw a flash message telling me that nothing was deleted. Why? Obviously, because there are no posts with at least 250 likes and at least 5 edits **in the same time**.
+![Выбранные критерии.](files/images/example-custom-criteria-type-remover.png)
 
-That is why we need to select the first criterion only, then hit "Delete". This will delete a post with 500 likes. Next, we need to select the last criterion only and preform deletion. The post with 5 edits will be removed.
+Когда я нажал кнопку "Delete", я увидел сообщение о том, что ничего не было удалено. Почему? Очевидно, потому что нет постов с минимум 250 лайками и минимум 5 правками **одновременно**.
 
-As a result, only one test post survived out test:
+Поэтому нам нужно выбрать только первый критерий, а затем нажать "Delete". Это приведет к удалению сообщения с 500 лайками. Далее нам нужно выбрать только последний критерий и удалить преформу. Сообщение с 5 правками будет удалено.
 
-![After deleting demonstration.](files/images/example-custom-criteria-type-messages-after.png)
+В итоге выдержал только один тестовый пост:
 
-You can [download](files/example-sources/posts-remover-2.0.10.zip) addon sources built based on this example (2.0.10). You will find "Posts Remover" ACP page under "Tools" section.
+![Демонстрация после удаления.](files/images/example-custom-criteria-type-messages-after.png)
+
+Вы можете [скачать](files/example-sources/posts-remover-2.0.10.zip) исходники дополнений, созданные на основе этого примера (2.0.10). Вы найдете страницу ACP "Posts Remover" в разделе "Tools".
