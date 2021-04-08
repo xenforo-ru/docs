@@ -1,48 +1,48 @@
-# Entities, finders and repositories
+# Сущности, поисковики и репозитории
 
-There are a number of ways to interact with data within XF2. In XF1 this was mostly geared towards writing out raw SQL statements inside Model files. The approach in XF2 has moved away from this, and we have added a number of new ways in its place. We'll first look at the preferred method for performing database queries - the finder.
+Мы представили новую систему "Finder", которая позволяет создавать запросы программно объектно-ориентированным способом, так что не нужно писать необработанные запросы к базе данных. Система Finder работает рука об руку с системой Entity, о которой мы поговорим более подробно ниже. Первый аргумент, переданный в метод поиска, - это короткое имя класса для объекта, с которым Вы хотите работать. Давайте просто преобразуем некоторые запросы, упомянутые в разделе выше, чтобы вместо этого использовать систему Finder. Например, чтобы получить доступ к одной записи пользователя:
 
-## The Finder
+## Finder
 
-We have introduced a new "Finder" system which allows queries to be built up programmatically in a object oriented way so that raw database queries do not need to be written. The Finder system works hand in hand with the Entity system, which we talk about in more detail below. The first argument passed into the finder method is the short class name for the Entity you want to work with. Let's just convert some of the queries mentioned in the section above to use the Finder system instead. For example, to access a single user record:
+Мы представили новую систему "Finder", которая позволяет создавать запросы программно объектно-ориентированным способом, так что не нужно писать необработанные запросы к базе данных. Система Finder работает рука об руку с системой Entity, о которой мы поговорим более подробно ниже. Первый аргумент, переданный в метод поиска, - это короткое имя класса для объекта, с которым Вы хотите работать. Давайте просто преобразуем некоторые запросы, упомянутые в разделе выше, чтобы вместо этого использовать систему Finder. Например, чтобы получить доступ к одной записи пользователя:
 
 ```php
 $finder = \XF::finder('XF:User');
 $user = $finder->where('user_id', 1)->fetchOne();
 ```
 
-One of the main differences between the direct query approach and using the Finder is that the base unit of data returned by the Finder is not an array. In the case of a Finder object which calls the `fetchOne` method (which only returns a single row from the database), a single Entity object will be returned.
+Одно из основных различий между подходом прямого запроса и использованием Finder заключается в том, что базовая единица данных, возвращаемых Finder, не является массивом. В случае объекта Finder, который вызывает метод `fetchOne` (который возвращает только одну строку из базы данных), будет возвращен единственный объект Entity.
 
-Let's look at a slightly different approach which will return multiple rows:
+Давайте посмотрим на немного другой подход, который вернет несколько строк:
 
 ```php
 $finder = \XF::finder('XF:User');
 $users = $finder->limit(10)->fetch();
 ```
 
-This example will query 10 records from the xf_user table, and it will return them as an `ArrayCollection` object. This is a special object which acts similarly to an array, in that it is traversable (you can loop through it) and it has some special methods that can tell you the total number of entries it has, grouping by certain values, or other array like operations such as filtering, merging, getting the first or last entry etc.
+Этот пример запросит 10 записей из таблицы xf_user и вернет их как объект `ArrayCollection`. Это специальный объект, который действует аналогично массиву, в том смысле, что он проходим (Вы можете перебирать его в цикле), и у него есть некоторые специальные методы, которые могут сообщить Вам общее количество записей, которые он имеет, группируя по определенным значениям или другому массиву, например, такие операции, как фильтрация, слияние, получение первой или последней записи и т. д.
 
-Finder queries generally should be expected to retrieve all columns from a table, so there's no specific equivalent to fetch only certain values certain columns.
+Обычно следует ожидать, что запросы Finder будут извлекать все столбцы из таблицы, поэтому нет конкретного эквивалента для извлечения только определенных значений определенных столбцов.
 
-Instead, to get a single value, you would just fetch one entity and read the value directly from that:
+Вместо этого, чтобы получить одно значение, Вы должны просто выбрать одну сущность и прочитать значение непосредственно из нее:
 
 ```php
 $finder = \XF::finder('XF:User');
 $username = $finder->where('user_id', 1)->fetchOne()->username;
 ```
 
-Similarly, to get an array of values from a single column, you can use the `pluckFrom` method:
+Точно так же, чтобы получить массив значений из одного столбца, Вы можете использовать метод `pluckFrom`:
 
 ```php
 $finder = \XF::finder('XF:User');
 $usernames = $finder->limit(10)->pluckFrom('username')->fetch();
 ```
 
-So far we've seen the Finder apply somewhat simple where and limit constraints. So let's look at the Finder in more detail, including a bit more detail about the `where` method itself.
+До сих пор мы видели, что Finder применяет довольно простые ограничения where и limit. Итак, давайте рассмотрим Finder более подробно, в том числе немного подробнее о самом методе `where`.
 
-### where method
+### Метод where
 
-The `where` method can support up to three arguments. The first being the condition itself, e.g. the column you are querying. The second would ordinarily be the operator. The third is the value being searched for. If you supply only two arguments, as you have seen above, then it automatically implies the operator is `=`. Below is a list of the other operators which are valid:
+Метод `where` может поддерживать до трех аргументов. Первое - это само условие, например столбец, который Вы запрашиваете. Второй обычно был бы оператором. Третье - это значение, которое ищется. Если Вы указываете только два аргумента, как Вы видели выше, это автоматически подразумевает, что оператор `=`. Ниже приведен список других допустимых операторов:
 
 * `=`
 * `<>`
@@ -54,14 +54,14 @@ The `where` method can support up to three arguments. The first being the condit
 * `LIKE`
 * `BETWEEN`
 
-So, we could get a list of the valid users who registered in the last 7 days:
+Итак, мы можем получить список действующих пользователей, которые зарегистрировались за последние 7 дней:
 
 ```php
 $finder = \XF::finder('XF:User');
 $users = $finder->where('user_state', 'valid')->where('register_date', '>=', time() - 86400 * 7)->fetch();
 ```
 
-As you can see you can call the `where` method as many times as you like, but in addition to that, you can choose to pass in an array as the only argument of the method, and build up your conditions in a single call. The array method supports two types, both of which we can use on the query we built above:
+Как видите, Вы можете вызывать метод `where` столько раз, сколько захотите, но в дополнение к этому Вы можете передать массив в качестве единственного аргумента метода и создать свои условия за один вызов. Метод массива поддерживает два типа, оба из которых мы можем использовать в запросе, который мы построили выше:
 
 ```php
 $finder = \XF::finder('XF:User');
@@ -72,11 +72,11 @@ $users = $finder->where([
 ->fetch();
 ```
 
-It wouldn't usually be recommended or clear to mix the usage like this, but it does demonstrate the flexibility of the method somewhat. Now that the conditions are in an array, we can either specify the column name (as the array key) and value for an implied `=` operator or we can actually define another array containing the column, operator and value.
+Обычно не рекомендуется и не разрешается смешивать использование таким образом, но это в некоторой степени демонстрирует гибкость метода. Теперь, когда условия находятся в массиве, мы можем либо указать имя столбца (как ключ массива) и значение для подразумеваемого оператора `=`, либо мы можем фактически определить другой массив, содержащий столбец, оператор и значение.
 
-### whereOr method
+### Метод whereOr
 
-With the above examples, both conditions need to be met, i.e. each condition is joined by the `AND` operator. However, sometimes it is necessary to only meet part of your condition, and this is possible by using the `whereOr` method. For example, if you wanted to search for users who are either not valid or have posted zero messages, you can build that as follows:
+В приведенных выше примерах должны быть соблюдены оба условия, т.е. каждое условие соединяется оператором `AND`. Однако иногда необходимо выполнить только часть Вашего условия, и это возможно с помощью метода `whereOr`. Например, если Вы хотите найти пользователей, которые либо недействительны, либо не отправили ни одного сообщения, Вы можете создать это следующим образом:
 
 ```php
 $finder = \XF::finder('XF:User');
@@ -86,7 +86,7 @@ $users = $finder->whereOr(
 )->fetch();
 ```
 
-Similar to the example in the previous section, as well as passing up to two conditions as separate arguments, you can also just pass an array of conditions to the first argument:
+Подобно примеру в предыдущем разделе, Вы можете не только передать до двух условий в качестве отдельных аргументов, но и просто передать массив условий первому аргументу:
 
 ```php
 $finder = \XF::finder('XF:User');
@@ -97,38 +97,38 @@ $users = $finder->whereOr([
 ])->fetch();
 ```
 
-### with method
+### Метод with
 
-The `with` method is essentially equivalent to using the `INNER|LEFT JOIN` syntax, though it relies upon the Entity having had its "Relations" defined. We won't go into that until the next page, but this should just give you an understanding of how it works. Let's now use the Thread finder to retrieve a specific thread:
+Метод `with` по существу эквивалентен использованию синтаксиса `INNER|LEFT JOIN`, хотя он полагается на то, что для объекта Entity были определены его "Relations". Мы не будем вдаваться в это до следующей страницы, но это просто должно дать Вам представление о том, как это работает. Теперь давайте воспользуемся средством поиска потоков для получения определенного потока:
 
 ```php
 $finder = \XF::finder('XF:Thread');
 $thread = $finder->with('Forum', true)->where('thread_id', 123)->fetchOne();
 ```
 
-This query will fetch the Thread entity where the `thread_id = 123` but it will also do a join with the xf_forum table, behind the scenes. In terms of controlling how to do an `INNER JOIN` rather than a `LEFT JOIN`, that is what the second argument is for. In this case we've set the "must exist" argument to true, so it will flip the join syntax to using `INNER` rather than the default `LEFT`.
+Этот запрос будет извлекать сущность Thread, где `thread_id = 123`, но он также будет выполнять соединение с таблицей xf_forum за кулисами. С точки зрения управления выполнением `INNER JOIN`, а не `LEFT JOIN`, это то, для чего нужен второй аргумент. В этом случае мы установили для аргумента «должен существовать» значение true, поэтому он изменит синтаксис соединения на использование `INNER`, а не `LEFT` по умолчанию.
 
-We'll go into more detail about how to access the data fetched from this join in the next section.
+Мы более подробно рассмотрим, как получить доступ к данным, полученным из этого соединения, в следующем разделе.
 
-It's also possible to pass an array of relations into the `with` method to do multiple joins.
+Также можно передать массив отношений в метод `with` для выполнения нескольких соединений.
 
 ```php
 $finder = \XF::finder('XF:Thread');
 $thread = $finder->with(['Forum', 'User'], true)->where('thread_id', 123)->fetchOne();
 ```
 
-This would join to the xf_user table to get the thread author too. However, with the second argument there still being `true`, we might not need to do an `INNER` join for the user join, so, we could just chain the methods instead:
+Это будет присоединено к таблице xf_user, чтобы также получить автора потока. Однако, поскольку второй аргумент все еще имеет значение `true`, нам может не потребоваться выполнять соединение `INNER` для присоединения пользователя, поэтому вместо этого мы могли бы просто связать методы:
 
 ```php
 $finder = \XF::finder('XF:Thread');
 $thread = $finder->with('Forum', true)->with('User')->where('thread_id', 123)->fetchOne();
 ```
 
-### order, limit and limitByPage methods
+### Методы order, limit и limitByPage
 
-#### order method
+#### Метод order
 
-This method allows you to modify your query so the results are fetched in a specific order. It takes two arguments, the first is the column name, and the second is, optionally, the direction of the sort. So, if you wanted to list the 10 users who have the most messages, you could build the query like this:
+Этот метод позволяет Вам изменить Ваш запрос так, чтобы результаты были получены в определенном порядке. Он принимает два аргумента: первый - это имя столбца, а второй - необязательно, направление сортировки. Итак, если Вы хотите перечислить 10 пользователей, у которых больше всего сообщений, Вы можете построить запрос следующим образом:
 
 ```php
 $finder = \XF::finder('XF:User');
@@ -136,64 +136,64 @@ $users = $finder->order('message_count', 'DESC')->limit(10);
 ```
 
 !!! note
-    Now is probably a good time to mention that finder methods can mostly be called in any order. For example: `$threads = $finder->limit(10)->where('thread_id', '>', 123)->order('post_date')->with('User')->fetch();`
-    Although if you wrote a MySQL query in that order you'd certainly encounter some syntax issues, the Finder system will still build it all in the correct order and the above code, although odd looking and probably not recommended, is perfectly valid.
+    Теперь, вероятно, самое время упомянуть, что методы поиска обычно можно вызывать в любом порядке. Например: `$threads = $finder->limit(10)->where('thread_id', '>', 123)->order('post_date')->with('User')->fetch();`
+    Хотя если Вы написали запрос MySQL в таком порядке, Вы наверняка столкнетесь с некоторыми проблемами синтаксиса, система Finder все равно построит все в правильном порядке, и приведенный выше код, хотя и выглядит странно и, вероятно, не рекомендуется, но вполне допустим.
     
-As with a standard MySQL query, it is possible to order a result set on multiple columns. To do that, you can just call the order method again. It's also possible to pass multiple order clauses into the order method using an array. 
+Как и в случае со стандартным запросом MySQL, можно заказать набор результатов по нескольким столбцам. Для этого достаточно снова вызвать метод заказа. Также можно передать несколько предложений order в метод order с помощью массива.
 
 ```php
 $finder = \XF::finder('XF:User');
 $users = $finder->order('message_count', 'DESC')->order('register_date')->limit(10);
 ```
 
-#### limit method
+#### Метод limit
 
-We've already seen how to limit a query to a specific number of records being returned:
+Мы уже видели, как ограничить запрос определенным количеством возвращаемых записей:
 
 ```php
 $finder = \XF::finder('XF:User');
 $users = $finder->limit(10)->fetch();
 ```
 
-However, there's actually an alternative to calling the limit method directly:
+Однако на самом деле есть альтернатива прямому вызову метода limit:
 
 ```php
 $finder = \XF::finder('XF:User');
 $users = $finder->fetch(10);
 ```
 
-It's possible to pass your limit directly into the `fetch()` method. It's also worth noting that the `limit` (and `fetch`) method supports two arguments. The first obviously being the limit, the second being the offset.
+Вы можете передать свой лимит прямо в метод `fetch()`. Также стоит отметить, что метод `limit` (и `fetch`) поддерживает два аргумента. Первое, очевидно, является пределом, второе - смещением.
 
 ```php
 $finder = \XF::finder('XF:User');
 $users = $finder->limit(10, 100)->fetch();
 ```
 
-The offset value here essentially means the first 100 results will be discarded, and the first 10 after that will be returned. This kind of approach is useful for providing paginated results, though we actually also have an easier way to do that...
+Значение смещения здесь по существу означает, что первые 100 результатов будут отброшены, а первые 10 после этого будут возвращены. Такой подход полезен для предоставления результатов с разбивкой на страницы, хотя на самом деле у нас также есть более простой способ сделать это...
 
-#### limitByPage method
+#### Метод limitByPage
 
-This method is a sort of helper method which ultimately sets the appropriate limit and offset based on the "page" you're currently viewing and how many "per page" you require.
+Этот метод является своего рода вспомогательным методом, который в конечном итоге устанавливает соответствующий предел и смещение в зависимости от «страницы», которую Вы просматриваете в данный момент, и того, сколько «на страницу» Вам требуется.
 
 ```php
 $finder = \XF::finder('XF:User');
 $users = $finder->limitByPage(3, 20);
 ```
 
-In this case, the limit is going to be set to 20 (which is our per page value) and the offset is going to be set to 40 because we're starting on page 3.
+В этом случае предел будет установлен на 20 (что является нашим значением на страницу), а смещение будет установлено на 40, потому что мы начинаем со страницы 3.
 
-Occasionally, it is necessary for us to grab additional more data than the limit. Over-fetching can be useful to help detect whether you have additional data to display after the current page, or if you have a need to filter the initial result set down based on permissions. We can do that with the third argument: 
+Иногда нам необходимо получить больше данных, чем установлено. Чрезмерная выборка может быть полезна, чтобы помочь определить, есть ли у Вас дополнительные данные для отображения после текущей страницы или Вам нужно отфильтровать исходный набор результатов на основе разрешений. Мы можем сделать это с помощью третьего аргумента:
 
 ```php
 $finder = \XF::finder('XF:User');
 $users = $finder->limitByPage(3, 20, 1);
 ```
 
-This will get a total of up to **21** users (20 + 1) starting at page 3.
+Таким образом, начиная со страницы 3, Вы получите до **21** пользователей (20 + 1).
 
-### getQuery method
+### Метод getQuery
 
-When you first start working with the finder, as intuitive as it is, you may occasionally wonder whether you're using it correctly, and whether it is going to build the query you expect it to. We have a method named `getQuery` which can tell us the current query that will be built with the current finder object. For example:
+Когда Вы впервые начинаете работать с finder, каким бы интуитивным он ни был, Вы можете иногда задаться вопросом, правильно ли Вы его используете и собирается ли он строить запрос, который Вы от него ожидаете. У нас есть метод с именем `getQuery`, который может сообщить нам текущий запрос, который будет построен с текущим объектом поиска. Например:
 
 ```php
 $finder = \XF::finder('XF:User')
@@ -202,7 +202,7 @@ $finder = \XF::finder('XF:User')
 \XF::dumpSimple($finder->getQuery());
 ```
 
-This will output something similar to:
+Это выведет что-то похожее на:
 
 ```plain
 string(67) "SELECT `xf_user`.*
@@ -210,13 +210,13 @@ FROM `xf_user`
 WHERE (`xf_user`.`user_id` = 1)"
 ```
 
-You probably won't need it very often, but it can be useful if the finder isn't quite returning the results you expected. Read more about the `dumpSimple` method in the [Dump a variable](development-tools.md#dump-a-variable) section.
+Вероятно, он вам не понадобится очень часто, но он может быть полезен, если средство поиска не совсем возвращает ожидаемые результаты. Узнайте больше о методе `dumpSimple` в разделе [Дамп переменной](development-tools.md#dump-a-variable).
  
-### Custom finder methods
+### Пользовательские методы finder
 
-So far we have seen the finder object get setup with an argument similar to `XF:User` and `XF:Thread`. For the most part, this identifies the Entity class the finder is working with and will resolve to, for example, `XF\Entity\User`. However, it can additionally represent a finder class. Finder classes are optional, but they serve as a way to add custom finder methods to specific finder types. To see this in action, let's look at the finder class that relates to `XF:User` which can be found in the `XF\Finder\User` class.
+До сих пор мы видели, как объект finder настраивается с аргументом, аналогичным `XF:User` и `XF:Thread`. По большей части это определяет класс Entity, с которым работает поисковик, и разрешает, например, `XF\Entity\User`. Однако он может дополнительно представлять класс finder. Классы finder не являются обязательными, но они служат для добавления пользовательских методов finder к определенным типам средств finder. Чтобы увидеть это в действии, давайте посмотрим на класс поиска, связанный с `XF:User`, который можно найти в классе `XF\Finder\User`.
 
-Here's an example finder method from that class:
+Вот пример метода finder из этого класса:
 
 ```php
 public function isRecentlyActive($days = 180)
@@ -226,85 +226,100 @@ public function isRecentlyActive($days = 180)
 }
 ```
 
-What this allows us to do is to now call that method on any User finder object. So if we take an example earlier:
+Это позволяет нам теперь вызвать этот метод для любого объекта поиска пользователя. Итак, если мы возьмем пример ранее:
 
 ```php
 $finder = \XF::finder('XF:User');
 $users = $finder->isRecentlyActive(20)->order('message_count', 'DESC')->limit(10);
 ```
 
-This query, which earlier just returned 10 users in descending message count order, will now return the 10 users in that order who have been recently active in the last 20 days.
+Этот запрос, который ранее возвращал только 10 пользователей в убывающем порядке подсчета сообщений, теперь вернет 10 пользователей в этом порядке, которые были недавно активны в течение последних 20 дней.
 
-Even though for a lot of entity types a finder class doesn't exist, it is still possible to extend these non existent classes in the same way as mentioned in the [Extending classes](development-tools.md#extending-classes) section.
+Несмотря на то, что для многих типов сущностей класс поиска не существует, все же возможно расширить эти несуществующие классы таким же образом, как указано в разделе [Расширение классов](development-tools.md#extending-classes).
 
-## The Entity system
+## Система Entity
 
-If you're familiar with XF1, you may be familiar with some of the concepts behind Entities because they have ultimately derived from the DataWriter system there. In case you're not so familiar with them, the following section should give you some idea.
+Если Вы знакомы с XF1, возможно, Вы знакомы с некоторыми концепциями, лежащими в основе Entities, поскольку они в конечном итоге заимствованы из системы DataWriter. Если Вы не слишком знакомы с ними, следующий раздел должен дать вам некоторое представление.
 
-### Entity structure
+### Структура Entity
 
-The `Structure` object consists of a number of properties which define the structure of the Entity and the database table it relates to. The structure object itself is setup inside the entity it relates to. Let's look at some of the common properties from the User entity:
+Объект `Structure` состоит из ряда свойств, которые определяют структуру Entity и таблицу базы данных, к которой он относится. Сам объект структуры настраивается внутри сущности, к которой он относится. Давайте посмотрим на некоторые общие свойства сущности User:
 
-#### Table
+#### Таблица
+
 ```php
 $structure->table = 'xf_user';
 ```
-This tells the Entity which database table to use when updating and inserting records, and also tells the Finder which table to read from when building queries to execute. Additionally, it plays a part in knowing which other tables your query needs to join to.
 
-#### Short name
+Это сообщает Entity, какую таблицу базы данных использовать при обновлении и вставке записей, а также сообщает Finder, из какой таблицы следует читать при построении запросов для выполнения. Кроме того, он играет роль в знании того, к каким другим таблицам должен присоединиться Ваш запрос.
+
+#### Короткое имя
+
 ```php
 $structure->shortName = 'XF:User';
 ```
-This is the just the short class name of both the Entity itself and the Finder class (if applicable).
 
-#### Content type
+Это просто краткое имя класса как самой сущности, так и класса Finder (если применимо).
+
+#### Тип контента
+
 ```php
 $structure->contentType = 'user';
 ```
-This defines what content type this Entity represents. This will not be needed in most entity structures. It is used to connect to specific things used by the "content type" system (which will be covered in another section).
 
-#### Primary key
+Это определяет, какой тип контента представляет Entity. Это не понадобится в большинстве структур Entity. Он используется для подключения к определенным вещам, используемым системой «типов контента» (которые будут рассмотрены в другом разделе).
+
+#### Первичный ключ
+
 ```php
 $structure->primaryKey = 'user_id';
 ```
-Defines the column which represents the primary key in the database table. If a table supports more than a single column as a primary key, then this can be defined as an array.
 
-#### Columns
+Определяет столбец, представляющий первичный ключ в таблице базы данных. Если таблица поддерживает более одного столбца в качестве первичного ключа, то ее можно определить как массив.
+
+#### Столбцы
+
 ```php
 $structure->columns = [
     'user_id' => ['type' => self::UINT, 'autoIncrement' => true, 'nullable' => true, 'changeLog' => false],
     'username' => ['type' => self::STR, 'maxLength' => 50,
         'required' => 'please_enter_valid_name'
     ]
-    // and many more columns ...
+    // и многие другие столбцы...
 ];
 ```
-This is a key part of the configuration of the entity as this goes into a lot of detail to explain the specifics of each database column that the Entity is responsible for. This tells us the type of data that is expected, whether a value is required, what format it should match, whether it should be a unique value, what its default value is, and much more.
 
-Based on the `type`, the entity manager knows whether to encode or decode a value in a certain way. This may be a somewhat simple process of casting a value to a string or an integer, or slightly more complicated such as using `json_encode()` on an array when writing to the database or using `json_decode()` on a JSON string when reading from the database so that the value is correctly returned to the entity object as an array without us needing to manually do that. It can also support comma separated values being encoded/decoded appropriately.
+Это ключевая часть конфигурации объекта, так как здесь много деталей, чтобы объяснить особенности каждого столбца базы данных, за который отвечает объект. Это говорит нам о типе ожидаемых данных, о том, требуется ли значение, какому формату оно должно соответствовать, должно ли оно быть уникальным значением, каково его значение по умолчанию и многое другое.
 
-Occasionally it is necessary to do some additional verification or modification of a value before it is written. As an example, in the User entity, look at the `verifyStyleId()` method. When a value is set on the `style_id` field, we automatically check to see if a method named `verifyStyleId()` exists, and if it does, we run the value through that first.
+На основе `type` диспетчер сущностей знает, нужно ли кодировать или декодировать значение определенным образом. Это может быть несколько простой процесс преобразования значения в строку или целое число или несколько более сложный, например использование `json_encode()` в массиве при записи в базу данных или использование `json_decode()` в строке JSON, когда чтение из базы данных, чтобы значение было правильно возвращено объекту сущности в виде массива без необходимости делать это вручную. Он также может поддерживать соответствующее кодирование/декодирование значений, разделенных запятыми.
 
-#### Behaviors
+Иногда необходимо выполнить дополнительную проверку или модификацию значения, прежде чем оно будет записано. В качестве примера в сущности User рассмотрим метод `verifyStyleId()`. Когда значение устанавливается в поле `style_id`, мы автоматически проверяем, существует ли метод с именем `verifyStyleId()`, и если это так, мы сначала пропускаем значение через него.
+
+#### Поведение
+
 ```php
 $structure->behaviors = [
     'XF:ChangeLoggable' => []
 ];
 ```
-This is an array of behavior classes which should be used by this entity. Behavior classes are a way of allowing certain code to be reused generically across multiple entity types (only when the entity changes, not on reads). A good example of this is the `XF:Likeable` behavior which is able to automatically execute certain actions on entities which support content which can be "liked". This includes automatically recalculating counts when visibility changes occur within the content and automatically deleting likes when the content is deleted. 
+
+Это массив классов поведения, которые должны использоваться этой сущностью. Классы поведения - это способ, позволяющий повторно использовать определенный код в целом для нескольких типов сущностей (только при изменении сущности, а не при чтении). Хорошим примером этого является поведение `XF:Likeable`, которое способно автоматически выполнять определенные действия с объектами, которые поддерживают контент, который может быть "лайкнут". Это включает в себя автоматический пересчет количества, когда в контенте происходят изменения видимости, и автоматическое удаление лайков при удалении контента.
  
-#### Getters
+#### Геттеры
+
 ```php
 $structure->getters = [
     'is_super_admin' => true,
     'last_activity' => true
 ];
 ```
-Getter methods are automatically called when the named fields are called. For example, if we request `is_super_admin` from a User entity, this will automatically check for, and use the `getIsSuperAdmin()` method. The interesting thing to note about this is that the xf_user table doesn't actually have a field named `is_super_admin`. This actually exists on the Admin entity, but we have added it as a getter method as a shorthand way of accessing that value. Getter methods can also be used to override the values of existing fields directly, which is the case for the `last_activity` value here. `last_activity` is actually a cached value which is updated usually when a user logs out. However, we store the user's latest activity date in the xf_session_activity table, so we can use this `getLastActivity` method to return that value instead of the cached last activity value. Should you ever have a need to bypass the getter method entirely, and just get the true entity value, just suffix the column name with an underscore, e.g. `$user->last_activity_`.
 
-Because an entity is just like any other PHP object, you can add more methods to them. A common use case for this is for adding things like permission check methods that can be called on the entity itself.
+Методы получения автоматически вызываются при вызове именованных полей. Например, если мы запрашиваем `is_super_admin` у объекта User, он автоматически проверяет и использует метод `getIsSuperAdmin()`. Интересно отметить, что в таблице xf_user на самом деле нет поля с именем `is_super_admin`. На самом деле он существует в сущности Admin, но мы добавили его как метод получения в качестве сокращенного способа доступа к этому значению. Методы получения также могут использоваться для непосредственного переопределения значений существующих полей, что имеет место для значения `last_activity` здесь. `last_activity` на самом деле является кешированным значением, которое обычно обновляется, когда пользователь выходит из системы. Однако мы храним дату последней активности пользователя в таблице xf_session_activity, поэтому мы можем использовать этот метод `getLastActivity` для возврата этого значения вместо кэшированного значения последнего действия. Если Вам когда-либо понадобится полностью обойти метод получения и просто получить истинное значение сущности, просто добавьте к имени столбца знак подчеркивания, например, `$user->last_activity_`.
 
-#### Relations
+Поскольку объект такой же, как и любой другой объект PHP, Вы можете добавить к нему больше методов. Обычно это используется для добавления таких вещей, как методы проверки разрешений, которые могут быть вызваны для самой сущности.
+
+#### Отношения
+
 ```php
 $structure->relations = [
     'Admin' => [
@@ -315,34 +330,35 @@ $structure->relations = [
     ]
 ];
 ```
-This is how Relations are defined. What are relations? They define the relationship between entities which can be used to perform join queries to other tables or fetch records associated to an entity on the fly. If we remember the `with` method on the finder, if we wanted to fetch a specific user and preemptively fetch the user's Admin record (if it exists) then we would do something like the following:
- 
+
+Так определяются отношения. Какие отношения? Они определяют отношения между сущностями, которые могут использоваться для выполнения запросов на соединение с другими таблицами или для извлечения записей, связанных с сущностью, на лету. Если мы помним метод `with` в finder, если бы мы хотели получить определенного пользователя и предварительно получить запись администратора пользователя (если она существует), то мы бы сделали что-то вроде следующего:
+
 ```php
 $finder = \XF::finder('XF:User');
 $user = $finder->where('user_id', 1)->with('Admin')->fetchOne();
 ```
- 
-This will use the information defined in the user entity for the `Admin` relation and the details of the `XF:Admin` entity structure to know that this user query should perform a `LEFT JOIN` on the xf_admin table and the `user_id` column. To access the admin last login date from the user entity:
-  
+
+Это будет использовать информацию, определенную в пользовательской сущности для отношения `Admin` и детали структуры сущности `XF:Admin`, чтобы знать, что этот пользовательский запрос должен выполнить `LEFT JOIN` для таблицы xf_admin и столбца `user_id`. Чтобы получить доступ к дате последнего входа в систему администратора от пользователя:
+
 ```php
-$lastLogin = $user->Admin->last_login; // returns timestamp of the last admin login
+$lastLogin = $user->Admin->last_login; // возвращает отметку времени последнего входа в систему администратора
 ```
 
-However, it's not always necessary to do a join in a finder to get related information for an entity. For example, if we take the above example without the `with` method call:
+Однако не всегда необходимо выполнять соединение в finder, чтобы получить связанную информацию для объекта. Например, если мы возьмем приведенный выше пример без вызова метода `with`:
 
 ```php
 $finder = \XF::finder('XF:User');
 $user = $finder->where('user_id', 1)->fetchOne();
-$lastLogin = $user->Admin->last_login; // returns timestamp of the last admin login
+$lastLogin = $user->Admin->last_login; // возвращает отметку времени последнего входа в систему администратора
 ```
 
-We still get the `last_login` value here. It does this by performing the additional query to get the Admin entity on the fly.
+Здесь мы по-прежнему получаем значение `last_login`. Он делает это, выполняя дополнительный запрос, чтобы на лету получить сущность Admin.
 
-The example above uses the `TO_ONE` type, and this relation, therefore, relates one entity to one other entity. We also have a `TO_MANY` type.
+В приведенном выше примере используется тип `TO_ONE`, и поэтому это отношение связывает одну сущность с другой. У нас также есть тип `TO_MANY`.
 
-It is not possible to fetch an entire `TO_MANY` relation (e.g. with a join / `with` method on the finder), but at the cost of a query it is possible to read that at any time on the fly, such as in the final `last_login` example above.
+Невозможно получить полное отношение `TO_MANY` (например, с помощью метода соединения / `with` в finder), но за счет запроса можно прочитать это в любое время на лету, например, в последний пример `last_login` выше.
 
-One such relation that is defined on the User entity is the `ConnectedAccounts` relation:
+Одно из таких отношений, которое определено для объекта User, - это отношение `ConnectedAccounts`:
 
 ```php
 $structure->relations = [
@@ -355,16 +371,17 @@ $structure->relations = [
 ];
 ```
 
-This relation is able to return the records from the xf_user_connected_account table that match the current user ID as a `FinderCollection`. This is similar to the `ArrayCollection` object we mentioned in [The Finder](#the-finder) section above. The relation definition specifies that the collection should be keyed by the `provider` field.
+Это отношение может возвращать записи из таблицы xf_user_connected_account, которые соответствуют текущему идентификатору пользователя как `FinderCollection`. Это похоже на объект `ArrayCollection`, который мы упоминали в разделе [Finder](#the-finder) выше. Определение отношения указывает, что коллекция должна быть привязана к полю `provider`.
 
-Although it isn't possible to fetch multiple records while performing a finder query, it is possible to use a `TO_MANY` relation to fetch a **single** record from that relation. As an example, if we wanted to see if the user was associated to a specific connected account provider, we can at least fetch that while querying:
+Хотя невозможно получить несколько записей при выполнении поискового запроса, можно использовать отношение `TO_MANY` для извлечения **единственной** записи из этого отношения. Например, если мы хотим узнать, связан ли пользователь с определенным поставщиком подключенной учетной записи, мы можем, по крайней мере, получить его при запросе:
 
 ```php
 $finder = \XF::finder('XF:User');
 $user = $finder->where('user_id', 1)->with('ConnectedAccounts|facebook')->fetchOne();
 ```
 
-#### Options
+#### Опции
+
 ```php
 $structure->options = [
 	'custom_title_disallowed' => preg_split('/\r?\n/', $options->disallowedCustomTitles),
@@ -372,20 +389,21 @@ $structure->options = [
 	'skip_email_confirm' => false
 ];
 ```
-Entity options are a way of modifying the behavior of the entity under certain conditions. For example, if we set `admin_edit` to true (which is the case when editing a user in the Admin CP), then certain checks will be skipped such as to allow a user's email address to be empty.
 
-### The Entity life cycle
+Параметры объекта - это способ изменить поведение объекта при определенных условиях. Например, если мы установим для параметра `admin_edit` значение true (что имеет место при редактировании пользователя в Admin CP), тогда определенные проверки будут пропущены, например, чтобы адрес электронной почты пользователя был пустым.
 
-The Entity plays a significant job in terms of managing the life cycle of a record within the database. As well as reading values from it, and writing values to it, the Entity can be used to delete records and trigger certain events when all of these actions occur so that certain tasks can be performed, or certain associated records can be updated as well. Let's look at some of these events that happen when an entity is saving:
+### Жизненный цикл Entity
 
-* `_preSave()` - This happens before the save process begins, and is primarily used to perform any additional pre-save validations or to set additional data before the save happens.
-* `_postSave()` - After the data has been saved, but before any transactions are committed, this method is called and you can use it to perform any additional work that should trigger after an entity has been saved.
+Entity играет важную роль в управлении жизненным циклом записи в базе данных. Помимо чтения значений из него и записи в него значений, Entity можно использовать для удаления записей и запуска определенных событий, когда происходят все эти действия, так что определенные задачи могут быть выполнены, или определенные связанные записи также могут быть обновлены. Давайте посмотрим на некоторые из этих событий, которые происходят, когда сущность сохраняет:
 
-There are additionally `_preDelete()` and `_postDelete()` which work in a similar way, but when a delete is happening.
+* `_preSave()` - Это происходит до начала процесса сохранения и в основном используется для выполнения любых дополнительных проверок перед сохранением или для установки дополнительных данных перед сохранением.
+* `_postSave()` - После того, как данные были сохранены, но до того, как какие-либо транзакции будут зафиксированы, этот метод вызывается, и Вы можете использовать его для выполнения любой дополнительной работы, которая должна сработать после сохранения объекта.
 
-The Entity is also able to give information on its current state. For example, there is an `isInsert()` and `isUpdate()` method so you can detect whether this is a new record being inserted or an existing record being updated. There is an `isChanged()` method which can tell you whether a specific field has changed since the last save.
+Кроме того, существуют `_preDelete()` и `_postDelete()`, которые работают аналогичным образом, но когда происходит удаление.
+
+Entity также может предоставить информацию о своем текущем состоянии. Например, есть методы `isInsert()` и `isUpdate()`, чтобы Вы могли определить, вставляется ли это новая запись или обновляется существующая запись. Существует метод `isChanged()`, который может сказать Вам, изменилось ли конкретное поле с момента последнего сохранения.
  
- Let's look at some real examples of these methods in action, in the User entity.
+Давайте посмотрим на некоторые реальные примеры этих методов в действии в сущности User.
  
 ```php
  protected function _preSave()
@@ -398,7 +416,7 @@ The Entity is also able to give information on its current state. For example, t
  	
  	// ...
  }
- 
+
  protected function _postSave()
  {
     // ...
@@ -414,15 +432,15 @@ The Entity is also able to give information on its current state. For example, t
  	
  	// ...
 ```
- 
-In the `_preSave()` example we fetch and cache the new display group ID for a user based on their changed user groups. In the `_postSave()` example, we trigger a job to run after a user's name has been changed.
+
+В примере `_preSave()` мы извлекаем и кэшируем новый идентификатор группы отображения для пользователя на основе их измененных групп пользователей. В примере `_postSave()` мы запускаем задание после изменения имени пользователя.
 
 ## Repositories
 
-Repositories are a new concept for XF2, but you might not be blamed for comparing them to the "Model" objects from XF1. We don't have a model object in XF2 because we have much better places and ways to fetch and write data to the database. So, rather than having a massive class which contains all of the queries your add-on needs, and all of the various different ways to manipulate those queries, we have the finder which adds a lot more flexibility.
+Репозитории - это новая концепция для XF2, но Вас не могут обвинить в сравнении их с объектами «Модель» из XF1. У нас нет объекта модели в XF2, потому что у нас есть гораздо лучшие места и способы для выборки и записи данных в базу данных. Итак, вместо того, чтобы иметь массивный класс, который содержит все запросы, необходимые Вашему дополнению, и все различные способы управления этими запросами, у нас есть поисковик, который добавляет гораздо больше гибкости.
 
-It's also worth bearing in mind that in XF1 the Model objects were a bit of a "dumping ground" for so many things. Many of which are now redundant. For example, in XF1 all of the permission rebuilding code was in the permission model. In XF2, we have specific services and objects which handle this.
+Также стоит иметь в виду, что в XF1 объекты модели были своего рода «свалкой» для многих вещей. Многие из них сейчас избыточны. Например, в XF1 весь код восстановления разрешений находился в модели разрешений. В XF2 у нас есть определенные службы и объекты, которые этим занимаются.
 
-So, what are Repositories? They correspond with an entity and a finder and hold methods which generally return a finder object setup for a specific purpose. Why not just return the result of the finder query? Well, if we return the finder object itself then it serves as a useful extension point for add-ons to extend that and modify the finder object before the entity or collection is returned.
+Итак, что такое репозитории? Они соответствуют сущности и методам поиска и удержания, которые обычно возвращают настройку объекта поиска для определенной цели. Почему бы просто не вернуть результат поискового запроса? Что ж, если мы вернем сам объект поиска, тогда он послужит полезной точкой расширения для надстроек, чтобы расширить его и изменить объект поиска до того, как объект или коллекция будет возвращена.
 
-Repositories may also contain some specific methods for things like cache rebuilding.
+Репозитории также могут содержать некоторые специальные методы для таких вещей, как восстановление кеша.

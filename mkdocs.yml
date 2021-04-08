@@ -23,7 +23,7 @@ nav:
   - Общие концепции: general-concepts.md
   - Основы маршрутизации: routing-basics.md
   - Основы контроллера: controller-basics.md
-  - Entities, finders, and repositories: entities-finders-repositories.md
+  - Сущности, поисковики и репозитории: entities-finders-repositories.md
   - Criteria: criteria.md
   - Managing the schema: managing-the-schema.md
   - Let's build an add-on: lets-build-an-add-on.md
