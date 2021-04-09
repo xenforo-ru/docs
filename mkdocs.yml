@@ -25,7 +25,7 @@ nav:
   - Основы контроллера: controller-basics.md
   - Сущности, поисковики и репозитории: entities-finders-repositories.md
   - Критерии: criteria.md
-  - Managing the schema: managing-the-schema.md
+  - Управление схемой: managing-the-schema.md
   - Let's build an add-on: lets-build-an-add-on.md
 - Designers:
   - Designing styles: designing-styles.md

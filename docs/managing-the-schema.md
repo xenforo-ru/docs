@@ -1,78 +1,78 @@
-# Managing the schema
+# Управление схемой
 
-We've taken a look at some of the new approaches available for interacting with data. Of course there are specific circumstances where interacting with the database directly may be necessary.
+Мы рассмотрели некоторые из новых подходов, доступных для взаимодействия с данными. Конечно, есть особые обстоятельства, при которых может потребоваться прямое взаимодействие с базой данных.
 
-## The database adapter
+## Адаптер базы данных
 
-The default database adapter in XF2 is based on MySQL and PHP's mysqli extension. The configured database adapter is accessible in any XF class using the following:
+Адаптер базы данных по умолчанию в XF2 основан на MySQL и расширении mysqli PHP. Настроенный адаптер базы данных доступен в любом классе XF, используя следующее:
 
 ```php
 $db = \XF::db();
 ```
 
-The adapter has a number of methods available which will execute a SQL query and then format the results into an array. For example, to access a single user record:
+У адаптера есть несколько доступных методов, которые будут выполнять SQL-запрос и затем форматировать результаты в массив. Например, чтобы получить доступ к одной записи пользователя:
 
 ```php
 $db = \XF::db();
 $user = $db->fetchRow('SELECT * FROM xf_user WHERE user_id = ?', 1);
 ```
 
-The `$user` variable will now contain an array of all values from the first row found in the query result. To get a single value from that query, such as the username, you can do the following:
+Переменная `$user` теперь будет содержать массив всех значений из первой строки, найденной в результате запроса. Чтобы получить одно значение из этого запроса, например имя пользователя, Вы можете сделать следующее:
 
 ```php
 $username = $user['username'];
 ```
 
 !!! warning
-    Database queries written directly and passed to the database adapter are not automatically "safe". They pose a risk of a SQL injection vulnerability if user input is not sanitised and not passed into the query without being prepared. The way to do that properly is using prepared statements, like in the example above. Parameters are represented in the query itself using the `?` placeholder. These placeholders are then replaced with the values in the next argument after they have been appropriately escaped. If you have the need to use more than a single parameter, that should be passed into the fetch type method as an array. Should the need arise, you can escape or quote values directly using `$db->quote($value)`.
+    Запросы к базе данных, записанные напрямую и переданные адаптеру базы данных, не являются автоматически "безопасными". Они создают риск уязвимости SQL-инъекции, если вводимые пользователем данные не очищаются и не передаются в запрос без предварительной подготовки. Чтобы сделать это правильно, используйте подготовленные операторы, как в приведенном выше примере. Параметры представлены в самом запросе с помощью заполнителя `?`. Эти заполнители затем заменяются значениями в следующем аргументе после того, как они были соответствующим образом экранированы. Если Вам необходимо использовать более одного параметра, его следует передать в метод типа выборки в виде массива. В случае необходимости Вы можете экранировать или цитировать значения напрямую, используя `$db->quote($value)`.
 
-    You can find more information about prepared statements [here](http://php.net/manual/en/mysqli.quickstart.prepared-statements.php).
+    Вы можете найти более подробную информацию о подготовленных выписках [здесь](http://php.net/manual/en/mysqli.quickstart.prepared-statements.php).
 
-It's also possible to query for a single value from a record. For example:
+Также можно запросить отдельное значение из записи. Например:
 
 ```php
 $db = \XF::db();
 $username = $db->fetchOne('SELECT username FROM xf_user WHERE user_id = ?', 1);
 ```
 
-If you have a query that needs to return multiple rows, you can use either `fetchAll`:
+Если у Вас есть запрос, который должен возвращать несколько строк, Вы можете использовать либо `fetchAll`:
 
 ```php
 $db = \XF::db();
 $users = $db->fetchAll('SELECT * FROM xf_user LIMIT 10');
 ```
 
-Or `fetchAllKeyed`:
+Или `fetchAllKeyed`:
 
 ```php
 $db = \XF::db();
 $users = $db->fetchAllKeyed('SELECT * FROM xf_user LIMIT 10', 'user_id');
 ```
 
-Both of these methods will return an array of arrays that represent each user record. The difference between the `fetchAll` and `fetchAllKeyed` methods is that the returned array will be keyed differently. With `fetchAll` the array will be keyed with numerically consecutive integers. With `fetchAllKeyed` the array will be keyed by the name of the field named in the second argument.
+Оба эти метода вернут массив массивов, представляющих каждую запись пользователя. Разница между методами `fetchAll` и `fetchAllKeyed` состоит в том, что возвращаемый массив будет иметь разные ключи. С помощью `fetchAll` массив будет иметь ключи с числовыми последовательными целыми числами. С помощью `fetchAllKeyed` массив будет привязан к имени поля, указанного во втором аргументе.
 
 !!! note
-    If you are using `fetchAllKeyed` note that the second argument is the field to key the array by, but the **third** argument is where you pass in the param values to match the `?` placeholders.
+    Если Вы используете `fetchAllKeyed`, обратите внимание, что второй аргумент - это поле для ввода ключа в массив, но **третий** аргумент - это то место, где Вы передаете значения параметров для соответствия заполнителям `?`.
 
-There are some other fetch type methods available including `fetchAllColumn` for grabbing an array of a specific column's values from all returned rows:
+Доступны некоторые другие методы типа выборки, включая `fetchAllColumn` для захвата массива значений определенного столбца из всех возвращаемых строк:
 
 ```php
 $db = \XF::db();
 $usernames = $db->fetchAllColumn('SELECT username FROM xf_user LIMIT 10');
 ```
 
-The above example would return an array of 10 usernames found from the resulting query.
+В приведенном выше примере будет возвращен массив из 10 имен пользователей, найденных в результате запроса.
 
-Finally, you may not actually want or need any data returned, in which case you can just do a plain query:
+Наконец, Вам может не понадобиться или не нужно возвращать какие-либо данные, и в этом случае Вы можете просто выполнить простой запрос:
 
 ```php
 $db = \XF::db();
 $db->query('DELETE FROM xf_user WHERE user_id = ?', 1);
 ```
 
-## Schema management
+## Управление схемой
 
-XF2 includes an all new way to manage the database schema which takes an object oriented approach to performing certain table operations. Let's first look at a traditional alter, using the database adapter like we have above:
+XF2 включает в себя совершенно новый способ управления схемой базы данных, который использует объектно-ориентированный подход к выполнению определенных операций с таблицами. Давайте сначала посмотрим на традиционное изменение, используя адаптер базы данных, как показано выше:
 
 ```php
 $db = \XF::db();
@@ -83,7 +83,7 @@ $db->query("
 ");
 ```
 
-And also let's look at a typical create table query:
+А также рассмотрим типичный запрос на создание таблицы:
 
 ```php
 $db = \XF::db();
@@ -100,7 +100,7 @@ $db->query("
 ");
 ```
 
-The alternative and preferred approach in XF2 uses the new `SchemaManager` object. Let's look at both of these queries, as performed by the schema manager, starting with the alter:
+Альтернативный и предпочтительный подход в XF2 использует новый объект `SchemaManager`. Давайте посмотрим на оба этих запроса, выполняемых менеджером схемы, начиная с alter:
 
 ```php
 $sm = \XF::db()->getSchemaManager();
@@ -111,7 +111,7 @@ $sm->alterTable('xf_some_existing_table', function(\XF\Db\Schema\Alter $table)
 });
 ```
 
-And the table creation:
+И создание таблицы:
 
 ```php
 $sm = \XF::db()->getSchemaManager();
@@ -123,12 +123,12 @@ $sm->createTable('xf_some_table', function(\XF\Db\Schema\Create $table)
 ```
 
 !!! warning
-	When you alter the existing XenForo tables, or create your own tables, you **MUST** specify a default value otherwise you will encounter problems when querying the table.
+	Когда Вы изменяете существующие таблицы XenForo или создаете свои собственные таблицы, Вы **ДОЛЖНЫ** указать значение по умолчанию, иначе Вы столкнетесь с проблемами при запросе таблицы.
 
-Both of these examples produce the exact same query as their more direct counterparts above. Though you might notice that some things are (deliberately) missing. For example, none of the examples specify a length for the `int` fields. This is simply because by omitting that, MySQL will provide it with a default, which is 10 for unsigned integers. Speaking of which, we also don't specify that the `some_id` column is unsigned. Using unsigned integers within XF is by far the most common use case, so it is automatically added. If you genuinely need the ability to support negative integers, you can reverse that with the `->unsigned(false)` method. Another omission is the lack of defining `NOT NULL` for everything. Again, this is applied automatically, but you can reverse that with `->nullable(true)`.
+Оба этих примера производят тот же самый запрос, что и их более прямые аналоги выше. Хотя Вы можете заметить, что некоторые вещи (намеренно) отсутствуют. Например, ни в одном из примеров не указана длина полей `int`. Это просто потому, что, опуская это, MySQL предоставит ему значение по умолчанию, равное 10 для целых чисел без знака. Говоря об этом, мы также не указываем, что столбец `some_id` беззнаковый. Использование беззнаковых целых чисел в XF, безусловно, является наиболее распространенным вариантом использования, поэтому оно добавляется автоматически. Если Вам действительно нужна возможность поддерживать отрицательные целые числа, Вы можете отменить это с помощью метода `->unsigned(false)`. Еще одно упущение - отсутствие определения `NOT NULL` для всего. Опять же, это применяется автоматически, но Вы можете отменить это с помощью `->nullable(true)`.
 
-It may not be clear from the alter example, but when changing existing fields, the existing field definition is automatically retained. This means that, rather than having to specify the full column definition, including all of the bits that haven't actually changed, you can just specify the parts you want to change.
+Это может быть неясно из примера изменения, но при изменении существующих полей определение существующего поля автоматически сохраняется. Это означает, что вместо того, чтобы указывать полное определение столбца, включая все биты, которые фактически не изменились, Вы можете просто указать части, которые хотите изменить.
 
-There is some other automatic inference that happens with regards to primary keys. You can explicitly define the primary key (or any other type of key) if you wish, but often auto incremented fields will usually be your primary key for the table. So in the create table example, the `some_id` field is automatically assigned as the primary key for that table.
+Есть и другой автоматический вывод, который происходит в отношении первичных ключей. Вы можете явно определить первичный ключ (или любой другой тип ключа), если хотите, но часто автоматически увеличивающиеся поля обычно будут Вашим первичным ключом для таблицы. Итак, в примере создания таблицы поле `some_id` автоматически назначается в качестве первичного ключа для этой таблицы.
 
-Finally, for the create table approach, we can automatically add the correct table config for the storage engine specified (which defaults to `InnoDB` but can be changed easily to other engine types).
+Наконец, для подхода создания таблицы мы можем автоматически добавить правильную конфигурацию таблицы для указанного механизма хранения (который по умолчанию имеет значение `InnoDB`, но может быть легко изменен на другие типы движка).
