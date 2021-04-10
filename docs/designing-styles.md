@@ -1,110 +1,110 @@
-# Designing styles
+# Разработка стилей
 
-In XF2 we have introduced an all new way to build and edit styles called "Designer mode". Designer mode is a collection of CLI tools that allow you to modify certain templates within a style directly on the file system. It also outputs various metadata and information about style properties which is useful for version control and collaboration.
+В XF2 мы представили совершенно новый способ создания и редактирования стилей, который называется "Designer mode". Режим дизайнера - это набор инструментов интерфейса командной строки, которые позволяют изменять определенные шаблоны в рамках стиля непосредственно в файловой системе. Он также выводит различные метаданные и информацию о свойствах стиля, которые полезны для контроля версий и совместной работы.
 
-## Enabling designer mode
+## Включение режима дизайнера
 
-The first step to enabling designer mode is to enable it in `config.php`:
+Первый шаг к включению режима дизайнера - включить его в `config.php`:
 
 ```php
 $config['designer']['enabled'] = true;
 ```
 
-Optionally, you can also specify a different path for designer mode files to exist on the file system. The following represents the default location. To change the location, add the below to your `config.php` and modify the path accordingly:
+При желании Вы также можете указать другой путь для файлов режима дизайнера, которые будут существовать в файловой системе. Ниже представлено расположение по умолчанию. Чтобы изменить расположение, добавьте приведенный ниже файл в файл `config.php` и измените путь соответствующим образом:
 
 ```php
 $config['designer']['basePath'] = 'src/styles';
 ```
 
-## Enabling designer mode for a style
+## Включение режима дизайнера для стиля
 
-Designer mode must be explicitly enabled for each style. We enable designer mode on a style by using the CLI and specifying the style ID of the style, and choosing a "designer mode ID":
+Режим дизайнера должен быть явно включен для каждого стиля. Мы включаем режим дизайнера для стиля, используя интерфейс командной строки, указав идентификатор стиля для стиля и выбрав "designer mode ID":
 
 !!! terminal
     *$* php cmd.php xf-designer:enable _[style_id]_ _[designer_mode_id]_
     
-The designer mode ID is the identifier you will use for future commands related to designer mode. Once enabled, the current modified components of the style will be exported to the `[basePath]/[designer_mode_id]` directory.
+ID режима дизайнера - это идентификатор, который Вы будете использовать для будущих команд, связанных с режимом дизайнера. После включения текущие измененные компоненты стиля будут экспортированы в каталог `[basePath]/[designer_mode_id]`.
 
-When enabling designer mode for this style if that directory already exists you will be given a choice to make as to whether we should overwrite the current contents of that directory from the style, or whether we should overwrite the current style from the current contents of that directory.
- 
-## Disabling designer mode for a style
+При включении режима дизайнера для этого стиля, если этот каталог уже существует, Вам будет предложено выбрать, следует ли нам перезаписать текущее содержимое этого каталога из стиля или мы должны перезаписать текущий стиль из текущего содержимого этого стиля. каталог.
 
-To disable designer mode for a style, you just run the following CLI command:
+## Отключение режима дизайнера для стиля
+
+Чтобы отключить режим дизайнера для стиля, просто выполните следующую команду интерфейса командной строки:
 
 !!! terminal
     *$* php cmd.php xf-designer:disable _[designer_mode_id]_
-    
-By default, this will keep the copy of the designer mode output on the file system. To remove the data, you can run the same command with the `--clear` option:
+
+По умолчанию это сохранит копию вывода режима дизайнера в файловой системе. Чтобы удалить данные, Вы можете запустить ту же команду с параметром `--clear`:
 
 !!! terminal
     *$* php cmd.php xf-designer:disable _[designer_mode_id]_ --clear
-    
-## What is output and where?
 
-It is important to remember that a style within XF only consists of what is **modified in that style**. This means that designer mode output will only consist of what has been modified in the style. Templates and style properties which are modified in a parent style is not output.
+## Что и где выводится?
 
-### Templates
+Важно помнить, что стиль в XF состоит только из того, что **изменено в этом стиле**. Это означает, что вывод в режиме дизайнера будет состоять только из того, что было изменено в стиле. Шаблоны и свойства стиля, измененные в родительском стиле, не выводятся.
 
-Templates will be output to the `[basePath]/[designer_mode_id]/templates` directory. Within that directory you may have another directory for each type (e.g. admin, email and public).
+### Шаблоны
 
-The templates will be output in HTML format and are directly editable on the file system. Changes made on the file system are imported and compiled when that template is loaded on a page. Similarly, you can revert a template by deleting it from the file system (if it was previously modified).
+Шаблоны будут выведены в каталог `[basePath]/[designer_mode_id]/templates`. В этом каталоге у Вас может быть другой каталог для каждого типа (например, администратор, электронная почта и публичный).
 
-### Style properties and groups
+Шаблоны будут выводиться в формате HTML, и их можно будет напрямую редактировать в файловой системе. Изменения, внесенные в файловую систему, импортируются и компилируются, когда этот шаблон загружается на страницу. Точно так же Вы можете отменить шаблон, удалив его из файловой системы (если он был ранее изменен).
 
-Style properties and groups will be output to the `[basePath]/[designer_mode_id]/style_properties` and `[basePath]/[designer_mode_id]/style_property_groups` directories. They are exported in JSON format and serve as a useful way to monitor changes to these files via a version control system.
- 
- It is not recommended to modify these files directly as changes to them will **not** be automatically imported like they are with templates.
- 
-## Modifying a specific template
+### Свойства и группы стилей
 
-Bearing in mind that a style represents components which are modified within that style only, when designer mode is enabled, the file system will also contain only components which are modified within that style only. It would not be possible to output the effective version of each template and style property.
- 
- To mark a template as modified within a style, you can do it in the usual way by editing it in the Admin CP. Templates and style properties modified in the Admin CP will automatically be written out to the file system if designer mode is enabled. However, it would likely be more convenient to modify or "touch" a template using a CLI command:
- 
+Свойства и группы стилей будут выведены в каталоги `[basePath]/[designer_mode_id]/style_properties` и `[basePath]/[designer_mode_id]/style_property_groups`. Они экспортируются в формате JSON и служат полезным способом отслеживания изменений в этих файлах через систему контроля версий.
+
+Не рекомендуется изменять эти файлы напрямую, так как изменения в них **не** будут импортироваться автоматически, как в случае с шаблонами.
+
+## Изменение определенного шаблона
+
+Принимая во внимание, что стиль представляет компоненты, которые изменяются только в рамках этого стиля, при включении режима конструктора файловая система также будет содержать только компоненты, которые изменяются только в рамках этого стиля. Невозможно вывести эффективную версию каждого шаблона и каждого свойства стиля.
+
+Чтобы пометить шаблон как измененный в рамках стиля, Вы можете сделать это обычным способом, отредактировав его в Admin CP. Шаблоны и свойства стиля, измененные в Admin CP, будут автоматически записаны в файловую систему, если включен режим дизайнера. Однако, вероятно, было бы удобнее изменить или «прикоснуться» к шаблону с помощью команды CLI:
+
 !!! terminal
     *$* php cmd.php xf-designer:touch-template _[designer_mode_id]_ _[template_type:template_title]_
-    
-As long as the specified template exists in a parent or the master style, it will be copied to the current style and output to the file system. You can then modify the template directly in the file system.
 
-If you would like to create an entirely custom template in your style (that doesn't exist in any other style within the tree), you can use the same command but you would just pass the `--custom` option:
+Пока указанный шаблон существует в родительском или основном стиле, он будет скопирован в текущий стиль и выведен в файловую систему. Затем Вы можете изменить шаблон прямо в файловой системе.
+
+Если Вы хотите создать полностью настраиваемый шаблон в своем стиле (который не существует ни в одном другом стиле в дереве), Вы можете использовать ту же команду, но Вы должны просто передать параметр `--custom`:
 
 !!! terminal
     *$* php cmd.php xf-designer:touch-template _[designer_mode_id]_ _[template_type:template_title]_ --custom
-    
-## Other useful commands
 
-There are a number of other useful commands relating to designer mode:
+## Другие полезные команды
 
-### Export from database
+Есть ряд других полезных команд, относящихся к режиму дизайнера:
 
-This command is usually automatically run when designer mode is enabled on a style, but if for some reason you would like to overwrite the file system copy with what is currently in the database, then you can run the following command:
+### Экспорт из базы данных
+
+Эта команда обычно запускается автоматически, когда для стиля включен режим дизайнера, но если по какой-то причине Вы хотите перезаписать копию файловой системы тем, что в настоящее время находится в базе данных, Вы можете выполнить следующую команду:
 
 !!! terminal
     *$* php cmd.php xf-designer:export _[designer_mode_id]_
     
-It's also possible to export only specific types, e.g. `xf-designer:export-templates`.
+Также можно экспортировать только определенные типы, например: `xf-designer:export-templates`.
 
-### Import from file system
+### Импорт из файловой системы
 
-This command will overwrite the database copy of the style with what is on the file system:
+Эта команда перезапишет копию базы данных стиля тем, что находится в файловой системе:
 
 !!! terminal
     *$* php cmd.php xf-designer:import _[designer_mode_id]_
-    
-It's also possible to import only specific types, e.g. `xf-designer:import-templates`.
 
-### Sync templates
+Также можно импортировать только определенные типы, например: `xf-designer:import-templates`.
 
-This command is similar to importing templates (see above) but instead of overwriting everything it will only import templates and recompile them if the metadata has changed. It will also apply version number updates accordingly.
+### Синхронизация шаблонов
+
+Эта команда аналогична импорту шаблонов (смотрите выше), но вместо того, чтобы перезаписывать все, она импортирует шаблоны и перекомпилирует их только в случае изменения метаданных. Он также будет применять обновления номера версии соответственно.
 
 !!! terminal
     *$* php cmd.php xf-designer:sync-templates _[designer_mode_id]_
-    
-### Revert template
 
-This command can be used to revert a template, effectively deleting the custom version from the current style.
+### Вернуть шаблон
+
+Эту команду можно использовать для отмены шаблона, эффективно удаляя пользовательскую версию из текущего стиля.
 
 !!! terminal
     *$* php cmd.php xf-designer:revert-template _[designer_mode_id]_ _[template_type:template_title]_
-    
-It's also possible to trigger a revert by removing the template from the file system.
+
+Также можно вызвать откат, удалив шаблон из файловой системы.

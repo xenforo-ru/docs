@@ -27,8 +27,8 @@ nav:
   - Критерии: criteria.md
   - Управление схемой: managing-the-schema.md
   - Создание дополнения: lets-build-an-add-on.md
-- Designers:
-  - Designing styles: designing-styles.md
+- Дизайнеры:
+  - Разработка стилей: designing-styles.md
   - Синтаксис шаблона: template-syntax.md
 - Appendix(es):
     - macOS Dev Environment: macos-dev.md
