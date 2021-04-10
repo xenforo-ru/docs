@@ -1,12 +1,12 @@
-# Let's build an add-on
+# Давайте создадим дополнение
 
-For some people, getting stuck straight into a project is the best way to learn, and the aim is that in the following sections you will learn how to build an add-on, from scratch. Be prepared; this isn't a simple 'Hello world' type demo. This is actually a fairly full featured demo add-on which covers a number of concepts within XF2.
+Для некоторых людей увязнуть прямо в проекте - лучший способ учиться, и цель состоит в том, чтобы в следующих разделах Вы научились создавать дополнения с нуля. Будь готов; это не простая демонстрация типа «Hello world». На самом деле это довольно полнофункциональное демо-дополнение, которое охватывает ряд концепций XF2.
 
-The add-on we're going to build will allow users with the appropriate permission to "feature" a thread, and allow that thread to be displayed on a new page. We'll even set up a process which automatically features threads in specific forums. We will use a new route for this named `portal` and eventually set that as the index page route and set the "Home" tab to be selected when viewing that page.
+Дополнение, которую мы собираемся создать, позволит пользователям с соответствующими разрешениями «добавлять» темы и отображать на новой странице. Мы даже настроим процесс, который автоматически включает темы на определенных форумах. Мы будем использовать новый маршрут для этого с именем `portal` и в конечном итоге установим его в качестве маршрута индексной страницы и установим вкладку "Home", которая будет выбираться при просмотре этой страницы.
 
-## Create the add-on
+## Создать дополнение
 
-Throughout the add-on we will use the add-on ID of `Demo/Portal`. The first thing we need to do is create the add-on, for this we need to open a command prompt / shell / terminal window, change the directory to your XF installation root (where `cmd.php` is located) and run the following command, and enter the responses displayed below:
+На протяжении всего дополнения мы будем использовать идентификатор `Demo/Portal`. Первое, что нам нужно сделать, это создать дополнение, для этого нам нужно открыть окно командной строки / оболочки / терминала, изменить каталог на корневой каталог установки XF (где находится `cmd.php`) и запустить следующую команду и введите ответы, показанные ниже:
 
 !!! terminal
     *$* php cmd.php xf-addon:create
@@ -30,9 +30,9 @@ Throughout the add-on we will use the add-on ID of `Demo/Portal`. The first thin
 
     The Setup.php file was successfully written out to /var/www/src/addons/Demo/Portal/Setup.php
 
-The add-on has now been created, you will now find that you have a new directory in the `src/addons` directory, and you will find the add-on in the "Installed add-ons" list of the Admin CP.
+Теперь дополнение создано, теперь Вы обнаружите, что у Вас есть новый каталог в каталоге `src/addons`, и Вы найдете дополнение в списке "Installed add-ons" в Admin CP.
 
-One of the files that has been created is the `addon.json` file, which currently looks like this:
+Один из созданных файлов - это файл `addon.json`, который в настоящее время выглядит следующим образом:
 
 ```json
 {
@@ -51,7 +51,7 @@ One of the files that has been created is the `addon.json` file, which currently
 }
 ```
 
-Let's fill in some of these details:
+Давайте заполним некоторые из этих деталей:
 
 ```json
 {
@@ -70,13 +70,13 @@ Let's fill in some of these details:
 }
 ```
 
-We have now added a `description`, the developer's name (`dev`) and specified that we want to display an icon (`icon`). The icon can either be a path (relative to your add-on root) or the name of a [Font Awesome icon](http://fontawesome.io/icons/) as we've done here.
+Теперь мы добавили `description`, имя разработчика (`dev`) и указали, что мы хотим отображать иконку (`icon`). Иконка может быть либо путем (относительно корня дополнения), либо именем [Иконки Font Awesome](http://fontawesome.io/icons/), как мы сделали здесь.
 
-As we're not superceding a XenForo 1 addon, we can disregard `legacy_addon_id`. For a full explaination of all of the properties in the `addon.json` file, refer to the [Add-on structure section](add-on-structure.md#addonjson-file).
+Поскольку мы не заменяем дополнение XenForo 1, мы можем игнорировать `legacy_addon_id`. Для полного объяснения всех свойств в файле `addon.json`, обратитесь к [разделу структуры дополнения](add-on-structure.md#addonjson-file).
 
-## Creating the Setup class
+## Создание класса установки
 
-Well, strictly speaking, the class has already been created and written out to `Setup.php` but right now it doesn't really do anything. We've basically got a skeleton class for it which looks like this:
+Ну, строго говоря, класс уже создан и записан в `Setup.php`, но сейчас он ничего не делает. По сути, у нас есть класс скелета, который выглядит так:
 
 ```php
 <?php
@@ -96,17 +96,18 @@ class Setup extends AbstractSetup
 }
 ```
 
-We talked a little bit already about the Setup class. We're going to be breaking the install, upgrade and uninstall processes into separate steps.
+Мы уже немного поговорили о классе Setup. Мы собираемся разбить процессы установки, обновления и удаления на отдельные этапы.
 
-Let's start by importing some useful Schema classes. If you want to learn more about them, you can refer to the [Managing the Schema section](managing-the-schema.md).  
-Just after the last `use` declaration, add the following lines:
+Начнем с импорта некоторых полезных классов схемы. Если Вы хотите узнать о них больше, Вы можете обратиться к разделу [Управление схемой](managing-the-schema.md).
+
+Сразу после последнего объявления `use` добавьте следующие строки:
 
 ```php
 use XF\Db\Schema\Alter;
 use XF\Db\Schema\Create;
 ```
 
-The StepRunner traits here are going to handle the process of cycling through all of the available steps, so all we have to do is start creating those steps. We'll begin by adding some code to create a new column in the `xf_forum` table:
+Приведенные здесь трейты StepRunner будут обрабатывать процесс циклического прохождения всех доступных шагов, поэтому все, что нам нужно сделать, это начать создавать эти шаги. Мы начнем с добавления кода для создания нового столбца в таблице `xf_forum`:
 
 ```php
 <?php
@@ -138,9 +139,9 @@ class Setup extends \XF\AddOn\AbstractSetup
 
 ```
 
-This column is being added to the `xf_forum` table so that we can set certain forums up to have threads automatically featured when they are created. The naming here is significant; columns added to core XF tables should always be prefixed. This serves two important purposes. The first being that there is less risk of conflicts happening with duplicate column names, in case XF or another add-on has reason to add that column in the future. The second being that it helps more easily identify which columns belong to which add-ons in case some issues arise in the future.
+Этот столбец добавляется в таблицу `xf_forum`, чтобы мы могли настроить определенные форумы для автоматического включения тем при их создании. Именование здесь важно; столбцы, добавляемые в основные таблицы XF, всегда должны иметь префикс. Это служит двум важным целям. Во-первых, меньше риск конфликтов с повторяющимися именами столбцов, если у XF или другой дополнения есть причина добавить этот столбец в будущем. Во-вторых, это помогает легче определить, какие столбцы относятся к каким дополнениям, в случае возникновения каких-либо проблем в будущем.
 
-While we're here, we might as well add another step to the installer. For brevity, we'll just display the new code, rather than the entire class. It should be placed directly below the `installStep1()` method:
+Пока мы здесь, мы можем добавить еще один шаг в программу установки. Для краткости мы просто отобразим новый код, а не весь класс. Его следует разместить непосредственно под методом `installStep1()`:
 
 ```php
 public function installStep2()
@@ -152,9 +153,9 @@ public function installStep2()
 }
 ```
 
-This step, similar to the step above, will add a new column this time to the `xf_thread` table. We'll use this column as a cached value to quickly identify whether a thread is featured or not, without having to perform additional queries or a lookup against the `xf_demo_portal_featured_thread` table.
+Этот шаг, аналогичный шагу выше, на этот раз добавит новый столбец в таблицу `xf_thread`. Мы будем использовать этот столбец в качестве кэшированного значения, чтобы быстро определить, представлена ли тема или нет, без необходимости выполнять дополнительные запросы или поиск в таблице `xf_demo_portal_featured_thread`.
 
-Speaking of which, we should add that table now. This time directly below `installStep2()`:
+Говоря об этом, мы должны добавить эту таблицу сейчас. На этот раз прямо под `installStep2()`:
 
 ```php
 public function installStep3()
@@ -168,35 +169,35 @@ public function installStep3()
 }
 ```
 
-This step is going to create the new table. This table will be used to keep a log of all of the threads that have been featured, and when they were featured.
+На этом шаге будет создана новая таблица. Эта таблица будет использоваться для ведения журнала всех обсужденных тем и времени их включения.
 
-The same principles apply here in terms of naming. A significant difference is that all tables should additionally be prefixed with `xf_`. The reason for this is so that if a clean XF install is performed, we can remove all tables with the `xf_` prefix, including those created by add-ons.
+Те же принципы применимы и к именованию. Существенное отличие состоит в том, что все таблицы должны иметь префикс `xf_`. Причина этого в том, что если выполняется чистая установка XF, мы можем удалить все таблицы с префиксом `xf_`, включая таблицы, созданные дополнения.
 
-One of the simplest things to forget when adding the code which adds various schema changes is to forget to apply the schema changes yourself. You can run install/upgrade steps using a CLI command. In this case, execute the following commands:
+Одна из самых простых вещей, которую следует забыть при добавлении кода, который добавляет различные изменения схемы, - это забыть применить изменения схемы самостоятельно. Вы можете выполнить шаги установки / обновления с помощью команды CLI. В этом случае выполните следующие команды:
 
 !!! terminal
     *$* php cmd.php xf-addon:install-step Demo/Portal 1
     *$* php cmd.php xf-addon:install-step Demo/Portal 2
     *$* php cmd.php xf-addon:install-step Demo/Portal 3
 
-## Extending the forum entity
+## Расширение сущности форума
 
-So far we've added a column to the `xf_forum` table, it's now time to extend the Forum entity structure. We need to do this so that the entity knows about our new column, and so that data can be read from and written to it via the entity.
+Пока мы добавили столбец в таблицу `xf_forum`, теперь пора расширить структуру сущности Forum. Нам нужно сделать это, чтобы объект знал о нашем новом столбце, и чтобы данные можно было читать и записывать в него через объект.
 
 !!! note
-    The following steps will require [Development mode](development-tools.md#enabling-development-mode) to be enabled. Remember to set `Demo/Portal` as the `defaultAddOn` value in `config.php`.
+    Для следующих шагов потребуется включить [Режим разработки](development-tools.md#enabling-development-mode). Не забудьте установить `Demo/Portal` в качестве значения `defaultAddOn` в `config.php`.
 
-The first step in this process is to create a "Code event listener". This can be done in the Admin CP under Development, click the "Code event listeners" link and click the "Add code event listener" button.
+Первым шагом в этом процессе является создание "Code event listener". Это можно сделать в Admin CP в разделе «Разработка», нажмите на ссылку "Code event listeners" и нажмите кнопку "Add code event listener".
 
-We need to listen to the `entity_structure` event. We will use this to modify the default forum entity structure to add our newly created `demo_portal_auto_feature` column.
+Нам нужно прослушивать событие `entity_structure`. Мы будем использовать это, чтобы изменить структуру сущности форума по умолчанию, чтобы добавить наш недавно созданный столбец `demo_portal_auto_feature`.
 
-In the "Event hint" field, we will enter the name of the class we're extending, e.g. `XF\Entity\Forum`. This will ensure our listener only executes on the forum entity.
+В поле "Event hint" мы введем имя расширяемого класса, например: `XF\Entity\Forum`. Это гарантирует, что наш слушатель будет выполняться только в сущности форума.
 
-For the "Execute callback" class enter `Demo\Portal\Listener` and for the method enter `forumEntityStructure`.
+Для класса "Execute callback" введите `Demo\Portal\Listener`, а для метода введите `forumEntityStructure`.
 
-It's worth adding a description to explain what this listener is for, as this will help more easily identify the listener in the code event listener list. "Extends the XF\Entity\Forum structure" should be sufficient. Finally, make sure the "Demo - Portal" add-on is selected.
+Стоит добавить описание, чтобы объяснить, для чего предназначен этот слушатель, так как это поможет легче идентифицировать слушателя в списке слушателей событий кода. "Расширение структуры XF\Entity\Forum" должно быть достаточно. Наконец, убедитесь, что выбрано дополнение "Demo - Portal".
 
-Before we click "Save" we need to actually create the Listener class. So create a new file named `Listener.php` in `src/addons/Demo/Portal`. The contents of this file should be as follows, initially. We know the arguments this function requires from the documentation below the code event selector.
+Прежде чем мы нажмем "Save", нам нужно создать класс Listener. Итак, создайте новый файл с именем `Listener.php` в `src/addons/Demo/Portal`. Первоначально содержимое этого файла должно быть следующим. Мы знаем, какие аргументы требуются этой функции, из документации под селектором событий кода.
 
 ```php
 <?php
@@ -214,11 +215,11 @@ class Listener
 }
 ```
 
-Notice the `use` declaration between the `namespace` and `class` name. We will be referencing the class declared here more than once, so declaring it here does allow us to reference it by its much shorter alias, in this case, `Entity`.
+Обратите внимание на объявление `use` между именем `namespace` и `class`. Мы будем ссылаться на класс, объявленный здесь, более одного раза, поэтому его объявление здесь позволяет нам ссылаться на него по гораздо более короткому псевдониму, в данном случае `Entity`.
 
-This code won't actually do anything yet, but now is a good time to save the code event listener, so go ahead and click the "Save" button.
+Этот код на самом деле пока ничего не делает, но сейчас хорошее время, чтобы сохранить прослушиватель событий кода, поэтому нажмите кнопку "Save".
 
-Before we add some functional code to our new function, now might be a good time to see how the development output system works. Check out the new directories and files added to your add-on directory. Specifically there is a new JSON file in the `_output/code_event_listeners` directory, which should look like this:
+Прежде чем мы добавим функциональный код в нашу новую функцию, возможно, сейчас самое время посмотреть, как работает система вывода при разработке. Проверьте новые каталоги и файлы, добавленные в каталог дополнения. В частности, в каталоге `_output/code_event_listeners` есть новый файл JSON, который должен выглядеть следующим образом:
 
 ```json
 {
@@ -232,21 +233,21 @@ Before we add some functional code to our new function, now might be a good time
 }
 ```
 
-Whenever changes are made to the listener this file will update automatically.
+Каждый раз, когда в слушатель вносятся изменения, этот файл обновляется автоматически.
 
-Right, let's add some more code. Back inside the `Listener` class, add the following to the `forumEntityStructure` function:
+Хорошо, давайте добавим еще код. Вернувшись в класс `Listener`, добавьте в функцию `forumEntityStructure` следующее:
 
 ```php
 $structure->columns['demo_portal_auto_feature'] = ['type' => Entity::BOOL, 'default' => false];
 ```
 
-The forum entity is now aware of our new column, but there are a few more steps we should take care of first before we can begin to implement a way to actually start setting values on that column.
+Сущность форума теперь знает о нашем новом столбце, но есть еще несколько шагов, о которых мы должны позаботиться в первую очередь, прежде чем мы сможем приступить к реализации способа фактического начала установки значений в этом столбце.
 
-## Extending the thread entity
+## Расширение сущности темы
 
-Again, as we have added a new column to the xf_thread table, we should make the Thread entity aware of that. This is very similar to what we did above.
+Опять же, поскольку мы добавили новый столбец в таблицу xf_thread table, мы должны сделать так, чтобы объект Thread знал об этом. Это очень похоже на то, что мы сделали выше.
 
-Head back to "Add code event listener" and listen to `entity_structure` again. The "Event hint" this time will be `XF\Entity\Thread`. We can use the same callback class as before (`Demo\Portal\Listener`) but this time the method will be named `threadEntityStructure`. Add a description similar to before. Before saving, we should add the code, directly below the `forumEntityStructure` function:
+Вернитесь к "Add code event listener" и снова прослушайте `entity_structure`. "Event hint" на этот раз будет `XF\Entity\Thread`. Мы можем использовать тот же класс обратного вызова, что и раньше (`Demo\Portal\Listener`), но на этот раз метод будет называться `threadEntityStructure`. Добавьте описание, аналогичное предыдущему. Перед сохранением мы должны добавить код непосредственно под функцией `forumEntityStructure`:
 
 ```php
 public static function threadEntityStructure(\XF\Mvc\Entity\Manager $em, \XF\Mvc\Entity\Structure &$structure)
@@ -255,7 +256,7 @@ public static function threadEntityStructure(\XF\Mvc\Entity\Manager $em, \XF\Mvc
 }
 ```
 
-This code is almost identical to what we added to the forum entity structure; really the only difference is the column name. But, we do need to add something else. We should create an entity relation so that, later on, should we need to access the featured thread entity (which we create in the next section) we can do so easily with a finder query. Below the `$structure->columns` line add:
+Этот код почти идентичен тому, что мы добавили в структуру сущности форума; на самом деле единственная разница - это имя столбца. Но нам нужно добавить еще кое-что. Мы должны создать отношение сущностей, чтобы в дальнейшем, если нам понадобится доступ к указанной сущности темы (которую мы создаем в следующем разделе), мы могли бы легко сделать это с помощью поискового запроса. Ниже строки `$structure->columns` добавьте:
 
 ```php
 $structure->relations['FeaturedThread'] = [
@@ -266,11 +267,11 @@ $structure->relations['FeaturedThread'] = [
 ];
 ```
 
-See [Relations](entities-finders-repositories.md#relations) for more information about relations. Hit "Save" to save the listener.
+Смотрите [Отношения](entities-finders-repositories.md#relations) для получения дополнительной информации об отношениях. Нажмите "Save", чтобы сохранить слушателя.
 
-## Creating a new entity
+## Создание новой сущности
 
-Above in `installStep3()` we created a new table. We are going to need to create an entity to interact with and create new records in this table. Because this is a brand new entity we don't need to do anything other than create the class inside `src/addons/Demo/Portal/Entity/FeaturedThread.php`, the skeleton for which will look like this:
+Выше в `installStep3()` мы создали новую таблицу. Нам нужно будет создать объект для взаимодействия и создания новых записей в этой таблице. Поскольку это совершенно новый объект, нам не нужно ничего делать, кроме создания класса внутри `src/addons/Demo/Portal/Entity/FeaturedThread.php`, каркас которого будет выглядеть следующим образом:
 
 ```php
 <?php
@@ -285,7 +286,7 @@ class FeaturedThread extends \XF\Mvc\Entity\Entity
 }
 ```
 
-We need to use this to define the entity structure which represents our new `xf_demo_portal_featured_thread` table which we created earlier. The structure for this entity should look like this:
+Нам нужно использовать это для определения структуры сущности, которая представляет нашу новую таблицу `xf_demo_portal_featured_thread`, которую мы создали ранее. Структура этого объекта должна выглядеть так:
 
 ```php
 public static function getStructure(Structure $structure)
@@ -311,53 +312,53 @@ public static function getStructure(Structure $structure)
 }
 ```
 
-The list of columns is probably self explanatory based on the MySQL we wrote earlier to create the table. The relations includes a `Thread` relation, which will allow us to get the related thread entity record (and even the thread entity relations) from this entity.
+Список столбцов, вероятно, не требует пояснений на основе MySQL, который мы написали ранее для создания таблицы. Отношения включают в себя отношение `Thread`, которое позволит нам получить запись связанной сущности темы (и даже отношения сущностей темы) из этой сущности.
 
-## Modifying the forum edit form
+## Изменение формы редактирования форума
 
-We now need a way to modify the `forum_edit` template to add a new checkbox there which can ultimately write back to the new column we have now created. We'll do this by creating a template modification. This is done from the Admin CP under Appearance and then click Template modifications. Click the "Admin" tab followed by the "Add template modification" button.
+Теперь нам нужен способ изменить шаблон `forum_edit`, чтобы добавить туда новый флажок, который в конечном итоге может записывать обратно в новый столбец, который мы теперь создали. Мы сделаем это, создав модификацию шаблона. Это делается на панели администратора в разделе "Appearance", а затем нажмите "Template modifications". Нажмите вкладку "Admin", а затем кнопку "Add template modification".
 
-In the "Template" field, type "forum_edit". This is the template we need to modify.
+В поле "Template", введите "forum_edit". Это шаблон, который нам нужно изменить.
 
-In the "Modification key" field, type "demo_portal_forum_edit". This is a unique key which identifies your template modification. The preferred convention for this is, at minimum, to mention the add-on followed by the template name being modified.
+В поле "Modification key" введите "demo_portal_forum_edit". Это уникальный ключ, который определяет модификацию Вашего шаблона. Предпочтительным условием для этого является, как минимум, упоминание дополнения с последующим изменением имени шаблона.
 
-The "Description" field should contain some text to help you identify the purpose of this modification when looking down the template modifications list. Something like "Adds auto feature checkbox to the forum_edit template" should suffice.
+Поле "Description" должно содержать некоторый текст, который поможет вам определить цель этой модификации при просмотре списка модификаций шаблона. Что-то вроде "Adds auto feature checkbox to the forum_edit template" должно быть достаточно.
 
-When you entered the template name in the "Template" field, you may notice that a preview of the template contents was displayed. We need to use this to identify the preferred place for our checkbox. While viewing the forum edit page, you may notice there's a series of checkboxes and this looks like a reasonable location.
+Когда Вы ввели имя шаблона в поле "Template", Вы можете заметить, что был отображен предварительный просмотр содержимого шаблона. Нам нужно использовать это, чтобы определить предпочтительное место для нашего флажка. Просматривая страницу редактирования форума, Вы можете заметить ряд флажков, и это выглядит вполне подходящим местом.
 
-The simplest way to place a checkbox in this section is to do a simple replacement on the top checkbox, so in the "Find" field add:
+Самый простой способ установить флажок в этом разделе - это просто заменить верхний флажок, поэтому в поле "Find" добавьте:
 
 ```plain
 <xf:option name="allow_posting"
 ```
 
-And in the replace field:
+И в поле замены:
 
 ```html
 <xf:option name="demo_portal_auto_feature" selected="$forum.demo_portal_auto_feature"
-	label="Automatically feature threads in this forum"
-	hint="If selected, any new threads posted in this forum will be automatically featured." />
+	label="Автоматически добавлять темы в этом форуме"
+	hint="Если этот флажок установлен, любые новые темы, опубликованные на этом форуме, будут автоматически отмечены." />
 $0
 ```
 
-We don't need to worry about creating phrases, yet, we can pick those up later. Notice that the name attribute matches the name of the column we created earlier, and more significantly, the checked state of the checkbox row also reads the newly added column from the forum entity.
+Нам не нужно беспокоиться о создании фраз, но мы сможем подобрать их позже. Обратите внимание, что атрибут name совпадает с именем столбца, который мы создали ранее, и, что более важно, отмеченное состояние строки флажка также считывает вновь добавленный столбец из объекта форума.
 
-When we save the template modification later, if the contents of the find field matches any part of the template then it will be replaced with the contents of the replace field. We are not actually removing what we have matched because the `$0` in the replace field is re-inserting the matched text.
+Когда мы сохраняем модификацию шаблона позже, если содержимое поля поиска соответствует какой-либо части шаблона, оно будет заменено содержимым поля замены. Фактически мы не удаляем то, что мы сопоставили, потому что `$0` в поле замены повторно вставляет сопоставленный текст.
 
-We can use the "Test" button to check the replacement is working as expected. When the test button is clicked, an overlay with the modified template will appear. If all goes well, a green area should be highlighted with the new code we want to add.
+Мы можем использовать кнопку "Test", чтобы проверить, работает ли замена должным образом. При нажатии кнопки тестирования появится наложение с измененным шаблоном. Если все пойдет хорошо, должна быть выделена зеленая область с новым кодом, который мы хотим добавить.
 
 !!! note
-    This is a fairly simple replacement. For more advanced matching, you can also use the "Regular expression" type. A detailed explanation of working with regular expressions is beyond the scope for this guide, but there are lots of resources online which may help.
+    Это довольно простая замена. Для более продвинутого сопоставления можно также использовать тип "Regular expression". Подробное объяснение работы с регулярными выражениями выходит за рамки этого руководства, но в Интернете есть много ресурсов, которые могут помочь.
 
-Finally, click save to save your template modification. If all has gone well, when you return to the template modifications list, you will see the log summary is displaying <span style="color: green; font-weight: 700;">1</span> / 0 / <span style="color: red;">0</span> therefore indicating that the modification successfully applied one time. An even better indicator that it has worked as planned is to go to the "Nodes" page listed under "Forums" in the Admin CP, and edit an existing forum. Our newly added template modification should now appear.
+Наконец, нажмите «Сохранить», чтобы сохранить модификацию шаблона. Если все прошло успешно, когда Вы вернетесь к списку модификаций шаблона, Вы увидите, что в сводке журнала отображается <span style="color: green; font-weight: 700;">1</span> / 0 / <span style="color: red;">0</span> , что означает, что модификация успешно применена один раз. Еще лучший индикатор того, что он работал, как планировалось, - это перейти на страницу "Nodes", указанную в разделе "Forums" в Admin CP, и отредактировать существующий форум. Теперь должна появиться наша недавно добавленная модификация шаблона.
 
-## Extending the forum save process
+## Расширение процесса сохранения форума
 
-We have our column, we have a UI to pass an input to that column, now we have to handle saving data to that column. We will do this by extending the Forum controller and extending a special method which is called when a node and its data are saved. First, let's create a "Class extension" which can be found under the "Development" entry in the Admin CP. Click "Add class extension".
+У нас есть столбец, у нас есть пользовательский интерфейс для передачи ввода в этот столбец, теперь нам нужно обработать сохранение данных в этот столбец. Мы сделаем это, расширив контроллер Forum и расширив специальный метод, который вызывается при сохранении узла и его данных. Во-первых, давайте создадим "Class extension", которое можно найти в разделе "Development" в Admin CP. Нажмите "Add class extension".
 
-Here we need to specify a "Base class name" which is the name of the class we are extending, which in this case will be `XF\Admin\Controller\Forum`. And we need to specify a "Extension class name" which is the class which will extend the base class. Enter this as `Demo\Portal\XF\Admin\Controller\Forum`. We should create that class before clicking Save.
+Здесь нам нужно указать "Base class name", которое является именем класса, который мы расширяем, в данном случае это будет `XF\Admin\Controller\Forum`. И нам нужно указать "Extension class name", которое является классом, который будет расширять базовый класс. Введите его как `Demo\Portal\XF\Admin\Controller\Forum`. Мы должны создать этот класс перед тем, как нажать «Сохранить».
 
-Create a new file in `src/addons/Demo/Portal/XF/Admin/Controller` named `Forum.php`. This might seem like quite a long path, but we recommend a path like this for extended classes. It enables you to more easily identify the files that represent extended classes by virtue of the fact that they are in a directory of the same name as the extended "add-on" ID (in this case `XF`). It also makes it clear exactly which class has been extended as the directory structure follows the same path as the default class. The contents of the file should, for now, look like this:
+Создайте новый файл в `src/addons/Demo/Portal/XF/Admin/Controller` с именем `Forum.php`. Это может показаться довольно длинным путем, но мы рекомендуем такой путь для расширенных классов. Это позволяет вам более легко идентифицировать файлы, представляющие расширенные классы, благодаря тому факту, что они находятся в каталоге с тем же именем, что и расширенный идентификатор «дополнения» (в данном случае `XF`). Это также дает понять, какой именно класс был расширен, поскольку структура каталогов следует по тому же пути, что и класс по умолчанию. На данный момент содержимое файла должно выглядеть так:
 
 ```php
 <?php
@@ -370,9 +371,9 @@ class Forum extends XFCP_Forum
 }
 ```
 
-See [Extending classes](general-concepts.md#extending-classes) and [Type hinting](general-concepts.md#type-hinting) for more information.
+Смотрите [Расширение классов](general-concepts.md#extending-classes) и [Тип подсказки](general-concepts.md#type-hinting) для получения дополнительной информации.
 
-Click save to save the Class extension. Now we can add some code. The particular method we need to extend is a protected function called `saveTypeData`. When extending any existing method in any class, it is important to inspect the original method for a couple of reasons. The first being we want to make sure the arguments we use in the extended method, match that of the method we're extending. The second being that we need to know what this method actually does. For example, should the method be returning something of a particular type, or a certain object? This is certainly the case in most controller actions as we mentioned in the [Modifying a controller action reply (properly)](controller-basics.md#modifying-a-controller-action-reply-properly) section. However, although this method is within a controller, it isn't actually a controller action itself. In fact, this particular method is a "void" method; it isn't expected to return anything. However, we should always ensure we call the parent method in our extended method so let's just add the new method itself, without the new code we need to add:
+Нажмите «Сохранить», чтобы сохранить "Class extension". Теперь мы можем добавить код. Конкретный метод, который нам нужно расширить, - это защищенная функция под названием `saveTypeData`. При расширении любого существующего метода в любом классе важно проверить исходный метод по нескольким причинам. Во-первых, мы хотим убедиться, что аргументы, которые мы используем в расширенном методе, совпадают с аргументами расширяемого метода. Во-вторых, нам нужно знать, что на самом деле делает этот метод. Например, должен ли метод возвращать что-то определенного типа или определенный объект? Это, безусловно, относится к большинству действий контроллера, как мы упоминали в разделе [Изменение ответа действия контроллера (должным образом)](controller-basics.md#modifying-a-controller-action-reply-properly). Однако, хотя этот метод находится внутри контроллера, на самом деле это не действие самого контроллера. Фактически, этот конкретный метод является "void" методом; от него ничего не ожидается. Однако мы всегда должны гарантировать, что вызываем родительский метод в нашем расширенном методе, поэтому давайте просто добавим сам новый метод без нового кода, который нам нужно добавить:
 
 ```php
 protected function saveTypeData(FormAction $form, \XF\Entity\Node $node, \XF\Entity\AbstractNode $data)
@@ -382,9 +383,9 @@ protected function saveTypeData(FormAction $form, \XF\Entity\Node $node, \XF\Ent
 ```
 
 !!! Warning
-    This particular method's argument list assumes that we have a `use` declaration which aliases the full `\XF\Mvc\FormAction` class to simply `FormAction`. You will therefore need to add that use declaration yourself. Add `use XF\Mvc\FormAction;` between the `namespace` and `class` lines.
+    Список аргументов этого конкретного метода предполагает, что у нас есть объявление `use`, которое заменяет полный класс `\XF\Mvc\FormAction` на просто `FormAction`. Поэтому Вам нужно будет добавить это объявление использования самостоятельно. Добавьте `use XF\Mvc\FormAction;` между строками `namespace` и `class`.
 
-So, right now, we've extended that method, and our extension should be called, but right now it isn't doing anything other than calling its parent method. We now need to get the value of the input from the forum edit page and apply that to the `$data` entity (which in this case is the Forum entity).
+Итак, прямо сейчас мы расширили этот метод, и наше расширение должно быть вызвано, но сейчас оно не делает ничего, кроме вызова своего родительского метода. Теперь нам нужно получить значение ввода со страницы редактирования форума и применить его к объекту `$data` (которым в данном случае является объект Forum).
 
 ```php
 protected function saveTypeData(FormAction $form, \XF\Entity\Node $node, \XF\Entity\AbstractNode $data)
@@ -398,17 +399,17 @@ protected function saveTypeData(FormAction $form, \XF\Entity\Node $node, \XF\Ent
 }
 ```
 
-Using the `FormAction` object allows us to have various extension points into the process that runs during the course of a typical form submission. It isn't available for all controller actions. It is much more prevalent in the Admin CP, for example, which often follow a simple CRUD model (Create, Read, Update, Delete). A lot of other processes within XF happen inside a service object, which usually has specific extension points related to the service that is running. This particular usage of the `FormAction` object is somewhat different to what you would usually encounter. Saving a node is a somewhat different process, because as well as working with the node entity, you'll also be working with an associated type of node, e.g. a forum entity. We do have access to the form action object in this method, though, so we should use it. We've used it here to add a specific behaviour to the "setup" phase of the process. Namely, when the `FormAction` object's `run()` method is called, it will run through the various phases in a specific order. It doesn't matter which order those behaviors were added to the object in, they will still run in the order `setup`, `validate`, `apply`, `complete`.
+Использование объекта `FormAction` позволяет нам иметь различные точки расширения в процессе, который выполняется в ходе обычной отправки формы. Он доступен не для всех действий контроллера. Это гораздо более распространено, например, в Admin CP, которые часто следуют простой модели CRUD (создание, чтение, обновление, удаление). Многие другие процессы в XF происходят внутри объекта службы, который обычно имеет определенные точки расширения, связанные с запущенной службой. Это конкретное использование объекта `FormAction` несколько отличается от того, с чем Вы обычно сталкиваетесь. Сохранение узла - это несколько другой процесс, потому что, помимо работы с сущностью узла, Вы также будете работать с узлом связанного типа, например субъект форума. Однако у нас есть доступ к объекту действия формы в этом методе, поэтому мы должны его использовать. Мы использовали его здесь, чтобы добавить определенное поведение к фазе "setup" процесса. А именно, когда вызывается метод `run()` объекта `FormAction`, он будет проходить различные фазы в определенном порядке. Неважно, в каком порядке эти поведения были добавлены к объекту, они все равно будут выполняться в порядке `setup`, `validate`, `apply`, `complete`.
 
-The code we added above lets us set our `demo_portal_auto_feature` column in the forum entity to whatever value is stored for the `demo_portal_auto_feature` input which we added to the forum edit page. It should now be possible to test that all of this works. Simply edit a forum of your choice and check the checkbox. You should be able to observe two things. First, when you go back into edit that forum, the checkbox should now be checked. Second, if you look in the xf_forum table for the forum you just edited, the `demo_portal_auto_feature` field should now be set to 1. Keep this value enabled for this forum, as we will eventually be automatically featuring threads from that forum.
+Код, который мы добавили выше, позволяет нам установить для нашего столбца `demo_portal_auto_feature` в сущности форума любое значение, сохраненное для ввода `demo_portal_auto_feature`, который мы добавили на страницу редактирования форума. Теперь должно быть возможно проверить, что все это работает. Просто отредактируйте форум по своему выбору и установите флажок. Вы должны уметь наблюдать две вещи. Во-первых, когда Вы вернетесь к редактированию этого форума, этот флажок должен быть установлен. Во-вторых, если Вы посмотрите в таблице xf_forum форум, который Вы только что отредактировали, поле `demo_portal_auto_feature` теперь должно быть установлено на 1. Оставьте это значение включенным для этого форума, так как в конечном итоге мы будем автоматически отображать темы с этого форума.
 
-## Setting a thread to be featured automatically
+## Настройка автоматического включения темы
 
-We've added a new column to the forum entity which will allow us to automatically feature a thread when it is newly created in this forum, so now it's time to add the code which will do this.
+Мы добавили новый столбец в объект форума, который позволит нам автоматически отображать ветку, когда она создается на этом форуме, так что теперь пора добавить код, который это сделает.
 
-In XF2, we make heavy use of Service objects. These typically take a "setup and go" type approach; you setup your configuration and then call a method to complete the action. We use a service object to setup and perform the thread creation, so this is a perfect place to add the code we need. It all starts with another class extension, so go to the "Add class extension" page.
+В XF2 мы активно используем служебные объекты. Обычно они используют подход типа "setup and go"; Вы настраиваете свою конфигурацию, а затем вызываете метод для завершения действия. Мы используем служебный объект для настройки и создания темы, так что это идеальное место для добавления необходимого кода. Все начинается с другого расширения класса, поэтому перейдите на страницу "Add class extension".
 
-This time, the base class will be `XF\Service\Thread\Creator` and the extension class will be `Demo\Portal\XF\Service\Thread\Creator` and, as usual, this new class will look something like the code below. Create that code in the path `src/addons/Demo/Portal/XF/Service/Thread/Creator.php` then click "Save" to create the extension.
+На этот раз базовым классом будет `XF\Service\Thread\Creator`, а классом расширения будет `Demo\Portal\XF\Service\Thread\Creator`, и, как обычно, этот новый класс будет выглядеть примерно как код ниже. Создайте этот код по пути `src/addons/Demo/Portal/XF/Service/Thread/Creator.php`, затем нажмите «Сохранить», чтобы создать расширение.
 
 ```php
 <?php
@@ -421,7 +422,7 @@ class Creator extends XFCP_Creator
 }
 ```
 
-While we're here we will also create another extension. The base will be `XF\Pub\Controller\Forum` and the extension class will be `Demo\Portal\XF\Pub\Controller\Forum`.  Creating the following code in the path `src/addons/Demo/Portal/XF/Pub/Controller/Forum.php` and click "Save":
+Пока мы здесь, мы также создадим еще одно расширение. Базой будет `XF\Pub\Controller\Forum`, а классом расширения будет `Demo\Portal\XF\Pub\Controller\Forum`. Создайте следующий код в пути `src/addons/Demo/Portal/XF/Pub/Controller/Forum.php` и нажмите «Сохранить»:
 
 ```php
 <?php
@@ -434,7 +435,7 @@ class Forum extends XFCP_Forum
 }
 ```
 
-We're ultimately going to extend the `_save()` method in our extended thread creator object so we can feature our thread after it has been created. To fit in with the "setup and go" approach, we will create a method which can be used to indicate whether the thread should be created as featured, or not. For this, we need two things; a class property to store the value (it defaults to null) and a public method to allow that property to be set.
+В конечном итоге мы собираемся расширить метод `_save()` в нашем расширенном объекте-создателе темы, чтобы мы могли добавить нашу тему после того, как он был создан. Чтобы соответствовать подходу "setup and go", мы создадим метод, который можно использовать, чтобы указать, следует ли создавать тему как избранный или нет. Для этого нам понадобятся две вещи; свойство класса для хранения значения (по умолчанию - null) и общедоступный метод, позволяющий установить это свойство.
 
 ```php
 protected $featureThread;
@@ -445,7 +446,7 @@ public function setFeatureThread($featureThread)
 }
 ```
 
-Going back to our newly extended forum controller, we will now extend the method that sets up the creator service, and opt in to featuring if the forum entity has the necessary value set. Remember, before extending a method, we need to know what it is expected to return (if anything), and ensure we call the parent method. If the parent method does return something, then it is this which we should return after our code has finished. The `setupThreadCreate()` method in this case returns the set up creator service, so we will start this off as follows:
+Возвращаясь к нашему недавно расширенному контроллеру форума, мы теперь расширим метод, который настраивает службу создателя, и включим отображение, если для объекта форума установлено необходимое значение. Помните, что перед расширением метода нам нужно знать, что он должен вернуть (если есть), и убедиться, что мы вызываем родительский метод. Если родительский метод действительно что-то возвращает, то это то, что мы должны вернуть после завершения нашего кода. Метод `setupThreadCreate()` в этом случае возвращает настроенную службу создателя, поэтому мы начнем это следующим образом:
 
 ```php
 protected function setupThreadCreate(\XF\Entity\Forum $forum)
@@ -457,9 +458,9 @@ protected function setupThreadCreate(\XF\Entity\Forum $forum)
 }
 ```
 
-As expected, this doesn't actually do anything; the extended code is called, but all it does is return whatever was returned by the parent call. We should now modify the `$creator` to set up featuring if it applies to the forum we're currently working with.
+Как и ожидалось, на самом деле это ничего не делает; вызывается расширенный код, но все, что он делает, это возвращает то, что было возвращено родительским вызовом. Теперь мы должны изменить `$creator`, чтобы настроить отображение, если оно применимо к форуму, с которым мы сейчас работаем.
 
-In between the `$creator` line and the `return` line, add:
+Между строками `$creator` и `return` добавьте:
 
 ```php
 if ($forum->demo_portal_auto_feature)
@@ -468,7 +469,7 @@ if ($forum->demo_portal_auto_feature)
 }
 ```
 
-We can now add the `_save()` method to the extended creator class:
+Теперь мы можем добавить метод `_save()` к расширенному классу создателя:
 
 ```php
 protected function _save()
@@ -479,7 +480,7 @@ protected function _save()
 }
 ```
 
-To make sure this thread gets featured, in between the `$thread` line and the `return` line we just need to add:
+Чтобы убедиться, что эта тема будет представлен, между строками `$thread` и `return` нам просто нужно добавить:
 
 ```php
 if ($this->featureThread && $thread->discussion_state == 'visible')
@@ -492,19 +493,19 @@ if ($this->featureThread && $thread->discussion_state == 'visible')
 }
 ```
 
-Because we earlier created the `FeaturedThread` relation on the thread entity, we can actually use that relation for creation too! There is a method named `getRelationOrDefault()` which we use here. This will see if that relation actually returns an existing record, and if it doesn't, it will create the entity and set it up with any default values even the thread ID! This means we actually need to do little more than to get the default relation and save it to insert it into the database.
+Поскольку мы ранее создали отношение `FeaturedThread` для сущности темы, мы можем использовать это отношение и для создания! Здесь мы используем метод `getRelationOrDefault()`. Это будет видеть, действительно ли это отношение возвращает существующую запись, а если нет, оно создаст объект и установит для него любые значения по умолчанию, даже идентификатор темы! Это означает, что на самом деле нам нужно сделать немного больше, чем получить отношение по умолчанию и сохранить его, чтобы вставить в базу данных.
 
-Additionally, we should set the `demo_portal_featured` field to true. Because the thread entity has already been saved (when the original class saved the entity) we can use the `fastUpdate()` method to quickly update that field.
+Кроме того, мы должны установить для поля `demo_portal_featured` значение `true`. Поскольку объект темы уже был сохранен (когда исходный класс сохранил объект), мы можем использовать метод `fastUpdate()` для быстрого обновления этого поля.
 
-We now need to try this all out and make sure it works. Go to the forum which you enabled the `demo_portal_auto_feature` option on earlier, and create a new thread. The only way to tell if it is working right now is to check the `xf_demo_portal_featured_thread` table and in doing that we should see a new record in there!
+Теперь нам нужно все это попробовать и убедиться, что это работает. Перейдите на форум, на котором вы включили опцию `demo_portal_auto_feature` ранее, и создайте новую тему. Единственный способ узнать, работает ли он прямо сейчас, - это проверить таблицу `xf_demo_portal_featured_thread`, и при этом мы должны увидеть там новую запись!
 
-## Create the portal page
+## Создайте страницу портала
 
-There's still a considerable amount of work to do before we're finished, but now we have the ability to feature threads, it certainly would be nice if we could display them somewhere, so let's start creating our portal page.
+Еще предстоит проделать значительный объем работы, прежде чем мы закончим, но теперь у нас есть возможность отображать темы, было бы неплохо, если бы мы могли где-то их отображать, поэтому давайте начнем создавать нашу страницу портала.
 
-To do this we need a new public route. Go to the Admin CP and under "Development" click "Routes" then click "Add route: Public". We're going to keep this quite simple, for now. The route prefix is going to be "portal", the section context is going to be "home" and the controller is going to be "Demo\Portal:Portal".
+Для этого нам нужен новый общедоступный маршрут. Перейдите в Admin CP и в разделе "Development" нажмите "Routes", затем нажмите "Add route: Public". Пока мы будем делать это довольно просто. Префиксом маршрута будет "portal", контекстом раздела будет "home", а контроллером - "Demo\Portal:Portal".
 
- We should now create that controller at the path `src/addons/Demo/Portal/Pub/Controller/Portal.php` with the following basic contents:
+Теперь мы должны создать этот контроллер по пути `src/addons/Demo/Portal/Pub/Controller/Portal.php` со следующим основным содержимым:
 
 ```php
 <?php
@@ -517,7 +518,7 @@ class Portal extends \XF\Pub\Controller\AbstractController
 }
 ```
 
-We want our portal to be displayed to people when they visit the `index.php?portal` page. This URL doesn't have an "action" part - just the route prefix we just created. With that in mind, the code we need to add to display the portal page, should be in the `actionIndex()` method. The basic code we will need in that is:
+Мы хотим, чтобы наш портал отображался для людей, когда они посещают страницу портала `index.php?portal`. В этом URL-адресе нет части "action" - только только что созданный префикс маршрута. Имея это в виду, код, который нам нужно добавить для отображения страницы портала, должен находиться в методе `actionIndex()`. Вот основной код, который нам понадобится:
 
 ```php
 public function actionIndex()
@@ -527,17 +528,17 @@ public function actionIndex()
 }
 ```
 
-Now, this won't exactly work, yet, because we haven't created the template, yet, but this is enough, for now, to at least demonstrate our route and controller are talking to each other. So visiting `index.php?portal` should at the very least display a 'Template error'.
+Это пока не совсем сработает, потому что мы еще не создали шаблон, но пока этого достаточно, чтобы хотя бы продемонстрировать, что наш маршрут и контроллер общаются друг с другом. Таким образом, посещение портала `index.php?portal` должно как минимум отображать 'Template error'.
 
-As was mentioned in the [View reply](controller-basics.md#view-reply) section, the first argument is a view class, but we don't need to actually create this class. This class could be extended by other add-ons, if necessary, even if it doesn't exist. The second argument is the template, which we need to create now in the path `src/addons/Demo/Portal/_output/templates/public/demo_portal_view.html`. That template, for now, should simply contain the following:
+Как было упомянуто в разделе [View reply](controller-basics.md#view-reply), первый аргумент - это класс представления, но нам не нужно создавать этот класс. При необходимости этот класс может быть расширен другими дополнениями, даже если он не существует. Второй аргумент - это шаблон, который нам нужно создать сейчас по пути `src/addons/Demo/Portal/_output/templates/public/demo_portal_view.html`. На данный момент этот шаблон должен просто содержать следующее:
 
 ```html
 <xf:title>Portal</xf:title>
 ```
 
-If we now visit the portal page, the template error will be gone, and although we will still have a fairly blank looking page, it will at least now have the title "Portal".
+Если мы теперь посетим страницу портала, ошибка шаблона исчезнет, и хотя у нас все еще будет довольно пустая страница, она, по крайней мере, теперь будет иметь заголовок "Portal".
 
-Now, it's time to start adding the code which will display a list of featured threads. The first step to this is to create a repository for some of our common base finder queries. So, create a new file in the path `src/addons/Demo/Portal/Repository/FeaturedThread.php` and add the following code:
+Теперь пора начать добавлять код, который будет отображать список избранных тем. Первым шагом к этому является создание репозитория для некоторых из наших общих базовых запросов поиска. Итак, создайте новый файл по пути `src/addons/Demo/Portal/Repository/FeaturedThread.php` и добавьте следующий код:
 
 ```php
 <?php
@@ -573,13 +574,13 @@ class FeaturedThread extends Repository
 }
 ```
 
-What we're doing here is using the finder to query for all featured threads, in reverse `featured_date` order, and joining to the `xf_thread` table and from that table joining to the `xf_user` table for the thread creator, `xf_forum` table, the `xf_post` table and from there joining to the `xf_user` table again for the post creator. We've asserted that the thread, forum and first post must exist by specifying `true` for that argument so these will be performed as `INNER JOIN` whereas the user queries will be performed with a `LEFT JOIN`. It's possible that the author of some threads and posts may not exist (for example if they were posted automatically by the RSS feeder system, or posted by guests).
+Здесь мы используем средство поиска для запроса всех избранных тем в обратном порядке `featured_date` и присоединяемся к таблице `xf_thread` и из этой таблицы присоединяемся к таблице `xf_user` для создателя темы, таблица `xf_forum` и таблица`xf_post` оттуда снова присоединиться к таблице `xf_user` для создателя сообщения. Мы утверждали, что ветка, форум и первое сообщение должны существовать, указав для этого аргумента `true`, поэтому они будут выполняться как `INNER JOIN`, тогда как пользовательские запросы будут выполняться с `LEFT JOIN`. Возможно, что автор некоторых тем и сообщений может не существовать (например, если они были опубликованы автоматически системой подачи RSS или опубликованы гостями).
 
-We also have a special join here that fetches the current visitor's permissions along with the query. This will reduce the number of queries needed to render the portal page, as we will be doing a number of things (later) to only display featured threads to users who have permission to view them.
+У нас также есть специальное соединение, которое извлекает разрешения текущего посетителя вместе с запросом. Это уменьшит количество запросов, необходимых для рендеринга страницы портала, поскольку мы будем делать ряд вещей (позже), чтобы отображать избранные темы только тем пользователям, у которых есть разрешение на их просмотр.
 
-This doesn't return the results of this query. This returns the finder object itself. This enables a clear extension point in case another add-on needs to extend our code, and also allows us to make further changes before fetching that data (such as for setting a limit/offset for pagination, or setting a different order).
+Это не возвращает результаты этого запроса. Это возвращает сам объект поиска. Это обеспечивает четкую точку расширения на случай, если другому дополнению необходимо расширить наш код, а также позволяет нам вносить дальнейшие изменения перед извлечением этих данных (например, для установки предела / смещения для разбивки на страницы или установки другого порядка).
 
-Let's now use that in our `actionIndex()` method inside our portal controller. Change the existing `$viewParams = [];` line to the following:
+Давайте теперь воспользуемся этим в нашем методе `actionIndex()` внутри нашего контроллера портала. Измените существующую строку `$viewParams = [];` на следующую:
 
 ```php
 /** @var \Demo\Portal\Repository\FeaturedThread $repo */
@@ -592,7 +593,7 @@ $viewParams = [
 ];
 ```
 
-At this stage, we're not going to worry about modifying the base finder we've retrieved from the repo. Instead, let's start to actually see some results, and update the demo_portal_view template as follows (after the `<xf:title>` tags):
+На этом этапе мы не будем беспокоиться об изменении базового средства поиска, которое мы получили из репозитория. Вместо этого давайте начнем фактически видеть некоторые результаты и обновим шаблон demo_portal_view следующим образом (после тегов `<xf:title>`):
 
 ```html
 <xf:if is="$featuredThreads is not empty">
@@ -604,7 +605,7 @@ At this stage, we're not going to worry about modifying the base finder we've re
 		/>
 	</xf:foreach>
 <xf:else />
-	<div class="blockMessage">No threads have been featured yet.</div>
+	<div class="blockMessage">Пока нет ни одной темы.</div>
 </xf:if>
 
 <xf:macro name="thread_block" arg-thread="!" arg-post="!" arg-featuredThread="!">
@@ -621,7 +622,7 @@ At this stage, we're not going to worry about modifying the base finder we've re
 				/>
 			</div>
 			<div class="block-footer">
-				<a href="{{ link('threads', $thread) }}">Continue reading...</a>
+				<a href="{{ link('threads', $thread) }}">Продолжить чтение...</a>
 			</div>
 		</div>
 	</div>
@@ -665,21 +666,21 @@ At this stage, we're not going to worry about modifying the base finder we've re
 </xf:macro>
 ```
 
-Now, admittedly, there's **a lot** going on here. Although it may look daunting, it's mostly just markup to display our featured threads in a reasonable style. There's a few things worth paying attention to, though.
+По общему признанию, здесь **много** происходит. Хотя это может показаться устрашающим, в основном это просто разметка, чтобы отображать наши избранные темы в разумном стиле. Однако есть несколько вещей, на которые стоит обратить внимание.
 
-We start off the template with a condition that reads `<xf:if is="$featuredThreads is not empty">`. This is to chceck that the object returned by the finder actually contains featured thread records. If it doesn't, then we display an appropriate message.
+Мы начинаем шаблон с условия, которое читается как `<xf:if is="$featuredThreads is not empty">`. Это необходимо для проверки того, что объект, возвращаемый средством поиска, действительно содержит записи избранной темы. Если этого не произошло, мы выводим соответствующее сообщение.
 
-If we do have some records, we need to loop through each to display it. For each record, we call a `macro`. Macros are reusable portions of template code which are self documenting (in that you see which arguments are supported) and maintain their own scope which cannot be polluted with the arguments in the template calling the macro; meaning that macros are only aware of the arguments that are explicitly passed in and the global `$xf` param.
+Если у нас есть какие-то записи, нам нужно перебрать каждую, чтобы отобразить ее. Для каждой записи мы вызываем `macro`. Макросы - это многоразовые части кода шаблона, которые самодокументируются (в том смысле, что Вы видите, какие аргументы поддерживаются) и поддерживают свою собственную область видимости, которая не может быть загрязнена аргументами в шаблоне, вызывающем макрос; Это означает, что макросам известны только явно переданные аргументы и глобальный параметр `$xf`.
 
-The thread block macro displays the basic block for the featured thread, and then that calls another macro to display each message.
+Макрос блока темы отображает базовый блок для избранной темы, а затем вызывает другой макрос для отображения каждого сообщения.
 
-## Implementing the navigation tab
+## Реализация вкладки навигации
 
-You may have spotted when setting up the route that we specified the section context as "home", and when you visited the portal page, the home tab was selected, or alternatively you may not have seen a home tab at all if a `homePageUrl` is not set in options. We want to use the default home tab rather than creating one ourselves and potentially having a duplicate tab.
+Возможно, Вы заметили при настройке маршрута, что мы указали контекст раздела как "home", и когда Вы посетили страницу портала, была выбрана домашняя вкладка, или, в качестве альтернативы, Вы могли вообще не видеть домашнюю вкладку, если `homePageUrl` не установлен в опциях. Мы хотим использовать домашнюю вкладку по умолчанию, а не создавать ее сами и, возможно, иметь дублирующую вкладку.
 
-To do this, we should use a code event listener to change the URL to our portal URL. In the Admin CP under Development click "Code event listeners" and click "Add code event listener". Listen to the event `home_page_url`, callback class will be `Demo\Portal\Listener` again, and this time the method will be named `homePageUrl`.
+Для этого мы должны использовать прослушиватель событий кода, чтобы изменить URL-адрес на URL-адрес нашего портала. В административной панели в разделе Development нажмите "Code event listeners" и нажмите "Add code event listener". Прослушайте событие `home_page_url`, класс обратного вызова снова будет `Demo\Portal\Listener`, и на этот раз метод будет называться `homePageUrl`.
 
-The code for this new method should be fairly simple:
+Код этого нового метода должен быть довольно простым:
 
 ```php
 public static function homePageUrl(&$homePageUrl, \XF\Mvc\Router $router)
@@ -688,25 +689,25 @@ public static function homePageUrl(&$homePageUrl, \XF\Mvc\Router $router)
 }
 ```
 
-Finally, we should consider changing the index page route to our portal page. Go to Admin CP and under Setup click Options followed by "Basic board information". Change the "Index page route" option to `portal/`.
+Наконец, нам следует подумать об изменении маршрута индексной страницы к странице нашего портала. Перейдите в Admin CP и в разделе "Setup" нажмите "Options", а затем "Basic board information". Измените параметр "Index page route" на `portal/`.
 
-While you're in the Admin CP, let's see what happens now when you click on the Board title in the header. This should take you to your index page. All being well, that index page should now be your portal! In addition to that, the Home tab should be visible, and selected.
+Пока Вы находитесь в Admin CP, давайте посмотрим, что происходит теперь, когда Вы нажимаете на заголовок Board в заголовке. Это приведет вас к вашей индексной странице. Все в порядке, эта индексная страница теперь должна быть вашим порталом! В дополнение к этому, вкладка Home должна быть видна и выбрана.
 
-As an optional step, you may choose to add some additional navigation entries under the home tab. But, for now, let's move on.
+В качестве необязательного шага Вы можете добавить несколько дополнительных навигационных записей на главную вкладку. Но пока идем дальше.
 
-## Manually featuring (or unfeaturing) threads
+## Добавление (или удаление) тем вручную
 
-So, we can automatically feature new threads. What about manually featuring existing threads? Or manually featuring threads during creation where auto featuring is not supported? This will be a good way to get our current portal page looking a bit more busy.
+Итак, мы можем автоматически добавлять новые темы. А как насчет того, чтобы вручную указать существующие темы? Или вручную показывать темы во время создания, когда автоматическое добавление не поддерживается? Это будет хороший способ сделать нашу текущую страницу портала более загруженной.
 
-To achieve this, we will add a template modification to a specific macro, and this macro is actually used during thread reply, thread edit and when creating a thread. This will involve extending the editor service and making changes to the existing code which handled the auto featuring.
+Для этого мы добавим модификацию шаблона в конкретный макрос, и этот макрос фактически используется во время ответа в теме, редактирование темы и при создании темы. Это потребует расширения службы редактора и внесения изменений в существующий код, который обрабатывал автоматические функции.
 
-First step then is a new template modification. So go to "Add template modification" (make sure the "Public" tab is selected on the "Template modifications" list). This time the template we are modifying is `helper_thread_options`, we'll use `demo_portal_helper_thread_options` as the key and you can write a reasonable description. We can actually do a "Simple replacement" here so leave that radio selected and in the "Find" field add:
+Первый шаг - это новая модификация шаблона. Поэтому перейдите в "Add template modification" (убедитесь, что в списке "Template modifications" выбрана вкладка "Public"). На этот раз мы модифицируем шаблон `helper_thread_options`, мы будем использовать `demo_portal_helper_thread_options` в качестве ключа, и вы можете написать разумное описание. На самом деле мы можем сделать здесь "Simple replacement", поэтому оставьте этот переключатель выбранным и в поле "Find" добавьте:
 
 ```html
 <xf:if is="$thread.canLockUnlock()">
 ```
 
-In the "Replace" field add:
+В поле "Replace" добавьте:
 
 ```html
 <xf:if is="($thread.isInsert() AND !$thread.Forum.demo_portal_auto_feature AND $thread.canFeatureUnfeature())
@@ -722,17 +723,17 @@ In the "Replace" field add:
 $0
 ```
 
-That condition is a little on the lengthy side, but it allows us to show the featured checkbox under two specific conditions: a) If the thread has not yet been created and the auto feature option is disabled for the forum and there is permission to feature or b) it's an existing thread and there is permission to feature/unfeature.
+Это условие немного длинновато, но оно позволяет нам отображать выбранный флажок при двух конкретных условиях: а) Если тема еще не создана, а опция автоматической функции отключена для форума и есть разрешение на включение или б) это существующая тема и есть разрешение на добавление / отмену функции.
 
-A quick "Test" should show this additional code will be inserted just above the existing "Open" checkbox within the existing `<xf:checkboxrow>`. If that all looks good, click "Save".
+Быстрый "Test" должен показать, что этот дополнительный код будет вставлен чуть выше существующего флажка "Open" в существующем `<xf:checkboxrow>`. Если все в порядке, нажмите "Save".
 
-We have had to use template code directly within the modification here, because including a template (like we did before) won't work within an existing input or row tag in this way. We'll also need to create the phrases now for the label and hint, because it won't be possible to detect those later.
+Нам пришлось использовать код шаблона непосредственно в модификации здесь, потому что включение шаблона (как мы делали раньше) не будет работать таким образом в существующем теге ввода или строки. Теперь нам также нужно будет создать фразы для метки и подсказки, потому что позже их невозможно будет обнаружить.
 
-Under "Appearance" go to "Phrases" and click "Add phrase". Make sure your add-on is selected. The "Title" of the first phrase will be "demo_portal_featured" and the text will be simply "Featured". Click "Save and Exit". Click "Add phrase" again. The "Title" for the second phrase will be "demo_portal_featured_hint" and the text will be "Featured threads will appear on the Portal page."
+В разделе "Appearance" перейдите в "Phrases" и нажмите "Add phrase". Убедитесь, что Ваше дополнение выбрано. "Title" первой фразы будет "demo_portal_featured", а текст будет просто "Featured". Нажмите "Save and Exit". Снова нажмите "Add phrase". "Title" для второй фразы будет "demo_portal_featured_hint", а текст будет "Featured threads will appear on the Portal page."
 
-Back to the template code we just added to the modification; you may have noticed something. We have called a method on the thread entity, `canFeatureUnfeature()`, and this method does not exist, yet. We are going to use this eventually to do a permission check that will control whether a user can manually feature a thread or not.
+Вернемся к коду шаблона, который мы только что добавили в модификацию; возможно, вы что-то заметили. Мы вызвали метод для сущности темы, `canFeatureUnfeature()`, но этот метод еще не существует. В конечном итоге мы собираемся использовать это для проверки разрешений, которая будет определять, может ли пользователь вручную включать тему или нет.
 
-To add this method, we need a new class extension for the `XF\Entity\Thread` entity. So, do that now similar to how we've done it before. The extended class will be `Demo\Portal\XF\Entity\Thread` so create that in the path `src/addons/Demo/Portal/XF/Entity/Thread.php` with the contents:
+Чтобы добавить этот метод, нам нужно новое расширение класса для сущности `XF\Entity\Thread`. Итак, сделайте это сейчас, как мы это делали раньше. Расширенный класс будет `Demo\Portal\XF\Entity\Thread`, поэтому создайте его по пути `src/addons/Demo/Portal/XF/Entity/Thread.php` с содержимым:
 
 ```php
 <?php
@@ -748,13 +749,13 @@ class Thread extends XFCP_Thread
 }
 ```
 
-Ok, so, we haven't exactly done much here of value, yet. All the `canFeatureUnfeature()` method does is return `true` right now. Later on, we will implement some proper permissions and add them here.
+Итак, мы еще не сделали здесь особо ценного. Все, что делает метод `canFeatureUnfeature()`, прямо сейчас возвращает значение `true`. Позже мы реализуем некоторые необходимые разрешения и добавим их сюда.
 
-To test this works so far, open one of the threads you previously featured, and select "Edit thread" from the tools menu. We should see the "Set thread status" checkbox row has the "Featured" checkbox we added, and it should be checked, indicating that this thread is indeed featured.
+Чтобы проверить, работает ли это на данный момент, откройте одну из ранее представленных тем и выберите "Edit thread" в меню инструментов. Мы должны увидеть, что в строке флажка "Set thread status" есть добавленный флажок "Featured", и он должен быть отмечен, что указывает на то, что эта тема действительно включена в список избранных.
 
-We can now move on to changing the thread editor service to look for this value and feature or unfeature accordingly. We are going to need two new class extensions for this. Go back to the "Add class extensions" page. The first one will have a base class of `XF\Pub\Controller\Thread` and extension class of `Demo\Portal\XF\Pub\Controller\Thread`. The second one will have a base class of `XF\Service\Thread\Editor` and an extension class of `Demo\Portal\XF\Service\Thread\Editor`.
+Теперь мы можем перейти к изменению службы редактора тем, чтобы найти это значение и функцию или ее отсутствие соответственно. Для этого нам понадобятся два новых расширения класса. Вернитесь на страницу "Add class extensions". Первый будет иметь базовый класс `XF\Pub\Controller\Thread` и класс расширения `Demo\Portal\XF\Pub\Controller\Thread`. У второго будет базовый класс `XF\Service\Thread\Editor` и класс расширения `Demo\Portal\XF\Service\Thread\Editor`.
 
-The editor service is actually going to be very similar to the extended creator service we created earlier, so create that in the relevant location. Here is all of the code for the extended class:
+Служба редактора на самом деле будет очень похожа на расширенную службу создания, которую мы создали ранее, поэтому создайте ее в соответствующем месте. Вот весь код расширенного класса:
 
 ```php
 <?php
@@ -802,11 +803,11 @@ class Editor extends XFCP_Editor
 }
 ```
 
-This is a little bit more involved than the code in the creator service. For example, there may be situations where a thread is edited, and the user has no permission to edit the thread, and therefore we don't show the checkboxes. In these cases, we do not want to automatically assume the thread should be unfeatured. As the class `$featureThread` property defaults to `null` we can use this so that essentially the property has three states. In this case `null` will mean "no change", `true` will mean we feature the thread and `false` will mean we unfeature it.
+Это немного сложнее, чем код в службе создания. Например, могут быть ситуации, когда тема редактируется, а у пользователя нет разрешения на редактирование темы, и поэтому мы не показываем флажки. В этих случаях мы не хотим автоматически предполагать, что тема должна быть лишена функций. Поскольку свойство класса `$featureThread` по умолчанию имеет значение `null`, мы можем использовать это так, чтобы, по сути, свойство имело три состояния. В этом случае `null` будет означать "no change", `true` будет означать, что мы включили тему, а `false` будет означать, что мы удалили его.
 
-In the case of unfeaturing, we actually just delete the featured thread entity by calling the `delete()` method. In both cases we use the `fastUpdate()` method again to update the cached value in the thread entity to represent the curent featured state.
+В случае отсутствия функций мы фактически просто удаляем указанный объект темы, вызывая метод `delete()`. В обоих случаях мы снова используем метод `fastUpdate()`, чтобы обновить кешированное значение в сущности темы, чтобы представить текущее выделенное состояние.
 
-Before we finish the process of editing, we need to add code to our extended thread controller, and specifically extend the `setupThreadEdit()` method. The entire extended thread controller code will look like this:
+Прежде чем мы закончим процесс редактирования, нам нужно добавить код в наш расширенный контроллер темы и, в частности, расширить метод `setupThreadEdit()`. Весь код расширенного контроллера темы будет выглядеть так:
 
 ```php
 <?php
@@ -831,11 +832,11 @@ class Thread extends XFCP_Thread
 }
 ```
 
-This should be enough to be able to edit a thread, and set the status to featured (or unfeatured). If you try this out now, you should be able to see threads appearing and disappearing from your portal page accordingly.
+Этого должно быть достаточно, чтобы иметь возможность редактировать тему и устанавливать статус как избранный (или отключенный). Если вы попробуете это сейчас, вы сможете увидеть, как темы появляются и исчезают со страницы вашего портала соответственно.
 
-We need to extend another method in the thread controller to handle a situation whereby the thread status controls are shown on some thread reply forms, too.
+Нам необходимо расширить другой метод в контроллере темы для обработки ситуации, когда элементы управления статусом темы также отображаются в некоторых формах ответа темы.
 
-We just need to add the following code below the `setupThreadEdit()` method we added above:
+Нам просто нужно добавить следующий код под методом `setupThreadEdit()`, который мы добавили выше:
 
 ```php
 public function finalizeThreadReply(\XF\Service\Thread\Replier $replier)
@@ -855,9 +856,9 @@ public function finalizeThreadReply(\XF\Service\Thread\Replier $replier)
 }
 ```
 
-Note that we haven't actually returned anything in this method because it isn't expected to return anything.
+Обратите внимание, что мы фактически ничего не вернули в этом методе, потому что он не должен ничего возвращать.
 
-For the final step in manually featuring/unfeaturing a thread, we need to go back to the forum controller and slightly change our existing code so that if featuring isn't automatic, we can handle it manually, instead. This should be fairly straight forward. Head into your extended forum controller, and replace this:
+Для последнего шага в ручном включении / отключении темы нам нужно вернуться к контроллеру форума и немного изменить наш существующий код, чтобы, если включение не происходит автоматически, мы могли бы обработать его вручную. Это должно быть довольно просто. Зайдите в свой расширенный контроллер форума и замените это:
 
 ```php
 if ($forum->demo_portal_auto_feature)
@@ -866,7 +867,7 @@ if ($forum->demo_portal_auto_feature)
 }
 ```
 
-With this:
+Этим:
 
 ```php
 if ($forum->demo_portal_auto_feature)
@@ -888,39 +889,39 @@ else
 }
 ```
 
-This is mostly the same as we already had, for example, if the forum has auto featuring enabled then we just set the thread as featured, otherwise, we check to see if the checkbox is available and as we've done for the other cases, set that to whatever the checkbox state was.
+Это в основном то же самое, что и у нас уже было, например, если на форуме включено автоматическое включение, мы просто устанавливаем тему как избранную, в противном случае мы проверяем, доступен ли флажок, и как мы это делали для других случаев. , установите его в любое состояние флажка.
 
-We should now test creating 3 threads to ensure this is working as expected. The first in a forum with auto featuring enabled, to make sure that is still working, then in a forum without auto featuring enabled with the "Featured" checkbox checked, and again with it unchecked. Assuming that all works, let's move on.
+Теперь мы должны протестировать создание 3 тем, чтобы убедиться, что это работает должным образом. Сначала на форуме с включенным автоматическим включением, чтобы убедиться, что он все еще работает, затем на форуме без включенного автоматического включения, с установленным флажком "Featured" и снова с ним. Предполагая, что все работает, идем дальше.
 
-## Improving the portal page
+## Улучшение страницы портала
 
-So, the portal page looks reasonable, but we can do a bit better.
+Итак, страница портала выглядит разумно, но мы можем сделать немного лучше.
 
-First we should adjust our code so we only display X featured threads, and we should also add some page navigation. At this point, if you haven't already, it may be worth featuring some more threads so we can actually test the pagination!
+Сначала мы должны настроить наш код так, чтобы отображались только X избранных тем, а также мы должны добавить некоторую навигацию по страницам. На этом этапе, если вы еще этого не сделали, возможно, стоит указать еще несколько тем, чтобы мы могли действительно протестировать разбиение на страницы!
 
-To start, we need to go back to our portal controller, and add some code to the top of the `actionIndex()` method:
+Для начала нам нужно вернуться к нашему контроллеру портала и добавить код в начало метода `actionIndex()`:
 
 ```php
 $page = $this->filterPage();
 $perPage = 5;
 ```
 
-The first line here is a special helper method to get the current page number. The second is how many items we are going to load per page. This would usually come from an option, but we will hard code this to 5 for now.
+Первая строка здесь - это специальный вспомогательный метод для получения номера текущей страницы. Второй - сколько элементов мы будем загружать на страницу. Обычно это происходит из опции, но пока мы жестко запрограммируем это на 5.
 
-The next thing to do is to change this line:
+Следующее, что нужно сделать, это изменить эту строку:
 
 ```php
 $finder = $repo->findFeaturedThreadsForPortalView();
 ```
 
-To this:
+К этому:
 
 ```php
 $finder = $repo->findFeaturedThreadsForPortalView()
 	->limitByPage($page, $perPage);
 ```
 
-This changes our query so that it will limit by the page / per page values we defined above. This will automatically calculate the correct limit (`$perPage`) and offset (`($page - 1) * $perPage`) for the current page. Next, we need to pass a few more params into our view params so change:
+Это изменяет наш запрос так, что он будет ограничиваться значениями страниц / страниц, которые мы определили выше. Это автоматически вычислит правильный предел (`$perPage`) и смещение (`($page - 1) * $perPage`) для текущей страницы. Затем нам нужно передать еще несколько параметров в параметры нашего представления, поэтому измените их:
 
 ```php
 $viewParams = [
@@ -928,7 +929,7 @@ $viewParams = [
 ];
 ```
 
-To:
+На:
 
 ```php
 $viewParams = [
@@ -939,29 +940,29 @@ $viewParams = [
 ];
 ```
 
-To use display our page navigation, we need to know the total number of entries, which we can get from the finder using the `total()` method, the current page number and how many we are displaying per page.
+Чтобы использовать отображение нашей навигации по страницам, нам нужно знать общее количество записей, которые мы можем получить из средства поиска с помощью метода `total()`, номер текущей страницы и количество отображаемых на странице.
 
-If you head back on over to the portal, you will now see only 5 featured threads displayed. However, we need to now add the page navigation. So open up the `demo_portal_view` template and directly after the closing `</xf:foreach>` tag add the following:
+Если Вы вернетесь на портал, Вы увидите только 5 избранных тем. Однако теперь нам нужно добавить навигацию по страницам. Итак, откройте шаблон `demo_portal_view` и сразу после закрывающего тега `</xf:foreach>` добавьте следующее:
 
 ```html
 <xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}" link="portal" wrapperclass="block" />
 ```
 
-Reloading the portal page at this point, as long as you have more than 5 featured threads, you will now see page navigation at the bottom of the list of featured threads.
+Перезагрузив страницу портала на этом этапе, если у Вас есть более 5 избранных тем, Вы теперь увидите навигацию по страницам в нижней части списка избранных тем.
 
-Something else that may be useful to help improve how this page looks is to add a sidebar or, more accurately, a widget position that displays in the sidebar.
+Еще кое-что, что может быть полезно для улучшения внешнего вида этой страницы, - это добавить боковую панель или, точнее, позицию виджета, которая отображается на боковой панели.
 
-Widget positions are added in the Admin CP under "Development". Go to the "Widget positions" page then click "Add widget position". Type a "Position ID" of `demo_portal_view_sidebar`, a "Title" of `Demo portal view: Sidebar` and an appropriate description. After making sure the position is enabled, and the correct add-on ID is selected, click "Save".
+Позиции виджетов добавляются в Admin CP в разделе "Development". Перейдите на страницу "Widget positions" и нажмите "Add widget position". Введите "Position ID" для `demo_portal_view_sidebar`, "Title" для `Demo portal view: Sidebar` и соответствующее описание. Убедившись, что позиция включена и выбран правильный идентификатор дополнения, нажмите "Save".
 
-To add this position to the template, simply add the following below the `<xf:title>` tag:
+Чтобы добавить эту позицию в шаблон, просто добавьте следующее под тегом `<xf:title>`:
 
 ```html
 <xf:widgetpos id="demo_portal_view_sidebar" position="sidebar" />
 ```
 
-Of course we still won't see a sidebar until we add some widgets to it. Widgets themselves are not assigned to add-ons, so the widgets you create for this position, if you wish to ship some configured widgets by default, will need to be added to the Setup class.
+Конечно, мы по-прежнему не увидим боковую панель, пока не добавим к ней несколько виджетов. Сами виджеты не назначаются дополнениями, поэтому виджеты, которые вы создаете для этой позиции, если вы хотите поставить некоторые настроенные виджеты по умолчанию, необходимо будет добавить в класс Setup.
 
-For the sake of simplicity, we'll just duplicate the widgets that are currently assigned to the `forum_list_sidebar` position (by default). So, we'll add those to a new `installStep4()` method into the Setup class:
+Для простоты мы просто продублируем виджеты, которые в настоящее время назначены на позицию `forum_list_sidebar` (по умолчанию). Итак, мы добавим их в новый метод `installStep4()` в класс Setup:
 
 ```php
 public function installStep4()
@@ -988,30 +989,30 @@ public function installStep4()
 }
 ```
 
-And, of course, don't forget to run this setup step for yourself:
+И, конечно же, не забудьте выполнить этот шаг настройки для себя:
 
 !!! terminal
     *$* php cmd.php xf-addon:install-step Demo/Portal 4
 
-## Implementing permissions & optimizations
+## Реализация разрешений и оптимизации
 
-Right now, we are displaying all featured threads in the portal, regardless of whether the visitor has permission to view them or not. This isn't ideal; there may be use cases where you want to feature threads from certain restricted forums, and only have those visible by the users who can normally view that forum.
+Прямо сейчас мы отображаем все избранные темы на портале, независимо от того, есть ли у посетителя разрешение на их просмотр или нет. Это не идеально; могут быть случаи использования, когда Вы хотите отображать темы с определенных закрытых форумов, и чтобы они были видны только пользователям, которые обычно могут просматривать этот форум.
 
-To do this, we need to change our code so that we "over-fetch" the number of records that we need to display, filter out any unviewable results, and then slice the resulting collection to the actual amount we want to display per page. This is somewhat easier than it sounds.
+Для этого нам нужно изменить наш код, чтобы мы «перевыбирали» количество записей, которые нам нужно отобразить, отфильтровывали любые не просматриваемые результаты, а затем срезали полученную коллекцию до фактического количества, которое мы хотим отображать на странице. Это несколько проще, чем кажется.
 
-To start, go to the Portal controller, and change this line:
+Для начала перейдите к контроллеру портала и измените эту строку:
 
 ```php
 ->limitByPage($page, $perPage);
 ```
 
-To:
+На:
 
 ```php
 ->limit($perPage * 3);
 ```
 
-And below that, add:
+И ниже добавьте:
 
 ```php
 $featuredThreads = $finder->fetch()
@@ -1022,25 +1023,25 @@ $featuredThreads = $finder->fetch()
 	->sliceToPage($page, $perPage);
 ```
 
-Finally change:
+Наконец измените:
 
 ```php
 'featuredThreads' => $finder->fetch(),
 ```
 
-To:
+На:
 
 ```php
 'featuredThreads' => $featuredThreads,
 ```
 
-You may have spotted earlier in the demo_portal_view template that each post we render also specifies its attachments:
+Возможно, вы заметили ранее в шаблоне `demo_portal_view`, что каждое сообщение, которое мы обрабатываем, также указывает свои вложения:
 
 ```plain
 'attachments': $post.attach_count ? $post.Attachments : [],
 ```
 
-Right now, this is going to generate an additional query for each post. So, we should instead try to do a single query for all of the posts we are displaying and add them to the posts in advance. It probably sounds more complicated than it is. Just add the below code beneath the `->slice(0, $perPage, true);` line.
+Прямо сейчас это будет генерировать дополнительный запрос для каждого сообщения. Поэтому вместо этого мы должны попытаться выполнить единый запрос для всех отображаемых сообщений и заранее добавить их к сообщениям. Возможно, это звучит сложнее, чем есть на самом деле. Просто добавьте приведенный ниже код под строкой `->slice(0, $perPage, true);`.
 
 ```php
 $threads = $featuredThreads->pluckNamed('Thread');
@@ -1051,54 +1052,54 @@ $attachRepo = $this->repository('XF:Attachment');
 $attachRepo->addAttachmentsToContent($posts, 'post');
 ```
 
-We use the `pluckNamed()` method first to get a collection of threads, then again to get a collection of the posts (keyed by the post ID) from the threads. Once we have the posts, we can just pass them into a special method in the attachment repo, which performs a single query and "hydrates" the Attachments relation for each post.
+Сначала мы используем метод `pluckNamed()`, чтобы получить коллекцию тем, а затем снова, чтобы получить коллекцию сообщений (с ключом по идентификатору сообщения) из тем. Когда у нас есть сообщения, мы можем просто передать их специальному методу в репозитории вложений, который выполняет один запрос и «гидратирует» отношение вложений для каждого сообщения.
 
-The final permission related thing to finish up is to create a new permission to control who can feature / unfeature threads manually. To do this, in the Admin CP under "Development" click "Permission definitions" and click "Add permission". The "Permission group" will be "forum", "Permission ID" will be `demoPortalFeature`, "Title" should be `Can feature / unfeature threads`, set "Interface group" to `Forum moderator permissions` and after choosing an appropriate display order and ensuring your add-on is selected, click "Save".
+Последняя вещь, связанная с разрешениями, которую нужно завершить, - это создать новое разрешение для управления тем, кто может вручную включать / отключать темы. Для этого в Admin CP в разделе "Development" нажмите "Permission definitions" и нажмите "Add permission". "Permission group" будет "forum", "Permission ID" будет `demoPortalFeature`, "Title" должно быть `Can feature / unfeature threads`, установите "Interface group" на `Forum moderator permissions` и после выбора подходящего порядок отображения и, убедившись, что Ваше дополнение выбрано, нажмите "Save".
 
-To actually use this permission, we need to go back to our extended thread entity to modify the `canFeatureUnfeature()` method. Replace `return true;` with:
+Чтобы действительно использовать это разрешение, нам нужно вернуться к нашей расширенной сущности темы, чтобы изменить метод `canFeatureUnfeature()`. Замените `return true;` на:
 
 ```php
 return \XF::visitor()->hasNodePermission($this->node_id, 'demoPortalFeature');
 ```
 
-At this point, because permissions do not have any default values, if you go to edit any thread, you should find the "Featured" checkbox is missing. But, if you go and give yourself that permission, the checkbox will come back. So, that should demonstrate the permission is working as expected!
+На этом этапе, поскольку разрешения не имеют значений по умолчанию, если Вы перейдете к редактированию какой-либо цепочки, Вы должны обнаружить, что флажок "Featured" отсутствует. Но если Вы дадите себе это разрешение, флажок вернется. Итак, это должно продемонстрировать, что разрешение работает должным образом!
 
-## Creating some options
+## Создание некоторых опций
 
-We currently display only 5 featured threads per page, but it would be nice to have the option to display more. Creating options is easy. Although not essential, we'll first create a new option group and then add a new option to that group.
+В настоящее время мы отображаем только 5 избранных тем на странице, но было бы неплохо иметь возможность отображать больше. Создавать варианты очень просто. Хотя это не обязательно, мы сначала создадим новую группу опций, а затем добавим в эту группу новую опцию.
 
-In the Admin CP under Setup then Options click the "Add option group" button. We'll just call the "Group ID" `demoPortal` and give it a title of "Demo - Portal options". Give it an appropriate ̀"Description" and "Display order" and click "Save".
+На панели администратора в разделе Setup выберите Options и нажмите кнопку "Add option group". Мы просто назовем "Group ID" `demoPortal` и дадим ему название "Demo - Portal options". Присвойте ему соответствующие ̀"Description" и "Display order" и нажмите "Save".
 
-Now click "Add option". Set the "Option ID" to `demoPortalFeaturedPerPage`, "Title" to `Featured threads per page`, edit format to `Spin box`, "Data type" to `Positive integer` and "Default value" to `10`. Click "Save".
+Теперь нажмите "Add option". Установите для параметра "Option ID" значение `demoPortalFeaturedPerPage`, "Title" на `Featured threads per page`, измените формат на `Spin box`, "Data type" на `Positive integer` и "Default value" на `10`. Нажмите "Save".
 
-To implement that, go back to the portal controller and change:
+Чтобы реализовать это, вернитесь к контроллеру портала и измените:
 
 ```php
 $perPage = 5;
 ```
 
-To:
+На:
 
 ```php
 $perPage = $this->options()->demoPortalFeaturedPerPage;
 ```
 
-It's probably not going to hurt to add another option. Perhaps another useful option would be to be able to change the default sort order from `xf_demo_portal_featured_thread.feartured_date` to `xf_thread.post_date`. Go back to the "Demo - Portal options" group, and click "Add option".
+Наверное, не помешает добавить еще один вариант. Возможно, другой полезной опцией будет возможность изменить порядок сортировки по умолчанию с `xf_demo_portal_featured_thread.feartured_date` на `xf_thread.post_date`. Вернитесь в группу "Demo - Portal options" и нажмите "Add option".
 
-Set "Option ID" to `demoPortalDefaultSort`, "Title" to `Default sort order` and "Edit format" to `Radio buttons`. For the "Format parameters" set those as follows:
+Установите "Option ID" на `demoPortalDefaultSort`, "Title" на `Default sort order` и "Edit format" на `Radio buttons`. Для "Format parameters" установите их следующим образом:
 
  ```plain
  featured_date={{ phrase('demo_portal_featured_date') }}
  post_date={{ phrase('demo_portal_post_date') }}
  ```
 
-Finally set "Default value" to `featured_date` and click "Save".
+Наконец, установите "Default value" на `featured_date` и нажмите "Save".
 
-We'll need to create the phrases used for the radio button labels, similar to how we created the phrases earlier for the template modification.
+Нам нужно будет создать фразы, используемые для меток переключателей, аналогично тому, как мы создавали фразы ранее для модификации шаблона.
 
-Set the option value to "Post date".
+Установите значение параметра на "Post date".
 
-Strictly speaking, we could just update our repository method to use the new option directly, however, it might be worth looking at how custom finder methods work. Create a new file in the path `src/addons/Demo/Portal/Finder/FeaturedThread.php` with the contents:
+Строго говоря, мы могли бы просто обновить наш метод репозитория, чтобы использовать новую опцию напрямую, однако, возможно, стоит посмотреть, как работают пользовательские методы поиска. Создайте новый файл по пути `src/addons/Demo/Portal/Finder/FeaturedThread.php` с содержимым:
 
 ```php
 <?php
@@ -1127,29 +1128,29 @@ class FeaturedThread extends Finder
 }
 ```
 
-As you can see, all we've done here is create a fairly basic class which extends the XF `Finder` object and a simple method which looks at the value of our option, and applies the appropriate default order. We can now update our repository method to use this instead.
+Как видите, все, что мы здесь сделали, - это создали довольно простой класс, расширяющий объект `Finder`, и простой метод, который смотрит на значение нашей опции и применяет соответствующий порядок по умолчанию. Теперь мы можем обновить наш метод репозитория, чтобы использовать его вместо этого.
 
-Inside our featured thread repository, find:
+В нашем репозитории избранных тем найдите:
 
 ```php
 ->setDefaultOrder('featured_date', 'DESC')
 ```
 
-And change to:
+И измените на:
 
 ```php
 ->applyFeaturedOrder('DESC')
 ```
 
-Finally, it probably makes sense to update our portal view to display the appropriate time stamp - either the featured date or the post date, depending on our option value.
+Наконец, вероятно, имеет смысл обновить наше представление портала, чтобы отображать соответствующую отметку времени - либо указанную дату, либо дату публикации, в зависимости от значения нашей опции.
 
-In the demo_portal_view template change:
+В шаблоне `demo_portal_view` меняем:
 
 ```html
 <li><xf:date time="{$featuredThread.featured_date}" /></li>
 ```
 
-To:
+На:
 
 ```html
 <li>
@@ -1161,11 +1162,11 @@ To:
 </li>
 ```
 
-## Unfeaturing on visibility changes
+## Невозможность изменения видимости
 
-To approach this, we are going to need to modify the Thread entity again but this time we'll be doing that with the `entity_post_save` event. As we mentioned in [The Entity life cycle](entities-finders-repositories.md#the-entity-life-cycle), the `_postSave()` method is where actions can be performed as a result of an entity being inserted or updated. Initially we will be unfeaturing a thread when that thread is no longer visible.
+Чтобы приблизиться к этому, нам нужно будет снова изменить сущность Thread, но на этот раз мы сделаем это с помощью события `entity_post_save`. Как мы упоминали в [Жизненный цикл объекта](entities-finders-repositories.md#the-entity-life-cycle), метод `_postSave()- это то место, где действия могут выполняться в результате вставки объекта или обновлено. Первоначально мы отключим тему, когда она больше не будет видна.
 
-So, head back into the "Add code event listeners" page, and this time listen to the `entity_post_save` event. The event hint this time will be `XF\Entity\Thread`. For the execute callback, we will use the same class as we did before (`Demo\Portal\Listener`) but we will add a new method here named `threadEntityPostSave`. Let's add that method now so it's there when we save the listener:
+Итак, вернитесь на страницу "Add code event listeners" и на этот раз послушайте событие `entity_post_save`. Подсказкой события на этот раз будет `XF\Entity\Thread`. Для обратного вызова execute мы будем использовать тот же класс, что и раньше (`Demo\Portal\Listener`), но мы добавим сюда новый метод с именем `threadEntityPostSave`. Давайте добавим этот метод сейчас, чтобы он был там, когда мы сохраняем слушателя:
 
 ```php
 public static function threadEntityPostSave(\XF\Mvc\Entity\Entity $entity)
@@ -1174,9 +1175,9 @@ public static function threadEntityPostSave(\XF\Mvc\Entity\Entity $entity)
 }
 ```
 
-Click "Save" to save the listener.
+Нажмите «Сохранить», чтобы сохранить слушателя.
 
-The contents of this function are fairly simple, let's look at that:
+Содержимое этой функции довольно простое, давайте посмотрим на это:
 
 ```php
 if ($entity->isUpdate())
@@ -1194,13 +1195,13 @@ if ($entity->isUpdate())
 }
 ```
 
-We've unfeatured threads before, but this time we want to make that conditional on the state of the thread. We can detect state changes using the `isStateChanged` method. This will return either `enter` or `leave` for the column name and value passed in. For example, if the `discussion_state` changes from `visible` to `deleted` then the method will return `leave` in the example above.
+Раньше у нас были темы без признаков, но на этот раз мы хотим сделать это условным для состояния темы. Мы можем обнаружить изменения состояния, используя метод `isStateChanged`. Это вернет либо `enter`, либо `leave` для имени столбца и переданного значения. Например, если `discussion_state` изменится с `visible` на `deleted`, тогда метод вернет `leave` в приведенном выше примере.
 
-Once we have detected that we are "leaving" the visible state, we can then just make sure we have a featured thread relation, and delete it, and update the cached value.
+Как только мы обнаружили, что «покидаем» видимое состояние, мы можем просто убедиться, что у нас есть указанное отношение темы, удалить его и обновить кэшированное значение.
 
-This would only cover the situation whereby the thread is soft deleted or sent to the approval queue. We also need to cover the situation where the thread is permanently deleted.
+Это будет охватывать только ситуацию, когда тема мягко удаляется или отправляется в очередь утверждения. Нам также необходимо учитывать ситуацию, когда ветка удаляется безвозвратно.
 
-For this, we need another listener, this time for the `entity_post_delete` event. So, add that using the same callback class, and this time a method name of `threadEntityPostDelete`. Add the following code to the listener class:
+Для этого нам понадобится другой слушатель, на этот раз для события `entity_post_delete`. Итак, добавьте это, используя тот же класс обратного вызова, и на этот раз имя метода `threadEntityPostDelete`. Добавьте следующий код в класс слушателя:
 
 ```php
 public static function threadEntityPostDelete(\XF\Mvc\Entity\Entity $entity)
@@ -1213,13 +1214,13 @@ public static function threadEntityPostDelete(\XF\Mvc\Entity\Entity $entity)
 }
 ```
 
-After clicking "Save" to save the listener, it will be worth giving this a test. To test this, you might actually be better off keeping an eye on the xf_demo_portal_featured_thread table, as so far the code will already not display non-visible threads, but it's always important not to leave orphaned data. All being well, we're very nearly finished...
+После нажатия кнопки «Сохранить» для сохранения слушателя стоит провести тест. Чтобы проверить это, вам может быть лучше следить за таблицей `xf_demo_portal_featured_thread`, поскольку пока код уже не будет отображать невидимые темы, но всегда важно не оставлять потерянные данные. Все хорошо, мы почти закончили...
 
-## Some final loose ends
+## Последние штрихи
 
-Speaking of orphaned data, we should tidy up the database whenever the add-on is uninstalled. We can do this in the Setup class we created earlier.
+Говоря о потерянных данных, мы должны приводить в порядок базу данных всякий раз, когда дополнения удаляется. Мы можем сделать это в классе Setup, который мы создали ранее.
 
-We're going to create 3 new methods which correspond to our first 3 install steps:
+Мы собираемся создать 3 новых метода, которые соответствуют нашим первым трем шагам установки:
 
 ```php
 public function uninstallStep1()
@@ -1244,13 +1245,13 @@ public function uninstallStep3()
 }
 ```
 
-We don't have to create an uninstall step to remove the widgets as they will be removed automatically when the widget positions are removed. The same is true for any other data we created and associated to the add-on -- it will be removed automatically on uninstall.
+Нам не нужно создавать шаг удаления для удаления виджетов, поскольку они будут удалены автоматически при удалении позиций виджетов. То же самое верно и для любых других данных, которые мы создали и связали с дополнением - они будут автоматически удалены при удалении.
 
-## Building the add-on
+## Сборка дополнения
 
-The final step for any add-on, is releasing it! This involves extracting the XML files from the database (which are shipped in the package and used for installation), calculating the hash of each file and adding it to our `hashes.json` and packaging only the relevant files up into a ZIP file.
+Последний шаг для любого дополнения - его выпуск! Это включает извлечение файлов XML из базы данных (которые поставляются в пакете и используются для установки), вычисление хэша каждого файла и добавление его в наш `hashes.json` и упаковку только соответствующих файлов в ZIP-файл.
 
-Thankfully, this can be done with a single CLI command! Just execute the command below:
+К счастью, это можно сделать с помощью одной команды CLI! Просто выполните команду ниже:
 
 !!! terminal
     *$* php cmd.php xf-addon:build-release Demo/Portal
@@ -1270,4 +1271,4 @@ Thankfully, this can be done with a single CLI command! Just execute the command
     **Release written successfully.**
 
 
-So, with that, that concludes our demo add-on! If you would like to download the source code for this add-on, built using the very commands demonstrated above, click here: [Demo-Portal-1.0.0 Alpha.zip](files/Demo-Portal-1.0.0 Alpha.zip).
+Итак, на этом мы завершаем наше демонстрационное дополнение! Если вы хотите загрузить исходный код этого дополнения, созданный с использованием тех самых команд, которые были продемонстрированы выше, нажмите здесь: [Demo-Portal-1.0.0 Alpha.zip](files/Demo-Portal-1.0.0 Alpha.zip).

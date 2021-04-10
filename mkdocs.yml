@@ -26,7 +26,7 @@ nav:
   - Сущности, поисковики и репозитории: entities-finders-repositories.md
   - Критерии: criteria.md
   - Управление схемой: managing-the-schema.md
-  - Let's build an add-on: lets-build-an-add-on.md
+  - Создание дополнения: lets-build-an-add-on.md
 - Designers:
   - Designing styles: designing-styles.md
   - Синтаксис шаблона: template-syntax.md
