@@ -17,5 +17,5 @@ jobs:
         uses: mhausenblas/mkdocs-deploy-gh-pages@nomaterial
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CUSTOM_DOMAIN: xenforo.su
+          CUSTOM_DOMAIN: dev.xenforo.su
           CONFIG_FILE: mkdocs.yml
