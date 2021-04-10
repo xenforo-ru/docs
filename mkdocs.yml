@@ -15,7 +15,7 @@ nav:
 - Обзор:
   - Начало работы: index.md
 - Администраторы сайта (или обычные):
-  - Синтаксис шаблона: template-syntax.md
+  - Синтаксис шаблонов: template-syntax.md
   - REST API: rest-api.md
 - Разработчики:
   - Структура дополнения: add-on-structure.md
@@ -23,13 +23,13 @@ nav:
   - Общие концепции: general-concepts.md
   - Основы маршрутизации: routing-basics.md
   - Основы контроллера: controller-basics.md
-  - Сущности, поисковики и репозитории: entities-finders-repositories.md
+  - Сущности, файндеры и репозитории: entities-finders-repositories.md
   - Критерии: criteria.md
   - Управление схемой: managing-the-schema.md
   - Создание дополнения: lets-build-an-add-on.md
 - Дизайнеры:
   - Разработка стилей: designing-styles.md
-  - Синтаксис шаблона: template-syntax.md
+  - Синтаксис шаблонов: template-syntax.md
 - Appendix(es):
     - macOS Dev Environment: macos-dev.md
     - Linux Dev Environment: linux-dev.md
