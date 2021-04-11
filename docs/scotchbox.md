@@ -1,74 +1,74 @@
 # Scotchbox
 
-The following is a description of how to install the excellent [Scotch Box](https://box.scotch.io/) onto your own computer, in order to have a fully operational development environment for XenForo in just a few minutes with a handful of simple commands.
+Ниже приводится описание того, как установить отличный [Scotch Box](https://box.scotch.io/) на свой компьютер, чтобы получить полностью рабочую среду разработки для XenForo всего за несколько минут с горстка простых команд.
 
-XenForo has a custom Scotch Box config, which provides everything you need to run XenForo, including a debugger and a performance-enhancing data cache.
+XenForo имеет настраиваемую конфигурацию Scotch Box, которая предоставляет все необходимое для запуска XenForo, включая отладчик и кэш данных для повышения производительности.
 
-Scotch Box runs within a [VirtualBox](https://www.virtualbox.org/) / [Vagrant](https://www.vagrantup.com/) environment.
+Scotch Box работает в среде [VirtualBox](https://www.virtualbox.org/) / [Vagrant](https://www.vagrantup.com/).
 
-## Installing Scotch Box
+## Установка Scotch Box
 
-Start by deciding where on your computer you want your virtual web server to keep its files. It is recommended that you choose a location within your own user home directory.
+Начните с решения, где на вашем компьютере вы хотите, чтобы ваш виртуальный веб-сервер хранил свои файлы. Рекомендуется выбрать расположение в домашнем каталоге вашего пользователя.
 
-In the following example locations, we will be using a directory called *MyServer*, located in the root of your own user directory, identified by your name *{username}*:
+В следующих примерах расположения мы будем использовать каталог с именем *MyServer*, расположенный в корне вашего собственного каталога пользователей, идентифицированный вашим именем *{username}*:
 
 - `/Users/{username}/MyServer` (Mac)
 - `C:\Users\{username}\MyServer` (Windows)
-- `/home/{username}/MyServer` (some Linux distributions)
-- `/users/{username}/MyServer` (other Linux distributions)
+- `/home/{username}/MyServer` (некоторые дистрибутивы Linux)
+- `/users/{username}/MyServer` (другие дистрибутивы Linux)
 
-Once you have chosen a location, follow these steps:
+После того, как вы выбрали место, выполните следующие действия:
 
-1. Install [VirtualBox](https://www.virtualbox.org/) on your computer
-1. Install [Vagrant](https://www.vagrantup.com/) on your computer
-1. Using a **git** client, clone `https://github.com/scotch-io/scotch-box` into your *MyServer* directory. Using the command line client with the Mac example location above, the command would be:
+1. Установите [VirtualBox](https://www.virtualbox.org/) на свой компьютер
+1. Установите [Vagrant](https://www.vagrantup.com/) на свой компьютер
+1. Используя клиент **git**, клонируйте `https://github.com/scotch-io/scotch-box` в каталог *MyServer*. Используя клиент командной строки с расположением примера Mac выше, команда будет:
 
 	```
 	git clone https://github.com/scotch-io/scotch-box /Users/{username}/MyServer
 	```
 
-1. Once the clone process is complete, download this custom **Vagrantfile** and overwrite the Vagrantfile that has been created at */Users/{username}/MyServer/Vagrantfile: [Download custom Vagrantfile](files/scotchbox/Vagrantfile).
+1. После завершения процесса клонирования загрузите этот пользовательский **Vagrantfile** и перезапишите Vagrantfile, который был создан в */Users/{username}/MyServer/Vagrantfile: [Загрузить кастомный Vagrantfile](files/scotchbox/Vagrantfile).
 
-1. When the custom Vagrantfile is in place, run the following commands:
+1. Когда пользовательский Vagrantfile на месте, выполните следующие команды:
 
 	```
 	cd /Users/{username}/MyServer
 	vagrant up
 	```
 
-Your Scotch Box virtual machine is now created and ready to use.
+Ваша виртуальная машина Scotch Box создана и готова к использованию.
 
 !!!Note
-	Scotch Box also provides a '[Scotch Box Pro](https://box.scotch.io/pro/)' version of their virtual machine for a reasonable purchase price. If you prefer to run Scotch Box Pro, refer to the [section below describing the differences between configuring and running Scotch Box and Scotch Box Pro](#scotch-box-pro). 
+	Scotch Box также предоставляет версию своей виртуальной машины '[Scotch Box Pro](https://box.scotch.io/pro/)' по разумной цене. Если вы предпочитаете запускать Scotch Box Pro, обратитесь к [разделу ниже, описывающему различия между настройкой и запуском Scotch Box и Scotch Box Pro](#scotch-box-pro). 
 
-## Where do the files go?
+## Куда деваются файлы?
 
-Once your Scotch Box is up and running, you can keep your XenForo PHP and JS files on your host machine, allowing you to use your text editor or IDE of choice, while the virtual machine is responsible for compiling and serving those files through its web server.
+После того, как ваш Scotch Box запущен и работает, вы можете хранить свои PHP и JS-файлы XenForo на своем хост-компьютере, что позволяет вам использовать текстовый редактор или IDE по выбору, в то время как виртуальная машина отвечает за компиляцию и обслуживание этих файлов через свою сеть. сервер.
 
-You will be able to visit your new web server in your web browser at the following address:
+Вы сможете посетить свой новый веб-сервер в своем веб-браузере по следующему адресу:
 
- ```
- http://192.168.33.10
- ```
- 
- The web server will pull the files to be served from
- 
- ```
- /Users/{username}/MyServer/public
- ```
- 
- If you want your XenForo to be installed at `http://192.168.33.10/xenforo`, you should place the contents of the `upload` folder from the XenForo package into `/Users/{username}/MyServer/public/xenforo`.
- 
-## Stopping and restarting the server
- 
-You can stop the Scotch Box server at any time by running
+```
+http://192.168.33.10
+```
+
+Веб-сервер будет извлекать файлы для обслуживания из
+
+```
+/Users/{username}/MyServer/public
+```
+
+Если вы хотите, чтобы ваш XenForo был установлен по адресу `http://192.168.33.10/xenforo`, вам следует поместить содержимое папки `upload` из пакета XenForo в `/Users/{username}/MyServer/public/xenforo`.
+
+## Остановка и перезапуск сервера
+
+Вы можете остановить сервер Scotch Box в любое время, запустив
 
 ```
 cd /Users/{username}/MyServer
 vagrant halt
 ```
 
-... and you can restart it by running
+...и вы можете перезапустить его, запустив
 
 ```
 cd /Users/{username}/MyServer
@@ -77,18 +77,18 @@ vagrant up
 ```
 
 !!!Note
-	Although Vagrant / Scotch Box will automatically shut down when you reboot your computer, it will not automatically start up again.
+	Хотя Vagrant / Scotch Box автоматически выключится при перезагрузке компьютера, он не запустится автоматически снова.
 	
-	Whenever you reboot, you will need to run the `vagrant up` command again in order to use the server.
- 
-## Offical documentation
+	Каждый раз, когда вы перезагружаетесь, вам нужно будет снова запустить команду `vagrant up`, чтобы использовать сервер.
 
-This guide is derived from the official Scotch Box documentation, which is located at <https://box.scotch.io>
+## Официальная документация
+
+Это руководство взято из официальной документации Scotch Box, которая находится по адресу <https://box.scotch.io>
 
 ## Scotch Box Pro
 
-While the basic Scotch Box requires some additional configuration (which is handed through the custom Vagrantfile) in order to run XenForo 2, [Scotch Box Pro](https://box.scotch.io/pro/) requires no additional configuration, and is ready to run XenForo 2 without downloading extra packages.
+В то время как базовый Scotch Box требует некоторой дополнительной настройки (которая передается через пользовательский Vagrantfile) для запуска XenForo 2, [Scotch Box Pro](https://box.scotch.io/pro/) не требует дополнительной настройки и готов к запуску XenForo 2 без загрузки дополнительных пакетов.
 
-To run Scotch Box Pro, purchase it from the Scotch Box Pro website, then run the *git clone* command provided as part of the instructions you will receive post-purchase.
+Чтобы запустить Scotch Box Pro, приобретите его на веб-сайте Scotch Box Pro, а затем запустите команду *git clone*, предоставленную как часть инструкций, которые вы получите после покупки.
 
-You can now install using the same instructions as above, with the single exception that you should download [this custom Vagrantfile](files/scotchboxpro/Vagrantfile) instead of the one listed in the instructions for Scotch Box.
+Теперь вы можете установить, используя те же инструкции, что и выше, с единственным исключением, что вы должны загрузить [этот пользовательский Vagrantfile](files/scotchboxpro/Vagrantfile) вместо того, который указан в инструкциях для Scotch Box.

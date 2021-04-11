@@ -30,7 +30,7 @@ nav:
 - Дизайнеры:
   - Разработка стилей: designing-styles.md
   - Синтаксис шаблонов: template-syntax.md
-- Appendix(es):
+- Приложения:
     - Среда разработки macOS: macos-dev.md
     - Среда разработки Linux: linux-dev.md
     - Среда разработки Windows: windows-dev.md
