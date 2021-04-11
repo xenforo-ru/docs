@@ -34,7 +34,7 @@ nav:
     - Среда разработки macOS: macos-dev.md
     - Среда разработки Linux: linux-dev.md
     - Среда разработки Windows: windows-dev.md
-    - Visual Studio Code and Xdebug: vscode.md
+    - Visual Studio Code и Xdebug: vscode.md
     - Scotch Box: scotchbox.md
 
 repo_url: https://github.com/xenforo-ru/docs/
