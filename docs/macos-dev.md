@@ -1,64 +1,65 @@
-# macOS development environment with concurrent PHP versions
+# Среда разработки на macOS с параллельными версиями PHP
 
-To get the most out of the XenForo framework, you'll want to have a local webserver capable of running XenForo, along with  capable debugger and a code editor that understands the code and can help you get around it.
+Чтобы получить максимальную отдачу от фреймворка XenForo, вам понадобится локальный веб-сервер, способный запускать XenForo, а также способный отладчик и редактор кода, который понимает код и может помочь вам обойти его.
 
-Thankfully, these requirements are now simple to meet and won't cost you anything.
+К счастью, эти требования теперь легко выполнить, и они ничего вам не будут стоить.
 
-This document and its accompanying video will help you to get started on a Macintosh running macOS 11 *Big Sur* or later. If you want to skip the explanations, you can skip the document and just read the [summary](#summary).
+Этот документ и сопровождающее его видео помогут вам начать работу на Macintosh под управлением macOS 11 *Big Sur* или более поздней версии. Если вы хотите пропустить пояснения, вы можете пропустить документ и просто прочитать [summary](#summary).
 
 <div class="video-wrapper"><iframe width="560" height="315" src="https://www.youtube.com/embed/kiFqrd_dHz8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 ---
 
-As a bonus, this approach will allow you to run **multiple versions of PHP *at the same time***, so you could run instances of XenForo 1.5 on PHP 5.6, XenForo 2.1 on PHP 7.4 and XenForo 2.2 on PHP 8.0 if you wanted to, **without** having to manually switch the PHP version whenever you want to access a particular version. More on that later.
+В качестве бонуса этот подход позволит вам запускать **несколько версий PHP *одновременно***, поэтому вы можете запускать экземпляры XenForo 1.5 на PHP 5.6, XenForo 2.1 на PHP 7.4 и XenForo 2.2 на PHP 8.0, если вы хотели **без** необходимости вручную переключать версию PHP, когда вы хотите получить доступ к определенной версии. Подробнее об этом позже.
 
 !!! note
-	You must be logged into macOS with a user account with administrative privileges in order to complete the steps in this document.
+	Вы должны войти в macOS с учетной записью пользователя с правами администратора, чтобы выполнить действия, описанные в этом документе.
 
 ## Homebrew
-[Homebrew](https://brew.sh) is a package manager for macOS that provides a relatively easy way to install all the components you need to run a local web and database server. It can do a lot more than that too, but that's beyond the scope of this document.
 
-One great thing about Homebrew is that it installs its packages into a single directory tree, so it is nicely walled-off from the rest of your Mac, making maintenance and uninstallation far less painful than other methods.
+[Homebrew](https://brew.sh) - это менеджер пакетов для macOS, который обеспечивает относительно простой способ установки всех компонентов, необходимых для запуска локального веб-сервера и сервера базы данных. Он также может намного больше, но это выходит за рамки этого документа.
 
-Although the installation is done over the command line, don't let that put you off, because the results are well worth it.
+Одна замечательная вещь в Homebrew заключается в том, что он устанавливает свои пакеты в единое дерево каталогов, поэтому он хорошо изолирован от остальной части вашего Mac, что делает обслуживание и удаление гораздо менее болезненными, чем другие методы.
 
-As an extra bonus, literally as I am writing this, Homebrew have [announced version 3.0](https://brew.sh/2021/02/05/homebrew-3.0.0/) with support for [Apple Silicon](https://support.apple.com/en-gb/HT211814).
+Хотя установка выполняется из командной строки, не позволяйте этому оттолкнуть вас, потому что результаты того стоят.
 
-### Xcode command line tools
+В качестве дополнительного бонуса буквально сейчас, когда я пишу это, Homebrew [анонсировала версию 3.0](https://brew.sh/2021/02/05/homebrew-3.0.0/) с поддержкой [Apple Silicon](https://support.apple.com/en-gb/HT211814).
 
-To get Homebrew installed, we need to grab some developer tools from Apple.
+### Инструменты командной строки Xcode
 
-[Xcode](https://developer.apple.com/xcode/features/) is Apple IDE for developing apps for macOS and iOS. It includes a wide variety of command line tools that are necessary for general application building, and helpfully, these are available as a separate package without having to install the entire Xcode suite.
+Чтобы установить Homebrew, нам нужно получить некоторые инструменты разработчика от Apple.
 
-Open a **Terminal** window on your Mac and enter the following command:
+[Xcode](https://developer.apple.com/xcode/features/) это Apple IDE для разработки приложений для macOS и iOS. Он включает в себя широкий спектр инструментов командной строки, необходимых для общей сборки приложений, и, что полезно, они доступны в виде отдельного пакета без необходимости установки всего пакета Xcode.
+
+Откройте окно **Терминал** на вашем Mac и введите следующую команду:
 
 ```bash
 sudo xcode-select --install;
 ```
 
-This will prompt you for your password on the command line, and will then open an installation window that will allow you to download and install the tools.
+Вам будет предложено ввести пароль в командной строке, а затем откроется окно установки, которое позволит вам загрузить и установить инструменты.
 
 !!! note
-	You should run this command again whenever you install a macOS update, because *sometimes* your Mac will not retain the command line tools through the update process.
+	Вам следует запускать эту команду снова всякий раз, когда вы устанавливаете обновление macOS, потому что *иногда* ваш Mac не сохраняет инструменты командной строки в процессе обновления.
 
-### Installing Homebrew
+### Установка Homebrew
 
-In your terminal window, enter the following command:
+В окне терминала введите следующую команду:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)";
 ```
 
-Watch the output and confirm as necessary.
+Просмотрите вывод и подтвердите при необходимости.
 
-## Installing Homebrew packages
+## Установка пакетов Homebrew
 
-Now it's time to use Homebrew to install some packages. We are going to give Homebrew some information about some additional package sources, then install (almost) everything we need with one long command.
+Теперь пора использовать Homebrew для установки некоторых пакетов. Мы собираемся дать Homebrew некоторую информацию о некоторых дополнительных источниках пакетов, а затем установить (почти) все, что нам нужно, с помощью одной длинной команды.
 
 ### PHP, Apache, MariaDB, ElasticSearch, Mailhog, ImageMagick
 
-The following command will install three versions of [PHP](https://www.php.net) , the [Apache HTTP Server](http://httpd.apache.org),  [MariaDB](https://mariadb.com) (which we will be using as our [MySQL](https://www.mysql.com) engine), [ElasticSearch](https://www.elastic.co), [MailHog](https://github.com/mailhog/MailHog) and [ImageMagick](https://imagemagick.org).
+Следующая команда установит три версии [PHP](https://www.php.net), [Apache HTTP Server](http://httpd.apache.org), [MariaDB](https://mariadb.com) (который мы будем использовать в качестве нашего механизма [MySQL](https://www.mysql.com)), [ElasticSearch](https://www.elastic.co), [MailHog](https://github.com/mailhog/MailHog) и [ImageMagick](https://imagemagick.org).
 
-If you would rather install [MySQL](https://www.mysql.com) than [MariaDB](https://mariadb.com), [read this note](#note-for-cjk-users).
+Если вы предпочитаете установить [MySQL](https://www.mysql.com), а не [MariaDB](https://mariadb.com), [прочтите это примечание](#note-for-cjk-users).
 
 ```bash
 brew tap elastic/tap;
@@ -66,13 +67,13 @@ brew tap shivammathur/php;
 brew install pkg-config mariadb httpd mailhog imagemagick elastic/tap/elasticsearch-full shivammathur/php/php@5.6 shivammathur/php/php@7.4 shivammathur/php/php@8.0;
 ```
 
-This command will take a few minutes to complete, as there is a lot of software to install here, but all good things come to those who wait...
+Выполнение этой команды займет несколько минут, так как здесь нужно установить много программного обеспечения, но все хорошее достается тем, кто ждет...
 
-### Multiple PHP versions with Xdebug and ImageMagick
+### Несколько версий PHP с Xdebug и ImageMagick
 
-As I said earlier, this process will provide the ability to run several versions of PHP at the same time, without having to run a script to switch between them.
+Как я сказал ранее, этот процесс предоставит возможность запускать несколько версий PHP одновременно, без необходимости запускать скрипт для переключения между ними.
 
-Run the following commands in order to deploy [Xdebug](https://xdebug.org) and ImageMagick into each version of PHP you installed.
+Выполните следующие команды, чтобы развернуть [Xdebug](https://xdebug.org) и ImageMagick в каждой установленной вами версии PHP.
 
 ```bash
 brew unlink php;
@@ -92,54 +93,54 @@ pecl install xdebug;
 printf "\n" | pecl install imagick;
 ```
 
-Again, this will take a few minutes to download and install all the necessary software.
+Опять же, загрузка и установка всего необходимого программного обеспечения займет несколько минут.
 
 !!! note
-	At the time of writing, ImageMagick does not work properly with PHP 8, but I've left the command in place as this may have changed by the time you are running the commands.
+	На момент написания ImageMagick не работает должным образом с PHP 8, но я оставил команду на месте, так как это могло измениться к тому времени, когда вы запускаете команды.
 
-![Screenshot: macOS running XenForo, being debugged by Xdebug with Visual Studio Code](files/images/macos-debugging.jpg)
+![Снимок экрана: macOS с XenForo, отлаживаемая Xdebug с Visual Studio Code](files/images/macos-debugging.jpg)
 
-## Configuring
+## Настройка
 
-As far as possible, we are going to try to minimise the amount of changes we make to the default configuration files for each software component, and instead have the server look at additional configuration files with our own specific instructions in them.
+Насколько это возможно, мы постараемся минимизировать количество изменений, которые мы вносим в файлы конфигурации по умолчанию для каждого программного компонента, и вместо этого попросим сервер просмотреть дополнительные файлы конфигурации с нашими собственными конкретными инструкциями в них.
 
 !!! note
-	The configurations I am showing here contain my own macOS username, `kier`, but in each instance you will need to replace `kier` with your own username. If you are not sure what your Mac username is, use the command `whoami` in a Terminal window.
+	Конфигурации, которые я показываю здесь, содержат мое собственное имя пользователя macOS, `kier`, но в каждом случае вам нужно будет заменить `kier` своим собственным именем пользователя. Если вы не уверены, какое у вас имя пользователя Mac, используйте команду `whoami` в окне Терминала.
 
 ### MariaDB
 
-We now need to get MariaDB up and running.
+Теперь нам нужно запустить MariaDB.
 
-In your terminal window, enter the following commands:
+В окне терминала введите следующие команды:
 
 ```bash
 brew services start mariadb;
 sudo /usr/local/bin/mysql_upgrade;
 ```
 
-You will be asked the MySQL root password - there isn't one yet, so just press enter when prompted.
+Вам будет предложено ввести root-пароль MySQL - его еще нет, поэтому просто нажмите Enter, когда будет предложено.
 
-Next up:
+Следующий:
 
 ```bash
 sudo /usr/local/bin/mysql_secure_installation;
 ```
 
-You can press enter to accept the defaults for most of the questions this script will ask, except for the root password, which you will need to set. As this is only a development installation, a password of `root` is fine.
+Вы можете нажать Enter, чтобы принять значения по умолчанию для большинства вопросов, которые будет задавать этот скрипт, за исключением пароля root, который вам нужно будет установить. Поскольку это только установка для разработки, можно использовать пароль `root`.
 
 ### Apache
 
-Begin by editing the following file: `/usr/local/etc/httpd/httpd.conf`
+Начните с редактирования следующего файла: `/usr/local/etc/httpd/httpd.conf`
 
-Leave the entire contents of the configuration file unchanged, but at the very end of the file, add the following line:
+Оставьте все содержимое файла конфигурации без изменений, но в самом конце файла добавьте следующую строку:
 
 ```apacheconf
 Include /usr/local/etc/httpd/extra/httpd-dev.conf
 ```
 
-Now, create and edit the file `/usr/local/etc/httpd/extra/httpd-dev.conf`
+Теперь создайте и отредактируйте файл `/usr/local/etc/httpd/extra/httpd-dev.conf`
 
-And within it, add the following contents:
+И в него добавьте следующее содержимое:
 
 ```apacheconf
 User kier
@@ -178,21 +179,22 @@ LoadModule proxy_fcgi_module lib/httpd/modules/mod_proxy_fcgi.so
 ```
 
 !!! note
-	Assuming that you change the three instances of `kier` to your own username, this configuration will expect to serve your web files out of a `www` directory in your `Documents` folder. You will need to create this directory, or change both instances of the path in the configuration if you want to serve from another directory.
+	Предполагая, что вы измените три экземпляра `kier` на свое собственное имя пользователя, эта конфигурация будет ожидать обслуживания ваших веб-файлов из каталога `www` в вашей папке `Documents`. Вам нужно будет создать этот каталог или изменить оба экземпляра пути в конфигурации, если вы хотите обслуживать из другого каталога.
 
 ### PHP
 
-Each version of PHP requires its own configuration edits, but thankfully they are minor.
+Каждая версия PHP требует собственных изменений конфигурации, но, к счастью, они незначительны.
 
-#### Xdebug and Mailhog
+#### Xdebug и Mailhog
 
-We need to set up some sensible defaults and enable Xdebug for each PHP version.
+Нам нужно установить некоторые разумные значения по умолчанию и включить Xdebug для каждой версии PHP.
 
-Begin by editing the `php.ini` files at `/usr/local/etc/php/5.6/php.ini`, `/usr/local/etc/php/7.4/php.ini` and  `/usr/local/etc/php/8.0/php.ini` and remove any lines at the top of the file referencing xdebug or imagick, then save the files.
+Начните с редактирования файлов `php.ini` files at `/usr/local/etc/php/5.6/php.ini`, `/usr/local/etc/php/7.4/php.ini` и `/usr/local/etc/php/8.0/php.ini` и удалите все строки в верхней части файла, ссылающиеся на xdebug или imagick, затем сохраните файлы.
 
-Next, create, edit and save the following three *ini* files with the noted contents for each:
+Затем создайте, отредактируйте и сохраните следующие три файла *ini* с указанным содержимым для каждого:
 
 ##### `/usr/local/etc/php/5.6/conf.d/php-dev.ini`
+
 ```ini
 post_max_size = 20M
 upload_max_filesize = 10M
@@ -212,7 +214,9 @@ xdebug.remote_port = 9000
 extension = "imagick.so"
 ```
 ---
-##### `/usr/local/etc/php/7.4/conf.d/php-dev.ini` **and** `/usr/local/etc/php/8.0/conf.d/php-dev.ini`
+
+##### `/usr/local/etc/php/7.4/conf.d/php-dev.ini` **и** `/usr/local/etc/php/8.0/conf.d/php-dev.ini`
+
 ```ini
 post_max_size = 20M
 upload_max_filesize = 10M
@@ -233,39 +237,41 @@ extension = "imagick.so"
 ```
 
 !!! warning
-	At the time of writing, ImageMagick does not work properly with PHP 8. If you receive errors when trying to `pecl install imagick` for PHP 8 (above) then you will need to comment-out the `extension = "imagick.so"` line from the PHP 8 php-dev.ini, by adding a leading semi-colon.
+	На момент написания ImageMagick не работал должным образом с PHP 8. Если вы получаете сообщения об ошибках при попытке `pecl install imagick` для PHP 8 (смотрите выше), вам нужно закомментировать `extension = "imagick.so"` строка из PHP 8 php-dev.ini, добавив начальную точку с запятой.
 
 ---
 
 #### Fast CGI (php-fpm)
 
-We are going to be using the FastCGI Process Manager (FPM) implementation of PHP to allow version switching, but first we need to tell each PHP version how to respond in order to let us run multiple versions at the same time.
+Мы собираемся использовать реализацию PHP FastCGI Process Manager (FPM), чтобы разрешить переключение версий, но сначала нам нужно сообщить каждой версии PHP, как реагировать, чтобы мы могли запускать несколько версий одновременно.
 
-Create the following file, then enter and save the contents noted below, changing the username to be your own:
+Создайте следующий файл, затем введите и сохраните содержимое, указанное ниже, изменив имя пользователя на свое:
 
 `/usr/local/etc/php/5.6/php-fpm.d/x.conf`
+
 ```apacheconf
 user = kier
 group = staff
 listen = 127.0.0.1:9056
 ```
-Note the use of port `9056` there. I got `9056` by removing the decimal point from the PHP version number `5.6` and adding the concatenated value `56` to `9000`, resulting in `9056`.
 
-Next, you will need to copy this file to the following locations, changing the port number as required:
+Обратите внимание на использование порта `9056`. Я получил `9056`, удалив десятичную точку из номера версии PHP `5.6` и добавив конкатенированное значение `56` к `9000`, в результате чего получилось `9056`.
 
-`/usr/local/php/7.4/php-fpm.d/x.conf` (using port `9074`)
+Затем вам нужно будет скопировать этот файл в следующие места, при необходимости изменив номер порта:
 
-`/usr/local/php/8.0/php-fpm.d/x.conf` (using port `9080`)
+`/usr/local/php/7.4/php-fpm.d/x.conf` (используя порт `9074`)
 
-While PHP 7.4 and 8.0 will slurp up our newly-specified FPM config, PHP 5.6 needs a little help. Edit the file `/usr/local/etc/php/5.6/php-fpm.conf` and at the very bottom of the file, add the following:
+`/usr/local/php/8.0/php-fpm.d/x.conf` (используя порт `9080`)
+
+В то время как PHP 7.4 и 8.0 будут лишать нашу недавно заданную конфигурацию FPM, PHP 5.6 требуется небольшая помощь. Отредактируйте файл `/usr/local/etc/php/5.6/php-fpm.conf` и в самом низу файла добавьте следующее:
 
 ```apacheconf
 include=/usr/local/etc/php/5.6/php-fpm.d/*.conf
 ```
 
-#### Auto-start
+#### Авто-старт
 
-Now that all that has been configured, we can start the servers and instruct them to load at system startup.
+Теперь, когда все настроено, мы можем запустить серверы и дать им указание загружаться при запуске системы.
 
 ```bash
 brew services start elasticsearch-full;
@@ -275,13 +281,13 @@ brew services start php@8.0;
 brew services start httpd;
 ```
 
-## Selecting a PHP version
+## Выбор версии PHP
 
-This is the clever part. We can instruct Apache to pass PHP scripts to any of our installed PHP versions with a little configuration in a `.htaccess` file.
+Это умная часть. Мы можем проинструктировать Apache передавать скрипты PHP в любую из установленных нами версий PHP с небольшой конфигурацией в файле `.htaccess`.
 
-The configuration we built [above](#apache) will default the server to use PHP 8.0, but it's easy to override this on a directory by directory basis.
+В конфигурации, которую мы создали [выше](#apache), сервер по умолчанию будет использовать PHP 8.0, но это легко переопределить для каждого каталога отдельно.
 
-In your `Documents/www` folder, create the following tree of folders and files (or download [this zip](files/info.zip), which contains the same contents):
+В папке `Documents/www` создайте следующее дерево папок и файлов (или загрузите [этот zip файл](files/info.zip), содержащий то же содержимое):
 
 - Documents
 	- www
@@ -292,116 +298,120 @@ In your `Documents/www` folder, create the following tree of folders and files (
 			 	 - info.php
 			- php8.0
 			  	- info.php
-			  
-In each of these `index.php` files, add the following contents:
+
+В каждый из этих файлов `index.php`, добавьте следующее содержимое:
+
 ```php
 <?php
 
 phpinfo();
 ```
 
-If you visit any of these locations using your browser, you will see **PHP 8.0** reported as the version in use.
+Если вы посетите любое из этих мест с помощью своего браузера, вы увидите **PHP 8.0**, указанную как используемую версию.
 
 !!! note
-	Because we placed the `www` directory inside your `Documents` folder, which gives some advantages like potentially automatically backing-up your www folder to iCloud, it will also cause some slightly irritating permission prompts when Apache and each version of PHP first tries to access the www directory. Just watch for the prompts and confirm them when they appear.
+	Поскольку мы поместили каталог `www` в вашу папку `Documents`, что дает некоторые преимущества, такие как потенциально автоматическое резервное копирование вашей папки `www` в iCloud, это также вызовет несколько раздражающие запросы разрешения, когда Apache и каждая версия PHP сначала попытаются получить доступ к каталогу `www`. Просто следите за подсказками и подтверждайте их, когда они появляются.
 
-Next, create a `.htaccess` file in each php version directory alongside the `info.php` file, and add the following contents:
+Затем создайте файл `.htaccess` в каталоге каждой версии php вместе с файлом `info.php` и добавьте следующее содержимое:
 
-### .htaccess for PHP 5.6
+### .htaccess для PHP 5.6
+
 ```apacheconf
 <FilesMatch \.php$>
     SetHandler "proxy:fcgi://localhost:9056"
 </FilesMatch>
 ```
 
-### .htaccess for PHP 7.4
+### .htaccess для PHP 7.4
+
 ```apacheconf
 <FilesMatch \.php$>
     SetHandler "proxy:fcgi://localhost:9074"
 </FilesMatch>
 ```
 
-### .htaccess for PHP 8.0
+### .htaccess для PHP 8.0
+
 ```apacheconf
 <FilesMatch \.php$>
     SetHandler "proxy:fcgi://localhost:9080"
 </FilesMatch>
 ```
 
-Note the use of our custom port numbers from our [FPM config](#fast-cgi-php-fpm) here.
+Обратите внимание на использование наших номеров портов из нашей [конфигурации FPM](#fast-cgi-php-fpm) здесь.
 
-With those files in place, refreshing the PHP info pages for any of those PHP version directories should show the correctly-targeted PHP version. Any PHP files served from those directories should also use that same PHP version.
+С этими файлами обновление информационных страниц PHP для любого из этих каталогов версии PHP должно показывать правильную версию PHP. Любые файлы PHP, обслуживаемые из этих каталогов, также должны использовать ту же версию PHP.
 
-You can now liberally sprinkle these .htaccess files across your `www` directory to have any directory select any version of PHP you choose.
+Теперь вы можете свободно разбросать эти файлы .htaccess по вашему каталогу `www`, чтобы любой каталог выбирал любую версию PHP по вашему выбору.
 
-![Screenshot: Three versions of PHP running concurrently through the Apache webserver](files/images/macos-php-versions.png)
+![Снимок экрана: Три версии PHP, работающие одновременно через веб-сервер Apache](files/images/macos-php-versions.png)
 
 !!! note
-	The `.htaccess` files within the [downloadable zip](files/info.zip) have the `SetHandler` directive commented-out, you will need to remove the leading `#` from that line before the directive will operate.
+	Файлы `.htaccess` в [загружаемом zip](files/info.zip) закомментированы директивой `SetHandler`, вам нужно будет удалить начальный символ `#` из этой строки, прежде чем директива будет работать.
 
-## IDE, debugging and DB manager
+## IDE, отладка и менеджер БД
 
-To get the very most out of this powerful web server software suite you have now put together, it's important to go beyond a simple text editor for your coding needs.
+Чтобы получить максимальную отдачу от этого мощного программного пакета для веб-серверов, который вы сейчас собрали, важно выйти за рамки простого текстового редактора для ваших нужд кодирования.
 
-Check out our section on [Visual Studio Code and how to use it with Xdebug](vscode.md).
+Ознакомьтесь с нашим разделом [Visual Studio Code и его использование с Xdebug](vscode.md).
 
-## Links to resources
+## Ссылки на ресурсы
 
 * [Visual Studio Code](https://code.visualstudio.com/)
 * [TablePlus](https://tableplus.io/)
 * [Homebrew](https://brew.sh)
 * [Xdebug](https://xdebug.org)
-* [XdebugToggle for Safari](https://apps.apple.com/gb/app/xdebugtoggle/id1437227804?mt=12)
-* [Video of this process](https://youtu.be/kiFqrd_dHz8)
+* [XdebugToggle для Safari](https://apps.apple.com/gb/app/xdebugtoggle/id1437227804?mt=12)
+* [Видео этого процесса](https://youtu.be/kiFqrd_dHz8)
 
 ---
-## Summary
+## Обобщение
 
-### Terminal command summary
+### Сводка команд терминала
 
 ```bash
 #!/bin/bash
 
-# install macOS command line development tools
+# установить инструменты разработки командной строки macOS
 sudo xcode-select --install;
 
-# install homebrew
+# установить homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)";
 
-# additional homebrew package sources
+# дополнительные источники пакетов homebrew
 brew tap elastic/tap;
 brew tap shivammathur/php;
 
-# install homebrew packages
+# установить пакеты homebrew
 brew install pkg-config mariadb httpd mailhog imagemagick elastic/tap/elasticsearch-full;
 
-# install php 5.6
+# установить php 5.6
 brew install shivammathur/php/php@5.6;
 pecl install xdebug-2.5.5;
 printf "\n" | pecl install imagick;
 
-# install php 7.4
+# установить php 7.4
 brew install shivammathur/php/php@7.4;
 pecl install xdebug;
 printf "\n" | pecl install imagick;
 
-# install php 8.0
+# установить php 8.0
 brew install shivammathur/php/php@8.0;
 pecl install xdebug;
-# this command fails with PHP 8.0 at the time of writing
+# эта команда не работает с PHP 8.0 на момент написания
 printf "\n" | pecl install imagick;
 
-# start and setup mariadb
+# запустить и настроить mariadb
 brew services start mariadb;
 sudo /usr/local/bin/mysql_upgrade;
 sudo /usr/local/bin/mysql_secure_installation;
 
 #
-# Edit config files for Apache and PHP at this point,
-# see the 'Configuration summary' below
+# На этом этапе отредактируйте файлы конфигурации для Apache и PHP,
+# смотрите «Сводку конфигурации» ниже.
 #
 
-# start the rest of the services
+# запустить остальные сервисы
 brew services start elasticsearch-full;
 brew services start php@5.6;
 brew services start php@7.4;
@@ -409,30 +419,34 @@ brew services start php@8.0;
 brew services start httpd;
 ```
 
-### Configuration summary
+### Сводка конфигурации
 
-#### Make the following edits
+#### Сделайте следующие правки
 
-Edit the following files as described:
+Отредактируйте следующие файлы, как описано:
 
-At the end of `/usr/local/etc/httpd/httpd.conf`, add
+В конце `/usr/local/etc/httpd/httpd.conf`, добавьте
+
 ```apacheconf
 Include /usr/local/etc/httpd/extra/httpd-dev.conf
-``` 
-Within `/usr/local/etc/php/`, edit the files `5.6/php.ini`, `7.4/php.ini` and `8.0/php,ini`, find the *imagick.so* and *xdebug.so* extension lines at the top of the file and if either exists, comment them out as follows:
+```
+
+В `/usr/local/etc/php/` отредактируйте файлы `5.6/php.ini`, `7.4/php.ini` и `8.0/php,ini`, найдите строки расширений *imagick.so* и *xdebug.so* в верхней части файла, и если они существуют, закомментируйте их следующим образом:
+
 ```ini
 ; extension="imagick.so"
 ; zend_extension="xdebug.so"
 ```
 
-At the end of `/usr/local/etc/php/5.6/php-fpm.conf`, add
+В конце `/usr/local/etc/php/5.6/php-fpm.conf`, добавьте
+
 ```apacheconf
 include=/usr/local/etc/php/5.6/php-fpm.d/*.conf
 ```
 
-#### Add the following files
+#### Добавьте следующие файлы
 
-Download the linked files and place them in the noted directories, creating the containing directory if it does not already exist, and replacing instances of my username `kier` with your own macOS username. Find your own username by running `whoami` in a terminal:
+Загрузите связанные файлы и поместите их в указанные каталоги, создав содержащий каталог, если он еще не существует, и заменив экземпляры моего имени пользователя `kier` своим собственным именем пользователя macOS. Найдите свое собственное имя пользователя, запустив `whoami` в терминале:
 
 1. `/usr/local/etc/httpd/extra/`[`httpd-dev.conf`](files/macos/httpd/httpd-dev.conf)
 1. `/usr/local/etc/php/5.6/conf.d/`[`php-dev.ini`](files/macos/php56/php-dev.ini)
@@ -442,33 +456,34 @@ Download the linked files and place them in the noted directories, creating the 
 1. `/usr/local/etc/php/8.0/conf.d/`[`php-dev.ini`](files/macos/php80/php-dev.ini)
 1. `/usr/local/etc/php/8.0/php-fpm.d/`[`x.conf`](files/macos/php80/x.conf)
 
-### PHP-version-targeting .htaccess files
+### Файлы .htaccess, ориентированные на версии PHP
 
-The following files can be placed inside a directory on your webserver to have all PHP files within that folder use a particular version of PHP.
+Следующие файлы можно поместить в каталог на вашем веб-сервере, чтобы все файлы PHP в этой папке использовали определенную версию PHP.
 
-Rename the files from `htaccess.txt` to `.htaccess` after placing them in their destination folder.
+Переименуйте файлы из `htaccess.txt` в `.htaccess` после помещения их в папку назначения.
 
 1. PHP 5.6 [`.htaccess`](files/macos/php56/htaccess.txt)
 1. PHP 7.4 [`.htaccess`](files/macos/php74/htaccess.txt)
 1. PHP 8.0 [`.htaccess`](files/macos/php80/htaccess.txt)
 
-## Note for CJK users
+## Примечание для пользователей CJK
 
-It has been pointed out that [MariaDB does not work particularly well with CJK languages](https://xenforo.com/community/threads/developer-ide-and-server-software-setup-guides.191195/post-1499966). If CJK support is important in your development process, you should replace commands referencing `mariadb` with `mysql`, which will cause MySQL 8.0 to be installed instead.
+Было указано, что [MariaDB не особенно хорошо работает с языками CJK](https://xenforo.com/community/threads/developer-ide-and-server-software-setup-guides.191195/post-1499966). Если поддержка CJK важна для вашего процесса разработки, вам следует заменить команды, ссылающиеся с `mariadb` на `mysql`, что приведет к установке MySQL 8.0 вместо этого.
 
-Specifically, the commands that should change are:
+В частности, команды, которые следует изменить:
+
 ```bash
-# install packages including MariaDB:
+# установить пакеты, включая MariaDB:
 brew install pkg-config mariadb httpd mailhog imagemagick elastic/tap/elasticsearch-full shivammathur/php/php@5.6 shivammathur/php/php@7.4 shivammathur/php/php@8.0;
 
-# install packages using MySQL instead:
+# вместо этого установите пакеты, используя MySQL:
 brew install pkg-config mysql httpd mailhog imagemagick elastic/tap/elasticsearch-full shivammathur/php/php@5.6 shivammathur/php/php@7.4 shivammathur/php/php@8.0;
 
-# start MariaDB service
+# запустить сервис MariaDB
 brew services start mariadb
 
-# start MySQL service instead
+# вместо этого запустите сервис MySQL
 brew services start mysql
 ```
 
-![Screenshot: XenForo admin control panel reporting MySQL installed instead of MariaDB](files/images/server-report.png)
+![Снимок экрана: Панель управления администратора XenForo сообщает об установке MySQL вместо MariaDB](files/images/server-report.png)

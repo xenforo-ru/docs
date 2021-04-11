@@ -31,7 +31,7 @@ nav:
   - Разработка стилей: designing-styles.md
   - Синтаксис шаблонов: template-syntax.md
 - Appendix(es):
-    - macOS Dev Environment: macos-dev.md
+    - Среда разработки macOS: macos-dev.md
     - Linux Dev Environment: linux-dev.md
     - Windows Dev Environment: windows-dev.md
     - Visual Studio Code and Xdebug: vscode.md
