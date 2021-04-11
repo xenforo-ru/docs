@@ -33,7 +33,7 @@ nav:
 - Appendix(es):
     - Среда разработки macOS: macos-dev.md
     - Среда разработки Linux: linux-dev.md
-    - Windows Dev Environment: windows-dev.md
+    - Среда разработки Windows: windows-dev.md
     - Visual Studio Code and Xdebug: vscode.md
     - Scotch Box: scotchbox.md
 

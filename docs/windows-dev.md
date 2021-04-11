@@ -1,32 +1,32 @@
-# Windows development environment 
+# Среда разработки Windows 
 
-To get the most out of the XenForo framework, you'll want to have a local webserver capable of running XenForo, along with  capable debugger and a code editor that understands the code and can help you get around it.
+Чтобы получить максимальную отдачу от фреймворка XenForo, вам понадобится локальный веб-сервер, способный запускать XenForo, а также способный отладчик и редактор кода, который понимает код и может помочь вам обойти его.
 
-Thankfully, these requirements are now simple to meet and won't cost you anything.
+К счастью, эти требования теперь легко выполнить, и они ничего вам не будут стоить.
 
-The following document and accompanying video will guide you step-by-step to installing everything you need to get started on a Windows machine.
+В следующем документе и сопровождающем видео вы найдете пошаговые инструкции по установке всего необходимого для начала работы на компьютере с Windows.
 
 <div class="video-wrapper"><iframe width="560" height="315" src="https://www.youtube.com/embed/-1TOCDbmZmg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 
 ## Laragon
 
-[Laragon](https://laragon.org) is an installable package that includes the essential Apache, PHP and MySQL components that you will need to run XenForo.
+[Laragon](https://laragon.org) - это устанавливаемый пакет, который включает в себя основные компоненты Apache, PHP и MySQL, которые вам понадобятся для запуска XenForo.
 
-It is noteworthy that it's fully extensible, easy to maintain and easy to remove should you ever choose to do so.
+Примечательно, что он полностью расширяемый, прост в обслуживании и легко удаляется, если вы когда-нибудь захотите это сделать.
 
-Begin by downloading and installing [Laragon Lite](https://laragon.org/download/) from laragon.org. It's fine to allow a completely default installation without changing any configuration.
+Начните с загрузки и установки [Laragon Lite](https://laragon.org/download/) с laragon.org. Это нормально - разрешить полную установку по умолчанию без изменения какой-либо конфигурации.
 
-### Add Laragon to path
+### Добавить Laragon в path
 
-Once installed, Laragon will open up a window with a large gear icon in the top right corner, which you should right-click to access the quick menu.
+После установки Laragon откроет окно с большим значком шестеренки в правом верхнем углу, которое вы должны щелкнуть правой кнопкой мыши, чтобы получить доступ к быстрому меню.
 
-From here, select Tools > Path > Add Laragon to Path.
+Отсюда выберите Tools > Path > Add Laragon в Path.
 
-This will ensure that all the binary files added by Laragon, such as `php` and `mysql` are accessible to all applications without having to manually specify the full path to the binaries.
+Это гарантирует, что все двоичные файлы, добавленные Laragon, такие как `php` и `mysql`, будут доступны для всех приложений без необходимости вручную указывать полный путь к двоичным файлам.
 
-### Check PHP version
+### Проверить версию PHP
 
-Open a new command prompt window (it must be a new window in order to benefit from the changes to the system PATH variable we just made) and type `php -v`. With a little luck, PHP will return information about its version number.
+Откройте новое окно командной строки (это должно быть новое окно, чтобы воспользоваться только что внесенными изменениями в системную переменную PATH) и введите `php -v`. Если повезет, PHP вернет информацию о номере своей версии.
 
 ```
 C:\Users\Kier>php -v
@@ -37,36 +37,39 @@ Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies
 
 ## Xdebug
 
-The default version of Laragon has almost everything we need, with the exception of [Xdebug](https://xdebug.org), an indispensable tool for PHP developers.
+В стандартной версии Laragon есть почти все, что нам нужно, за исключением [Xdebug](https://xdebug.org), незаменимого инструмента для разработчиков PHP.
 
-It's important to get precisely the correct version of Xdebug to work with the version of PHP installed on your computer, so we will collect information about your PHP installation using the command-line version of phpinfo.
+Важно получить именно ту версию Xdebug для работы с версией PHP, установленной на вашем компьютере, поэтому мы будем собирать информацию о вашей установке PHP, используя версию phpinfo для командной строки.
 
-### Collecting phpinfo
+### Сбор phpinfo
 
-In your command prompt window, enter the following:
+В окне командной строки введите следующее:
+
 ```
 php -i > Desktop\info.txt
 ```
 
-This will write out the complete phpinfo output to a file called `info.txt` on your Desktop.
+Это запишет полный вывод phpinfo в файл с именем `info.txt` на вашем рабочем столе.
 
-### Xdebug wizard
+### Мастер Xdebug
 
-Next, open https://xdebug.org/wizard in a browser window, paste the contents of your `info.php` file into the text box on the page and click the **[ Analyse my phpinfo() output ]** button below.
+Затем откройте https://xdebug.org/wizard в окне браузера, вставьте содержимое вашего файла `info.php` в текстовое поле на странице и нажмите **[Анализировать мой вывод phpinfo()]** кнопкой ниже.
 
-Follow the instructions that are presented after the summary on the subsequent page, to download the php_xdebug DLL file and move it into place, and to copy the *zend_extension* configuration line into your clipboard.
+Следуйте инструкциям, представленным после сводки на следующей странице, чтобы загрузить файл DDL php_xdebug и переместить его на место, а также скопировать строку конфигурации *zend_extension* в буфер обмена.
 
-### Edit php.ini
+### Отредактируйте php.ini
 
-You can quickly edit your `php.ini` file with a Laragon shortcut - right click the gear icon and select PHP > php.ini from the menu that pops up.
+Вы можете быстро отредактировать файл `php.ini` с помощью ярлыка Laragon - щелкните правой кнопкой мыши значок шестеренки и выберите PHP > php.ini во всплывающем меню.
 
-At the end of the file, add the following:
+В конце файла добавьте следующее:
+
 ```
 [xdebug]
 xdebug.remote_enable= 1
 xdebug.remote_autostart = 1
 ```
-... and immediately after that, add the line from the Xdebug wizard that begins `zend_extension = C:\...`. My completed php.ini additions look like this:
+...и сразу после этого добавьте строку из мастера Xdebug, которая начинается с `zend_extension = C:\...`. Мои завершенные дополнения php.ini выглядят так:
+
 ```
 [xdebug]
 xdebug.remote_enable= 1
@@ -74,11 +77,12 @@ xdebug.remote_autostart = 1
 zend_extension = C:\laragon\bin\php\php-7.2.19-Win32-VC15-x64\ext\php_xdebug-2.9.8-7.2-vc15-x86_64.dll
 ```
 
-Save and close the `php.ini` file.
+Сохраните и закройте файл `php.ini`.
 
-### Test the Xdebug installation
+### Протестируйте установку Xdebug
 
-In your command line window, type `php -v` again, and this time we should see output that indicates that Xdebug is properly installed.
+В окне командной строки снова введите `php -v`, и на этот раз мы должны увидеть вывод, указывающий, что Xdebug установлен правильно.
+
 ```
 C:\Users\Kier>php -v
 PHP 7.2.19 (cli) (built: May 29 2019 13:58:59) ( ZTS MSVC15 (Visual C++ 2017) x64 )
@@ -87,20 +91,20 @@ Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies
     with Xdebug v2.9.8, Copyright (c) 2002-2020, by Derick Rethans
 ```
 
-## IDE and debugging
+## IDE и отладка
 
-To get the very most out of this powerful web server software suite you have now put together, it's important to go beyond a simple text editor for your coding needs.
+Чтобы получить максимальную отдачу от этого мощного программного пакета для веб-серверов, который вы сейчас собрали, важно выйти за рамки простого текстового редактора для ваших нужд кодирования.
 
-Check out our section on [Visual Studio Code and how to use it with Xdebug](vscode.md).
+Ознакомьтесь с нашим разделом [Visual Studio Code и его использование с Xdebug](vscode.md).
 
-## Links to resources
+## Ссылки на ресурсы
 
 * [Laragon Lite](https://laragon.org/download/)
 * [Visual Studio Code](https://code.visualstudio.com/)
 * [Xdebug](https://xdebug.org/wizard)
 * [Xdebug helper](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en)
-* [XenForo requirements script](https://xenforo.com/purchase/requirements-zip)
+* [Скрипт требований XenForo](https://xenforo.com/purchase/requirements-zip)
 * [XenForo](https://xenforo.com/purchase/)
-* [Video of this process](https://youtu.be/-1TOCDbmZmg)
+* [Видео этого процесса](https://youtu.be/-1TOCDbmZmg)
 
 <!-- test -->
