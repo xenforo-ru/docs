@@ -32,7 +32,7 @@ nav:
   - Синтаксис шаблонов: template-syntax.md
 - Appendix(es):
     - Среда разработки macOS: macos-dev.md
-    - Linux Dev Environment: linux-dev.md
+    - Среда разработки Linux: linux-dev.md
     - Windows Dev Environment: windows-dev.md
     - Visual Studio Code and Xdebug: vscode.md
     - Scotch Box: scotchbox.md
