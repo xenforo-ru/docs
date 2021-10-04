@@ -27,7 +27,7 @@ Scotch Box работает в среде [VirtualBox](https://www.virtualbox.or
 	git clone https://github.com/scotch-io/scotch-box /Users/{username}/MyServer
 	```
 
-1. После завершения процесса клонирования загрузите этот пользовательский **Vagrantfile** и перезапишите Vagrantfile, который был создан в */Users/{username}/MyServer/Vagrantfile: [Загрузить кастомный Vagrantfile](files/scotchbox/Vagrantfile).
+1. После завершения процесса клонирования загрузите этот пользовательский **Vagrantfile** и перезапишите Vagrantfile, который был создан в */Users/{username}/MyServer/Vagrantfile: [Загрузить пользовательский Vagrantfile](../files/scotchbox/Vagrantfile).
 
 1. Когда пользовательский Vagrantfile на месте, выполните следующие команды:
 
@@ -39,7 +39,7 @@ Scotch Box работает в среде [VirtualBox](https://www.virtualbox.or
 Ваша виртуальная машина Scotch Box создана и готова к использованию.
 
 !!!Note
-	Scotch Box также предоставляет версию своей виртуальной машины '[Scotch Box Pro](https://box.scotch.io/pro/)' по разумной цене. Если вы предпочитаете запускать Scotch Box Pro, обратитесь к [разделу ниже, описывающему различия между настройкой и запуском Scotch Box и Scotch Box Pro](#scotch-box-pro). 
+	Scotch Box также предоставляет версию своей виртуальной машины '[Scotch Box Pro](https://box.scotch.io/pro/)' по разумной цене. Если вы предпочитаете запускать Scotch Box Pro, обратитесь к [разделу ниже, описывающему различия между настройкой и запуском Scotch Box и Scotch Box Pro](#scotch-box-pro).
 
 ## Куда деваются файлы?
 
@@ -78,7 +78,7 @@ vagrant up
 
 !!!Note
 	Хотя Vagrant / Scotch Box автоматически выключится при перезагрузке компьютера, он не запустится автоматически снова.
-	
+
 	Каждый раз, когда вы перезагружаетесь, вам нужно будет снова запустить команду `vagrant up`, чтобы использовать сервер.
 
 ## Официальная документация
@@ -91,4 +91,4 @@ vagrant up
 
 Чтобы запустить Scotch Box Pro, приобретите его на веб-сайте Scotch Box Pro, а затем запустите команду *git clone*, предоставленную как часть инструкций, которые вы получите после покупки.
 
-Теперь вы можете установить, используя те же инструкции, что и выше, с единственным исключением, что вы должны загрузить [этот пользовательский Vagrantfile](files/scotchboxpro/Vagrantfile) вместо того, который указан в инструкциях для Scotch Box.
+Теперь вы можете установить, используя те же инструкции, что и выше, с единственным исключением, что вы должны загрузить [этот пользовательский Vagrantfile](../files/scotchboxpro/Vagrantfile) вместо того, который указан в инструкциях для Scotch Box.
