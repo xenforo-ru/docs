@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Среда разработки Windows - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.922741%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.922741%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u0421\u0440\u0435\u0434\u0430 \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0438 Windows";
+    var mkdocs_page_input_path = "windows-dev.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Среда разработки Windows</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#laragon">Laragon</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#laragon-path">Добавить Laragon в path</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#php">Проверить версию PHP</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#xdebug">Xdebug</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#phpinfo">Сбор phpinfo</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#xdebug_1">Мастер Xdebug</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#phpini">Отредактируйте php.ini</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#xdebug_2">Протестируйте установку Xdebug</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ide">IDE и отладка</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Ссылки на ресурсы</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Приложения &raquo;</li>
+        
+      
+    
+    <li>Среда разработки Windows</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/windows-dev.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="windows">Среда разработки Windows<a class="headerlink" href="#windows" title="Permanent link"></a></h1>
+<p>Чтобы получить максимальную отдачу от фреймворка XenForo, вам понадобится локальный веб-сервер, способный запускать XenForo, а также способный отладчик и редактор кода, который понимает код и может помочь вам обойти его.</p>
+<p>К счастью, эти требования теперь легко выполнить, и они ничего вам не будут стоить.</p>
+<p>В следующем документе и сопровождающем видео вы найдете пошаговые инструкции по установке всего необходимого для начала работы на компьютере с Windows.</p>
+<div class="video-wrapper"><iframe width="560" height="315" src="https://www.youtube.com/embed/-1TOCDbmZmg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<h2 id="laragon">Laragon<a class="headerlink" href="#laragon" title="Permanent link"></a></h2>
+<p><a href="https://laragon.org">Laragon</a> - это устанавливаемый пакет, который включает в себя основные компоненты Apache, PHP и MySQL, которые вам понадобятся для запуска XenForo.</p>
+<p>Примечательно, что он полностью расширяемый, прост в обслуживании и легко удаляется, если вы когда-нибудь захотите это сделать.</p>
+<p>Начните с загрузки и установки <a href="https://laragon.org/download/">Laragon Lite</a> с laragon.org. Это нормально - разрешить полную установку по умолчанию без изменения какой-либо конфигурации.</p>
+<h3 id="laragon-path">Добавить Laragon в path<a class="headerlink" href="#laragon-path" title="Permanent link"></a></h3>
+<p>После установки Laragon откроет окно с большим значком шестеренки в правом верхнем углу, которое вы должны щелкнуть правой кнопкой мыши, чтобы получить доступ к быстрому меню.</p>
+<p>Отсюда выберите Tools &gt; Path &gt; Add Laragon в Path.</p>
+<p>Это гарантирует, что все двоичные файлы, добавленные Laragon, такие как <code>php</code> и <code>mysql</code>, будут доступны для всех приложений без необходимости вручную указывать полный путь к двоичным файлам.</p>
+<h3 id="php">Проверить версию PHP<a class="headerlink" href="#php" title="Permanent link"></a></h3>
+<p>Откройте новое окно командной строки (это должно быть новое окно, чтобы воспользоваться только что внесенными изменениями в системную переменную PATH) и введите <code>php -v</code>. Если повезет, PHP вернет информацию о номере своей версии.</p>
+<pre><code>C:\Users\Kier&gt;php -v
+PHP 7.2.19 (cli) (built: May 29 2019 13:58:59) ( ZTS MSVC15 (Visual C++ 2017) x64 )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies
+</code></pre>
+<h2 id="xdebug">Xdebug<a class="headerlink" href="#xdebug" title="Permanent link"></a></h2>
+<p>В стандартной версии Laragon есть почти все, что нам нужно, за исключением <a href="https://xdebug.org">Xdebug</a>, незаменимого инструмента для разработчиков PHP.</p>
+<p>Важно получить именно ту версию Xdebug для работы с версией PHP, установленной на вашем компьютере, поэтому мы будем собирать информацию о вашей установке PHP, используя версию phpinfo для командной строки.</p>
+<h3 id="phpinfo">Сбор phpinfo<a class="headerlink" href="#phpinfo" title="Permanent link"></a></h3>
+<p>В окне командной строки введите следующее:</p>
+<pre><code>php -i &gt; Desktop\info.txt
+</code></pre>
+<p>Это запишет полный вывод phpinfo в файл с именем <code>info.txt</code> на вашем рабочем столе.</p>
+<h3 id="xdebug_1">Мастер Xdebug<a class="headerlink" href="#xdebug_1" title="Permanent link"></a></h3>
+<p>Затем откройте https://xdebug.org/wizard в окне браузера, вставьте содержимое вашего файла <code>info.php</code> в текстовое поле на странице и нажмите <strong>[Анализировать мой вывод phpinfo()]</strong> кнопкой ниже.</p>
+<p>Следуйте инструкциям, представленным после сводки на следующей странице, чтобы загрузить файл DDL php_xdebug и переместить его на место, а также скопировать строку конфигурации <em>zend_extension</em> в буфер обмена.</p>
+<h3 id="phpini">Отредактируйте php.ini<a class="headerlink" href="#phpini" title="Permanent link"></a></h3>
+<p>Вы можете быстро отредактировать файл <code>php.ini</code> с помощью ярлыка Laragon - щелкните правой кнопкой мыши значок шестеренки и выберите PHP &gt; php.ini во всплывающем меню.</p>
+<p>В конце файла добавьте следующее:</p>
+<pre><code>[xdebug]
+xdebug.remote_enable= 1
+xdebug.remote_autostart = 1
+</code></pre>
+<p>...и сразу после этого добавьте строку из мастера Xdebug, которая начинается с <code>zend_extension = C:\...</code>. Мои завершенные дополнения php.ini выглядят так:</p>
+<pre><code>[xdebug]
+xdebug.remote_enable= 1
+xdebug.remote_autostart = 1
+zend_extension = C:\laragon\bin\php\php-7.2.19-Win32-VC15-x64\ext\php_xdebug-2.9.8-7.2-vc15-x86_64.dll
+</code></pre>
+<p>Сохраните и закройте файл <code>php.ini</code>.</p>
+<h3 id="xdebug_2">Протестируйте установку Xdebug<a class="headerlink" href="#xdebug_2" title="Permanent link"></a></h3>
+<p>В окне командной строки снова введите <code>php -v</code>, и на этот раз мы должны увидеть вывод, указывающий, что Xdebug установлен правильно.</p>
+<pre><code>C:\Users\Kier&gt;php -v
+PHP 7.2.19 (cli) (built: May 29 2019 13:58:59) ( ZTS MSVC15 (Visual C++ 2017) x64 )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies
+    with Xdebug v2.9.8, Copyright (c) 2002-2020, by Derick Rethans
+</code></pre>
+<h2 id="ide">IDE и отладка<a class="headerlink" href="#ide" title="Permanent link"></a></h2>
+<p>Чтобы получить максимальную отдачу от этого мощного программного пакета для веб-серверов, который вы сейчас собрали, важно выйти за рамки простого текстового редактора для ваших нужд кодирования.</p>
+<p>Ознакомьтесь с нашим разделом <a href="../vscode/">Visual Studio Code и его использование с Xdebug</a>.</p>
+<h2 id="_1">Ссылки на ресурсы<a class="headerlink" href="#_1" title="Permanent link"></a></h2>
+<ul>
+<li><a href="https://laragon.org/download/">Laragon Lite</a></li>
+<li><a href="https://code.visualstudio.com/">Visual Studio Code</a></li>
+<li><a href="https://xdebug.org/wizard">Xdebug</a></li>
+<li><a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en">Xdebug helper</a></li>
+<li><a href="https://xenforo.com/purchase/requirements-zip">Скрипт требований XenForo</a></li>
+<li><a href="https://xenforo.com/purchase/">XenForo</a></li>
+<li><a href="https://youtu.be/-1TOCDbmZmg">Видео этого процесса</a></li>
+</ul>
+<!-- test -->
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="vscode/" class="btn btn-neutral float-right" title="Visual Studio Code и Xdebug">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="linux-dev/" class="btn btn-neutral" title="Среда разработки Linux"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../linux-dev/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../vscode/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

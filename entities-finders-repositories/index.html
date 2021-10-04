@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Сущности, файндеры и репозитории - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.833176%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.833176%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u0421\u0443\u0449\u043d\u043e\u0441\u0442\u0438, \u0444\u0430\u0439\u043d\u0434\u0435\u0440\u044b \u0438 \u0440\u0435\u043f\u043e\u0437\u0438\u0442\u043e\u0440\u0438\u0438";
+    var mkdocs_page_input_path = "entities-finders-repositories.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Сущности, файндеры и репозитории</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#finder">Finder</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#where">Метод where</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#whereor">Метод whereOr</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#with">Метод with</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#order-limit-limitbypage">Методы order, limit и limitByPage</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#order">Метод order</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#limit">Метод limit</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#limitbypage">Метод limitByPage</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#getquery">Метод getQuery</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#finder_1">Пользовательские методы finder</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#entity">Система Entity</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#entity_1">Структура Entity</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_2">Таблица</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_3">Короткое имя</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">Тип контента</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">Первичный ключ</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">Столбцы</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">Поведение</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">Геттеры</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">Отношения</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_10">Опции</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#entity_2">Жизненный цикл Entity</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#repositories">Repositories</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Разработчики &raquo;</li>
+        
+      
+    
+    <li>Сущности, файндеры и репозитории</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/entities-finders-repositories.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="_1">Сущности, файндеры и репозитории<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<p>Мы представили новую систему "Finder", которая позволяет создавать запросы программно объектно-ориентированным способом, так что не нужно писать необработанные запросы к базе данных. Система Finder работает рука об руку с системой Entity, о которой мы поговорим более подробно ниже. Первый аргумент, переданный в метод поиска, - это короткое имя класса для объекта, с которым вы хотите работать. Давайте просто преобразуем некоторые запросы, упомянутые в разделе выше, чтобы вместо этого использовать систему Finder. Например, чтобы получить доступ к одной записи пользователя:</p>
+<h2 id="finder">Finder<a class="headerlink" href="#finder" title="Permanent link"></a></h2>
+<p>Мы представили новую систему "Finder", которая позволяет создавать запросы программно объектно-ориентированным способом, так что не нужно писать необработанные запросы к базе данных. Система Finder работает рука об руку с системой Entity, о которой мы поговорим более подробно ниже. Первый аргумент, переданный в метод поиска, - это короткое имя класса для объекта, с которым вы хотите работать. Давайте просто преобразуем некоторые запросы, упомянутые в разделе выше, чтобы вместо этого использовать систему Finder. Например, чтобы получить доступ к одной записи пользователя:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$user = $finder-&gt;where('user_id', 1)-&gt;fetchOne();
+</code></pre>
+<p>Одно из основных различий между подходом прямого запроса и использованием Finder заключается в том, что базовая единица данных, возвращаемых Finder, не является массивом. В случае объекта Finder, который вызывает метод <code>fetchOne</code> (который возвращает только одну строку из базы данных), будет возвращен единственный объект Entity.</p>
+<p>Давайте посмотрим на немного другой подход, который вернет несколько строк:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;limit(10)-&gt;fetch();
+</code></pre>
+<p>Этот пример запросит 10 записей из таблицы xf_user и вернет их как объект <code>ArrayCollection</code>. Это специальный объект, который действует аналогично массиву, в том смысле, что он проходим (вы можете перебирать его в цикле), и у него есть некоторые специальные методы, которые могут сообщить вам общее количество записей, которые он имеет, группируя по определенным значениям или другому массиву, например, такие операции, как фильтрация, слияние, получение первой или последней записи и т. д.</p>
+<p>Обычно следует ожидать, что запросы Finder будут извлекать все столбцы из таблицы, поэтому нет конкретного эквивалента для извлечения только определенных значений определенных столбцов.</p>
+<p>Вместо этого, чтобы получить одно значение, вы должны просто выбрать одну сущность и прочитать значение непосредственно из нее:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$username = $finder-&gt;where('user_id', 1)-&gt;fetchOne()-&gt;username;
+</code></pre>
+<p>Точно так же, чтобы получить массив значений из одного столбца, вы можете использовать метод <code>pluckFrom</code>:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$usernames = $finder-&gt;limit(10)-&gt;pluckFrom('username')-&gt;fetch();
+</code></pre>
+<p>До сих пор мы видели, что Finder применяет довольно простые ограничения where и limit. Итак, давайте рассмотрим Finder более подробно, в том числе немного подробнее о самом методе <code>where</code>.</p>
+<h3 id="where">Метод where<a class="headerlink" href="#where" title="Permanent link"></a></h3>
+<p>Метод <code>where</code> может поддерживать до трех аргументов. Первое - это само условие, например столбец, который вы запрашиваете. Второй обычно был бы оператором. Третье - это значение, которое ищется. Если вы указываете только два аргумента, как вы видели выше, это автоматически подразумевает, что оператор <code>=</code>. Ниже приведен список других допустимых операторов:</p>
+<ul>
+<li><code>=</code></li>
+<li><code>&lt;&gt;</code></li>
+<li><code>!=</code></li>
+<li><code>&gt;</code></li>
+<li><code>&gt;=</code></li>
+<li><code>&lt;</code></li>
+<li><code>&lt;=</code></li>
+<li><code>LIKE</code></li>
+<li><code>BETWEEN</code></li>
+</ul>
+<p>Итак, мы можем получить список действующих пользователей, которые зарегистрировались за последние 7 дней:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;where('user_state', 'valid')-&gt;where('register_date', '&gt;=', time() - 86400 * 7)-&gt;fetch();
+</code></pre>
+<p>Как видите, вы можете вызывать метод <code>where</code> столько раз, сколько захотите, но в дополнение к этому вы можете передать массив в качестве единственного аргумента метода и создать свои условия за один вызов. Метод массива поддерживает два типа, оба из которых мы можем использовать в запросе, который мы построили выше:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;where([
+    'user_state' =&gt; 'valid',
+    ['register_date', '&gt;=', time() - 86400 * 7]
+])
+-&gt;fetch();
+</code></pre>
+<p>Обычно не рекомендуется и не разрешается смешивать использование таким образом, но это в некоторой степени демонстрирует гибкость метода. Теперь, когда условия находятся в массиве, мы можем либо указать имя столбца (как ключ массива) и значение для подразумеваемого оператора <code>=</code>, либо мы можем фактически определить другой массив, содержащий столбец, оператор и значение.</p>
+<h3 id="whereor">Метод whereOr<a class="headerlink" href="#whereor" title="Permanent link"></a></h3>
+<p>В приведенных выше примерах должны быть соблюдены оба условия, т.е. каждое условие соединяется оператором <code>AND</code>. Однако иногда необходимо выполнить только часть Вашего условия, и это возможно с помощью метода <code>whereOr</code>. Например, если вы хотите найти пользователей, которые либо недействительны, либо не отправили ни одного сообщения, вы можете создать это следующим образом:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;whereOr(
+    ['user_state', '&lt;&gt;', 'valid'],
+    ['message_count', 0]
+)-&gt;fetch();
+</code></pre>
+<p>Подобно примеру в предыдущем разделе, вы можете не только передать до двух условий в качестве отдельных аргументов, но и просто передать массив условий первому аргументу:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;whereOr([
+    ['user_state', '&lt;&gt;', 'valid'],
+    ['message_count', 0],
+    ['is_banned', 1]
+])-&gt;fetch();
+</code></pre>
+<h3 id="with">Метод with<a class="headerlink" href="#with" title="Permanent link"></a></h3>
+<p>Метод <code>with</code> по существу эквивалентен использованию синтаксиса <code>INNER|LEFT JOIN</code>, хотя он полагается на то, что для объекта Entity были определены его "Relations". Мы не будем вдаваться в это до следующей страницы, но это просто должно дать вам представление о том, как это работает. Теперь давайте воспользуемся средством поиска потоков для получения определенного потока:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:Thread');
+$thread = $finder-&gt;with('Forum', true)-&gt;where('thread_id', 123)-&gt;fetchOne();
+</code></pre>
+<p>Этот запрос будет извлекать сущность Thread, где <code>thread_id = 123</code>, но он также будет выполнять соединение с таблицей xf_forum за кулисами. С точки зрения управления выполнением <code>INNER JOIN</code>, а не <code>LEFT JOIN</code>, это то, для чего нужен второй аргумент. В этом случае мы установили для аргумента «должен существовать» значение true, поэтому он изменит синтаксис соединения на использование <code>INNER</code>, а не <code>LEFT</code> по умолчанию.</p>
+<p>Мы более подробно рассмотрим, как получить доступ к данным, полученным из этого соединения, в следующем разделе.</p>
+<p>Также можно передать массив отношений в метод <code>with</code> для выполнения нескольких соединений.</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:Thread');
+$thread = $finder-&gt;with(['Forum', 'User'], true)-&gt;where('thread_id', 123)-&gt;fetchOne();
+</code></pre>
+<p>Это будет присоединено к таблице xf_user, чтобы также получить автора потока. Однако, поскольку второй аргумент все еще имеет значение <code>true</code>, нам может не потребоваться выполнять соединение <code>INNER</code> для присоединения пользователя, поэтому вместо этого мы могли бы просто связать методы:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:Thread');
+$thread = $finder-&gt;with('Forum', true)-&gt;with('User')-&gt;where('thread_id', 123)-&gt;fetchOne();
+</code></pre>
+<h3 id="order-limit-limitbypage">Методы order, limit и limitByPage<a class="headerlink" href="#order-limit-limitbypage" title="Permanent link"></a></h3>
+<h4 id="order">Метод order<a class="headerlink" href="#order" title="Permanent link"></a></h4>
+<p>Этот метод позволяет вам изменить ваш запрос так, чтобы результаты были получены в определенном порядке. Он принимает два аргумента: первый - это имя столбца, а второй - необязательно, направление сортировки. Итак, если вы хотите перечислить 10 пользователей, у которых больше всего сообщений, вы можете построить запрос следующим образом:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;order('message_count', 'DESC')-&gt;limit(10);
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Теперь, вероятно, самое время упомянуть, что методы поиска обычно можно вызывать в любом порядке. Например: <code>$threads = $finder-&gt;limit(10)-&gt;where('thread_id', '&gt;', 123)-&gt;order('post_date')-&gt;with('User')-&gt;fetch();</code>
+Хотя если вы написали запрос MySQL в таком порядке, вы наверняка столкнетесь с некоторыми проблемами синтаксиса, система Finder все равно построит все в правильном порядке, и приведенный выше код, хотя и выглядит странно и, вероятно, не рекомендуется, но вполне допустим.</p>
+</div>
+<p>Как и в случае со стандартным запросом MySQL, можно заказать набор результатов по нескольким столбцам. Для этого достаточно снова вызвать метод заказа. Также можно передать несколько предложений order в метод order с помощью массива.</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;order('message_count', 'DESC')-&gt;order('register_date')-&gt;limit(10);
+</code></pre>
+<h4 id="limit">Метод limit<a class="headerlink" href="#limit" title="Permanent link"></a></h4>
+<p>Мы уже видели, как ограничить запрос определенным количеством возвращаемых записей:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;limit(10)-&gt;fetch();
+</code></pre>
+<p>Однако на самом деле есть альтернатива прямому вызову метода limit:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;fetch(10);
+</code></pre>
+<p>вы можете передать свой лимит прямо в метод <code>fetch()</code>. Также стоит отметить, что метод <code>limit</code> (и <code>fetch</code>) поддерживает два аргумента. Первое, очевидно, является пределом, второе - смещением.</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;limit(10, 100)-&gt;fetch();
+</code></pre>
+<p>Значение смещения здесь по существу означает, что первые 100 результатов будут отброшены, а первые 10 после этого будут возвращены. Такой подход полезен для предоставления результатов с разбивкой на страницы, хотя на самом деле у нас также есть более простой способ сделать это...</p>
+<h4 id="limitbypage">Метод limitByPage<a class="headerlink" href="#limitbypage" title="Permanent link"></a></h4>
+<p>Этот метод является своего рода вспомогательным методом, который в конечном итоге устанавливает соответствующий предел и смещение в зависимости от «страницы», которую вы просматриваете в данный момент, и того, сколько «на страницу» вам требуется.</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;limitByPage(3, 20);
+</code></pre>
+<p>В этом случае предел будет установлен на 20 (что является нашим значением на страницу), а смещение будет установлено на 40, потому что мы начинаем со страницы 3.</p>
+<p>Иногда нам необходимо получить больше данных, чем установлено. Чрезмерная выборка может быть полезна, чтобы помочь определить, есть ли у вас дополнительные данные для отображения после текущей страницы или вам нужно отфильтровать исходный набор результатов на основе разрешений. Мы можем сделать это с помощью третьего аргумента:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;limitByPage(3, 20, 1);
+</code></pre>
+<p>Таким образом, начиная со страницы 3, вы получите до <strong>21</strong> пользователей (20 + 1).</p>
+<h3 id="getquery">Метод getQuery<a class="headerlink" href="#getquery" title="Permanent link"></a></h3>
+<p>Когда вы впервые начинаете работать с finder, каким бы интуитивным он ни был, вы можете иногда задаться вопросом, правильно ли вы его используете и собирается ли он строить запрос, который вы от него ожидаете. У нас есть метод с именем <code>getQuery</code>, который может сообщить нам текущий запрос, который будет построен с текущим объектом поиска. Например:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User')
+    -&gt;where('user_id', 1);
+
+\XF::dumpSimple($finder-&gt;getQuery());
+</code></pre>
+<p>Это выведет что-то похожее на:</p>
+<pre><code class="language-plain">string(67) &quot;SELECT `xf_user`.*
+FROM `xf_user`
+WHERE (`xf_user`.`user_id` = 1)&quot;
+</code></pre>
+<p>Вероятно, он вам не понадобится очень часто, но он может быть полезен, если средство поиска не совсем возвращает ожидаемые результаты. Узнайте больше о методе <code>dumpSimple</code> в разделе <a href="../development-tools/#dump-a-variable">Дамп переменной</a>.</p>
+<h3 id="finder_1">Пользовательские методы finder<a class="headerlink" href="#finder_1" title="Permanent link"></a></h3>
+<p>До сих пор мы видели, как объект finder настраивается с аргументом, аналогичным <code>XF:User</code> и <code>XF:Thread</code>. По большей части это определяет класс Entity, с которым работает файндер, и разрешает, например, <code>XF\Entity\User</code>. Однако он может дополнительно представлять класс finder. Классы finder не являются обязательными, но они служат для добавления пользовательских методов finder к определенным типам средств finder. Чтобы увидеть это в действии, давайте посмотрим на класс поиска, связанный с <code>XF:User</code>, который можно найти в классе <code>XF\Finder\User</code>.</p>
+<p>Вот пример метода finder из этого класса:</p>
+<pre><code class="language-php">public function isRecentlyActive($days = 180)
+{
+    $this-&gt;where('last_activity', '&gt;', time() - ($days * 86400));
+    return $this;
+}
+</code></pre>
+<p>Это позволяет нам теперь вызвать этот метод для любого объекта поиска пользователя. Итак, если мы возьмем пример ранее:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$users = $finder-&gt;isRecentlyActive(20)-&gt;order('message_count', 'DESC')-&gt;limit(10);
+</code></pre>
+<p>Этот запрос, который ранее возвращал только 10 пользователей в убывающем порядке подсчета сообщений, теперь вернет 10 пользователей в этом порядке, которые были недавно активны в течение последних 20 дней.</p>
+<p>Несмотря на то, что для многих типов сущностей класс поиска не существует, все же возможно расширить эти несуществующие классы таким же образом, как указано в разделе <a href="../development-tools/#extending-classes">Расширение классов</a>.</p>
+<h2 id="entity">Система Entity<a class="headerlink" href="#entity" title="Permanent link"></a></h2>
+<p>Если вы знакомы с XF1, возможно, вы знакомы с некоторыми концепциями, лежащими в основе Entities, поскольку они в конечном итоге заимствованы из системы DataWriter. Если вы не слишком знакомы с ними, следующий раздел должен дать вам некоторое представление.</p>
+<h3 id="entity_1">Структура Entity<a class="headerlink" href="#entity_1" title="Permanent link"></a></h3>
+<p>Объект <code>Structure</code> состоит из ряда свойств, которые определяют структуру Entity и таблицу базы данных, к которой он относится. Сам объект структуры настраивается внутри сущности, к которой он относится. Давайте посмотрим на некоторые общие свойства сущности User:</p>
+<h4 id="_2">Таблица<a class="headerlink" href="#_2" title="Permanent link"></a></h4>
+<pre><code class="language-php">$structure-&gt;table = 'xf_user';
+</code></pre>
+<p>Это сообщает Entity, какую таблицу базы данных использовать при обновлении и вставке записей, а также сообщает Finder, из какой таблицы следует читать при построении запросов для выполнения. Кроме того, он играет роль в знании того, к каким другим таблицам должен присоединиться ваш запрос.</p>
+<h4 id="_3">Короткое имя<a class="headerlink" href="#_3" title="Permanent link"></a></h4>
+<pre><code class="language-php">$structure-&gt;shortName = 'XF:User';
+</code></pre>
+<p>Это просто краткое имя класса как самой сущности, так и класса Finder (если применимо).</p>
+<h4 id="_4">Тип контента<a class="headerlink" href="#_4" title="Permanent link"></a></h4>
+<pre><code class="language-php">$structure-&gt;contentType = 'user';
+</code></pre>
+<p>Это определяет, какой тип контента представляет Entity. Это не понадобится в большинстве структур Entity. Он используется для подключения к определенным вещам, используемым системой «типов контента» (которые будут рассмотрены в другом разделе).</p>
+<h4 id="_5">Первичный ключ<a class="headerlink" href="#_5" title="Permanent link"></a></h4>
+<pre><code class="language-php">$structure-&gt;primaryKey = 'user_id';
+</code></pre>
+<p>Определяет столбец, представляющий первичный ключ в таблице базы данных. Если таблица поддерживает более одного столбца в качестве первичного ключа, то ее можно определить как массив.</p>
+<h4 id="_6">Столбцы<a class="headerlink" href="#_6" title="Permanent link"></a></h4>
+<pre><code class="language-php">$structure-&gt;columns = [
+    'user_id' =&gt; ['type' =&gt; self::UINT, 'autoIncrement' =&gt; true, 'nullable' =&gt; true, 'changeLog' =&gt; false],
+    'username' =&gt; ['type' =&gt; self::STR, 'maxLength' =&gt; 50,
+        'required' =&gt; 'please_enter_valid_name'
+    ]
+    // и многие другие столбцы...
+];
+</code></pre>
+<p>Это ключевая часть конфигурации объекта, так как здесь много деталей, чтобы объяснить особенности каждого столбца базы данных, за который отвечает объект. Это говорит нам о типе ожидаемых данных, о том, требуется ли значение, какому формату оно должно соответствовать, должно ли оно быть уникальным значением, каково его значение по умолчанию и многое другое.</p>
+<p>На основе <code>type</code> диспетчер сущностей знает, нужно ли кодировать или декодировать значение определенным образом. Это может быть несколько простой процесс преобразования значения в строку или целое число или несколько более сложный, например использование <code>json_encode()</code> в массиве при записи в базу данных или использование <code>json_decode()</code> в строке JSON, когда чтение из базы данных, чтобы значение было правильно возвращено объекту сущности в виде массива без необходимости делать это вручную. Он также может поддерживать соответствующее кодирование/декодирование значений, разделенных запятыми.</p>
+<p>Иногда необходимо выполнить дополнительную проверку или модификацию значения, прежде чем оно будет записано. В качестве примера в сущности User рассмотрим метод <code>verifyStyleId()</code>. Когда значение устанавливается в поле <code>style_id</code>, мы автоматически проверяем, существует ли метод с именем <code>verifyStyleId()</code>, и если это так, мы сначала пропускаем значение через него.</p>
+<h4 id="_7">Поведение<a class="headerlink" href="#_7" title="Permanent link"></a></h4>
+<pre><code class="language-php">$structure-&gt;behaviors = [
+    'XF:ChangeLoggable' =&gt; []
+];
+</code></pre>
+<p>Это массив классов поведения, которые должны использоваться этой сущностью. Классы поведения - это способ, позволяющий повторно использовать определенный код в целом для нескольких типов сущностей (только при изменении сущности, а не при чтении). Хорошим примером этого является поведение <code>XF:Likeable</code>, которое способно автоматически выполнять определенные действия с объектами, которые поддерживают контент, который может быть "лайкнут". Это включает в себя автоматический пересчет количества, когда в контенте происходят изменения видимости, и автоматическое удаление лайков при удалении контента.</p>
+<h4 id="_8">Геттеры<a class="headerlink" href="#_8" title="Permanent link"></a></h4>
+<pre><code class="language-php">$structure-&gt;getters = [
+    'is_super_admin' =&gt; true,
+    'last_activity' =&gt; true
+];
+</code></pre>
+<p>Методы получения автоматически вызываются при вызове именованных полей. Например, если мы запрашиваем <code>is_super_admin</code> у объекта User, он автоматически проверяет и использует метод <code>getIsSuperAdmin()</code>. Интересно отметить, что в таблице xf_user на самом деле нет поля с именем <code>is_super_admin</code>. На самом деле он существует в сущности Admin, но мы добавили его как метод получения в качестве сокращенного способа доступа к этому значению. Методы получения также могут использоваться для непосредственного переопределения значений существующих полей, что имеет место для значения <code>last_activity</code> здесь. <code>last_activity</code> на самом деле является кешированным значением, которое обычно обновляется, когда пользователь выходит из системы. Однако мы храним дату последней активности пользователя в таблице xf_session_activity, поэтому мы можем использовать этот метод <code>getLastActivity</code> для возврата этого значения вместо кэшированного значения последнего действия. Если вам когда-либо понадобится полностью обойти метод получения и просто получить истинное значение сущности, просто добавьте к имени столбца знак подчеркивания, например, <code>$user-&gt;last_activity_</code>.</p>
+<p>Поскольку объект такой же, как и любой другой объект PHP, вы можете добавить к нему больше методов. Обычно это используется для добавления таких вещей, как методы проверки разрешений, которые могут быть вызваны для самой сущности.</p>
+<h4 id="_9">Отношения<a class="headerlink" href="#_9" title="Permanent link"></a></h4>
+<pre><code class="language-php">$structure-&gt;relations = [
+    'Admin' =&gt; [
+        'entity' =&gt; 'XF:Admin',
+        'type' =&gt; self::TO_ONE,
+        'conditions' =&gt; 'user_id',
+        'primary' =&gt; true
+    ]
+];
+</code></pre>
+<p>Так определяются отношения. Какие отношения? Они определяют отношения между сущностями, которые могут использоваться для выполнения запросов на соединение с другими таблицами или для извлечения записей, связанных с сущностью, на лету. Если мы помним метод <code>with</code> в finder, если бы мы хотели получить определенного пользователя и предварительно получить запись администратора пользователя (если она существует), то мы бы сделали что-то вроде следующего:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$user = $finder-&gt;where('user_id', 1)-&gt;with('Admin')-&gt;fetchOne();
+</code></pre>
+<p>Это будет использовать информацию, определенную в пользовательской сущности для отношения <code>Admin</code> и детали структуры сущности <code>XF:Admin</code>, чтобы знать, что этот пользовательский запрос должен выполнить <code>LEFT JOIN</code> для таблицы xf_admin и столбца <code>user_id</code>. Чтобы получить доступ к дате последнего входа в систему администратора от пользователя:</p>
+<pre><code class="language-php">$lastLogin = $user-&gt;Admin-&gt;last_login; // возвращает отметку времени последнего входа в систему администратора
+</code></pre>
+<p>Однако не всегда необходимо выполнять соединение в finder, чтобы получить связанную информацию для объекта. Например, если мы возьмем приведенный выше пример без вызова метода <code>with</code>:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$user = $finder-&gt;where('user_id', 1)-&gt;fetchOne();
+$lastLogin = $user-&gt;Admin-&gt;last_login; // возвращает отметку времени последнего входа в систему администратора
+</code></pre>
+<p>Здесь мы по-прежнему получаем значение <code>last_login</code>. Он делает это, выполняя дополнительный запрос, чтобы на лету получить сущность Admin.</p>
+<p>В приведенном выше примере используется тип <code>TO_ONE</code>, и поэтому это отношение связывает одну сущность с другой. У нас также есть тип <code>TO_MANY</code>.</p>
+<p>Невозможно получить полное отношение <code>TO_MANY</code> (например, с помощью метода соединения / <code>with</code> в finder), но за счет запроса можно прочитать это в любое время на лету, например, в последний пример <code>last_login</code> выше.</p>
+<p>Одно из таких отношений, которое определено для объекта User, - это отношение <code>ConnectedAccounts</code>:</p>
+<pre><code class="language-php">$structure-&gt;relations = [
+    'ConnectedAccounts' =&gt; [
+        'entity' =&gt; 'XF:UserConnectedAccount',
+        'type' =&gt; self::TO_MANY,
+        'conditions' =&gt; 'user_id',
+        'key' =&gt; 'provider'
+    ]
+];
+</code></pre>
+<p>Это отношение может возвращать записи из таблицы xf_user_connected_account, которые соответствуют текущему идентификатору пользователя как <code>FinderCollection</code>. Это похоже на объект <code>ArrayCollection</code>, который мы упоминали в разделе <a href="#the-finder">Finder</a> выше. Определение отношения указывает, что коллекция должна быть привязана к полю <code>provider</code>.</p>
+<p>Хотя невозможно получить несколько записей при выполнении запроса файндера, можно использовать отношение <code>TO_MANY</code> для извлечения <strong>единственной</strong> записи из этого отношения. Например, если мы хотим узнать, связан ли пользователь с определенным поставщиком подключенной учетной записи, мы можем, по крайней мере, получить его при запросе:</p>
+<pre><code class="language-php">$finder = \XF::finder('XF:User');
+$user = $finder-&gt;where('user_id', 1)-&gt;with('ConnectedAccounts|facebook')-&gt;fetchOne();
+</code></pre>
+<h4 id="_10">Опции<a class="headerlink" href="#_10" title="Permanent link"></a></h4>
+<pre><code class="language-php">$structure-&gt;options = [
+    'custom_title_disallowed' =&gt; preg_split('/\r?\n/', $options-&gt;disallowedCustomTitles),
+    'admin_edit' =&gt; false,
+    'skip_email_confirm' =&gt; false
+];
+</code></pre>
+<p>Параметры объекта - это способ изменить поведение объекта при определенных условиях. Например, если мы установим для параметра <code>admin_edit</code> значение true (что имеет место при редактировании пользователя в Admin CP), тогда определенные проверки будут пропущены, например, чтобы адрес электронной почты пользователя был пустым.</p>
+<h3 id="entity_2">Жизненный цикл Entity<a class="headerlink" href="#entity_2" title="Permanent link"></a></h3>
+<p>Entity играет важную роль в управлении жизненным циклом записи в базе данных. Помимо чтения значений из него и записи в него значений, Entity можно использовать для удаления записей и запуска определенных событий, когда происходят все эти действия, так что определенные задачи могут быть выполнены, или определенные связанные записи также могут быть обновлены. Давайте посмотрим на некоторые из этих событий, которые происходят, когда сущность сохраняет:</p>
+<ul>
+<li><code>_preSave()</code> - Это происходит до начала процесса сохранения и в основном используется для выполнения любых дополнительных проверок перед сохранением или для установки дополнительных данных перед сохранением.</li>
+<li><code>_postSave()</code> - После того, как данные были сохранены, но до того, как какие-либо транзакции будут зафиксированы, этот метод вызывается, и вы можете использовать его для выполнения любой дополнительной работы, которая должна сработать после сохранения объекта.</li>
+</ul>
+<p>Кроме того, существуют <code>_preDelete()</code> и <code>_postDelete()</code>, которые работают аналогичным образом, но когда происходит удаление.</p>
+<p>Entity также может предоставить информацию о своем текущем состоянии. Например, есть методы <code>isInsert()</code> и <code>isUpdate()</code>, чтобы вы могли определить, вставляется ли это новая запись или обновляется существующая запись. Существует метод <code>isChanged()</code>, который может сказать Вам, изменилось ли конкретное поле с момента последнего сохранения.</p>
+<p>Давайте посмотрим на некоторые реальные примеры этих методов в действии в сущности User.</p>
+<pre><code class="language-php"> protected function _preSave()
+ {
+    if ($this-&gt;isChanged('user_group_id') || $this-&gt;isChanged('secondary_group_ids'))
+    {
+        $groupRepo = $this-&gt;getUserGroupRepo();
+        $this-&gt;display_style_group_id = $groupRepo-&gt;getDisplayGroupIdForUser($this);
+    }
+
+    // ...
+ }
+
+ protected function _postSave()
+ {
+    // ...
+
+    if ($this-&gt;isUpdate() &amp;&amp; $this-&gt;isChanged('username') &amp;&amp; $this-&gt;getExistingValue('username') != null)
+    {
+        $this-&gt;app()-&gt;jobManager()-&gt;enqueue('XF:UserRenameCleanUp', [
+            'originalUserId' =&gt; $this-&gt;user_id,
+            'originalUserName' =&gt; $this-&gt;getExistingValue('username'),
+            'newUserName' =&gt; $this-&gt;username
+        ]);
+    }
+
+    // ...
+</code></pre>
+<p>В примере <code>_preSave()</code> мы извлекаем и кэшируем новый идентификатор группы отображения для пользователя на основе их измененных групп пользователей. В примере <code>_postSave()</code> мы запускаем задание после изменения имени пользователя.</p>
+<h2 id="repositories">Repositories<a class="headerlink" href="#repositories" title="Permanent link"></a></h2>
+<p>Репозитории - это новая концепция для XF2, но вас не могут обвинить в сравнении их с объектами «Модель» из XF1. У нас нет объекта модели в XF2, потому что у нас есть гораздо лучшие места и способы для выборки и записи данных в базу данных. Итак, вместо того, чтобы иметь массивный класс, который содержит все запросы, необходимые Вашему дополнению, и все различные способы управления этими запросами, у нас есть файндер, который добавляет гораздо больше гибкости.</p>
+<p>Также стоит иметь в виду, что в XF1 объекты модели были своего рода «свалкой» для многих вещей. Многие из них сейчас избыточны. Например, в XF1 весь код восстановления разрешений находился в модели разрешений. В XF2 у нас есть определенные службы и объекты, которые этим занимаются.</p>
+<p>Итак, что такое репозитории? Они соответствуют сущности и методам поиска и удержания, которые обычно возвращают настройку объекта поиска для определенной цели. Почему бы просто не вернуть результат запроса файндера? Что ж, если мы вернем сам объект поиска, тогда он послужит полезной точкой расширения для надстроек, чтобы расширить его и изменить объект поиска до того, как объект или коллекция будет возвращена.</p>
+<p>Репозитории также могут содержать некоторые специальные методы для таких вещей, как восстановление кеша.</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="criteria/" class="btn btn-neutral float-right" title="Критерии">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="controller-basics/" class="btn btn-neutral" title="Основы контроллера"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../controller-basics/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../criteria/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

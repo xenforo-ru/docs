@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>REST API - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.891303%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.891303%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "REST API";
+    var mkdocs_page_input_path = "rest-api.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">REST API</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#api">Ключи API</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_1">Типы ключей</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">Области видимости ключа</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#api_1">Доступ к API</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">Обработка ошибок</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#api_2">Конечные точки API</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Администраторы сайта (или обычные) &raquo;</li>
+        
+      
+    
+    <li>REST API</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/rest-api.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="rest-api">REST API<a class="headerlink" href="#rest-api" title="Permanent link"></a></h1>
+<p>В XenForo 2.1 был добавлен REST API. Это позволяет вам программно взаимодействовать со многими областями установки XenForo.</p>
+<p>Для доступа к API необходимо сгенерировать ключ через панель управления администратора. Доступ к API без аутентификации отсутствует, и в настоящее время пользователи не могут генерировать свои собственные ключи для доступа к API.</p>
+<p>API для конкретной установки XenForo доступен по адресу <code>&lt;XenForo base URL&gt;/api/</code>. Все конечные точки имеют префикс этого URL. Например, если XenForo установлен по адресу <code>https://example.com/community/</code>, тогда URL-адреса API будут начинаться с <code>https://example.com/community/api/</code>. В этом примере доступ к списку потоков будет осуществляться через <code>https://example.com/community/api/threads/</code>.</p>
+<p>API включен по умолчанию. При необходимости весь доступ к API можно быстро отключить, добавив в <strong>src/config.php</strong> следующее:</p>
+<pre><code class="language-php">$config['enableApi'] = false;
+</code></pre>
+<h2 id="api">Ключи API<a class="headerlink" href="#api" title="Permanent link"></a></h2>
+<p>Ключи API создаются через панель управления администратора, выбрав <strong>Настройка &gt; Ключи API</strong>. Поскольку создание ключей API может разрешить доступ к высокопривилегированным данным, только суперадминистраторы могут получить доступ к этой системе. Все суперадминистраторы получат электронное письмо, когда будет сгенерирован ключ API, чтобы убедиться, что запрос действителен.</p>
+<p>При создании ключа будет сгенерирована случайная строка, которая будет использоваться для Вашей аутентификации с помощью API. Важно, чтобы этот ключ держался в секрете. Если вы считаете, что ключ API был скомпрометирован, вам следует немедленно повторно создать ключ и обновить любой код, используя старый ключ.</p>
+<h3 id="_1">Типы ключей<a class="headerlink" href="#_1" title="Permanent link"></a></h3>
+<p>Весь доступ к API осуществляется в контексте конкретного пользователя. Например, если я обращаюсь к API как «Джон» и делаю запрос, который публикует тему, эта тема будет создана «Джоном». В большинстве случаев API также будет учитывать разрешения, указанные для этого пользователя, поэтому они не могут получить доступ к данным, которые они не увидят при обычном просмотре форума.</p>
+<p>Для управления этим существует три типа ключей API:</p>
+<ul>
+<li><strong>Guest key</strong> - этот ключ всегда обращается к API как гостевой пользователь. Эти запросы всегда будут учитывать гостевые разрешения. Например, если гости не могут отвечать в темах, запрос API на ответ в теме приведет к ошибке отсутствия разрешения.</li>
+<li><strong>User key</strong> - этот ключ всегда обращается к API как указанный пользователь и всегда учитывает разрешения этого пользователя, аналогично гостевому ключу.</li>
+<li><strong>Super user key</strong> - этот ключ может получить доступ к API как любой пользователь, передав ему дополнительное значение. При желании этот ключ может обходить разрешения запрашивающего пользователя, позволяя им выполнять действия или просматривать контент, к которому у них обычно нет доступа.</li>
+</ul>
+<p>Ключи суперпользователя очень полезны для интеграции с другими системами или приложениями. Например, вы можете интегрироваться со сторонней CMS, которая создает цепочку всякий раз, когда вы публикуете новую статью. Этот тип ключа позволит вам создать тему с другим пользователем в зависимости от автора статьи или на форуме, на котором пользователи обычно не могут публиковать сообщения.</p>
+<h3 id="_2">Области видимости ключа<a class="headerlink" href="#_2" title="Permanent link"></a></h3>
+<p>Чтобы помочь ограничить размер ущерба, который может нанести скомпрометированный ключ, каждый ключ может управлять областями API, к которым он может получить доступ. Области ограничивают доступ к областям API, независимо от разрешений запрашивающего пользователя.</p>
+<p>Каждая конечная точка в API будет охвачена одной или несколькими областями. Если API не предоставлена ни одна из этих областей, запрос не будет выполнен.</p>
+<p>В целях безопасности мы рекомендуем предоставлять ключу только те области действия, которые вам требуются. Если вам потребуются дополнительные области позже, их можно будет добавить при необходимости.</p>
+<h2 id="api_1">Доступ к API<a class="headerlink" href="#api_1" title="Permanent link"></a></h2>
+<p>Как только вы узнаете URL-адрес для доступа к API и получите ключ, вы можете начать делать запросы к нему.</p>
+<p>Все ответы API будут возвращены в формате JSON, за исключением случаев, когда двоичный файл запрашивается специально (например, при загрузке вложения). Ошибки всегда возвращают код ответа в диапазоне 400. Успешные запросы вернут код 200. Редиректы обычно не используются, но возвращают код из 300 диапазонов.</p>
+<p>Тела запросов должны отправляться в кодировке <code>application/x-www-form-urlencoded</code> или, если файл загружается, в кодировке <code>multipart/form-data</code>. Параметры также могут передаваться через строку запроса, хотя для запросов, не связанных с GET, мы <strong>настоятельно</strong> рекомендуем передавать параметры через тело запроса.</p>
+<p>Все данные запроса должны использовать набор символов UTF-8.</p>
+<p>Запросы должны передавать ключ API для использования через заголовок <code>XF-Api-Key</code>. Это должно присутствовать во всех запросах.</p>
+<p>Если выбранный ключ API является ключом суперпользователя, вы можете передать идентификатор пользователя контекста через заголовок <code>XF-Api-User</code>. Если идентификатор пользователя не передан, контекст по умолчанию будет гостевым.</p>
+<p>Если запрос выполняется с помощью ключа суперпользователя, и вы хотите обойти разрешения контекстного пользователя, это можно сделать для каждого запроса, установив для параметра <code>api_bypass_permissions</code> значение 1. (Это можно передать через строку запроса или как часть тела запроса.)</p>
+<h3 id="_3">Обработка ошибок<a class="headerlink" href="#_3" title="Permanent link"></a></h3>
+<p>При обнаружении ошибки код ответа будет в диапазоне 400. Иногда может возникать ошибка диапазона 500, хотя это указывает на то, что сервер не смог обработать запрос. API может быть временно отключен или произошла другая ошибка сервера.</p>
+<p>Сообщения об ошибках имеют стандартный формат. Вот пример:</p>
+<pre><code class="language-json">{
+    &quot;errors&quot;: [
+        {
+            &quot;code&quot;: &quot;api_key_not_found&quot;,
+            &quot;message&quot;: &quot;Ключ API, указанный в запросе, не найден.&quot;,
+            &quot;params&quot;: []
+        }
+    ]
+}
+</code></pre>
+<p>Верхним уровнем будет объект с ключом <code>errors</code>. Это будет массив с 1 или более записями. Каждая запись представляет собой объект со следующими параметрами:</p>
+<ul>
+<li><code>code</code> - это машиночитаемый код ошибки. Существует много возможных кодов ошибок, поскольку они зависят от ситуации.</li>
+<li><code>message</code> - удобочитаемая версия ошибки. Это может измениться или может быть переведено, и его не следует использовать для определения типа ошибки.</li>
+<li><code>params</code> - это список параметров ключ-значение, относящихся к сработавшей ошибке. Они могут дополнять код ошибки и сообщение, чтобы дать более подробную информацию об ошибке.</li>
+</ul>
+<h2 id="api_2">Конечные точки API<a class="headerlink" href="#api_2" title="Permanent link"></a></h2>
+<p>API имеет ряд конечных точек и действий, которые можно предпринять. Дополнительные конечные точки и данные могут быть добавлены в будущем.</p>
+<p><strong><a href="https://xenforo.com/community/pages/api-endpoints/">Смотрите документацию по конечной точке API</a></strong></p>
+<p>Эта документация по конечной точке была создана на основе данных API и комментариев в коде. Со временем он будет расширяться и обновляться.</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="add-on-structure/" class="btn btn-neutral float-right" title="Структура дополнения">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="template-syntax/" class="btn btn-neutral" title="Синтаксис шаблонов"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../template-syntax/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../add-on-structure/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

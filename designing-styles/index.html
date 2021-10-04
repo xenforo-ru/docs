@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Разработка стилей - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.821780%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.821780%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u0420\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0430 \u0441\u0442\u0438\u043b\u0435\u0439";
+    var mkdocs_page_input_path = "designing-styles.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Разработка стилей</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Включение режима дизайнера</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Включение режима дизайнера для стиля</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">Отключение режима дизайнера для стиля</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">Что и где выводится?</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">Шаблоны</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">Свойства и группы стилей</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_8">Изменение определенного шаблона</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_9">Другие полезные команды</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">Экспорт из базы данных</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">Импорт из файловой системы</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">Синхронизация шаблонов</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">Вернуть шаблон</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Дизайнеры &raquo;</li>
+        
+      
+    
+    <li>Разработка стилей</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/designing-styles.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="_1">Разработка стилей<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<p>В XF2 мы представили совершенно новый способ создания и редактирования стилей, который называется "Designer mode". Режим дизайнера - это набор инструментов интерфейса командной строки, которые позволяют изменять определенные шаблоны в рамках стиля непосредственно в файловой системе. Он также выводит различные метаданные и информацию о свойствах стиля, которые полезны для контроля версий и совместной работы.</p>
+<h2 id="_2">Включение режима дизайнера<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>Первый шаг к включению режима дизайнера - включить его в <code>config.php</code>:</p>
+<pre><code class="language-php">$config['designer']['enabled'] = true;
+</code></pre>
+<p>При желании вы также можете указать другой путь для файлов режима дизайнера, которые будут существовать в файловой системе. Ниже представлено расположение по умолчанию. Чтобы изменить расположение, добавьте приведенный ниже файл в файл <code>config.php</code> и измените путь соответствующим образом:</p>
+<pre><code class="language-php">$config['designer']['basePath'] = 'src/styles';
+</code></pre>
+<h2 id="_3">Включение режима дизайнера для стиля<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<p>Режим дизайнера должен быть явно включен для каждого стиля. Мы включаем режим дизайнера для стиля, используя интерфейс командной строки, указав идентификатор стиля для стиля и выбрав "designer mode ID":</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-designer:enable <em>[style_id]</em> <em>[designer_mode_id]</em></p>
+</div>
+<p>ID режима дизайнера - это идентификатор, который вы будете использовать для будущих команд, связанных с режимом дизайнера. После включения текущие измененные компоненты стиля будут экспортированы в каталог <code>[basePath]/[designer_mode_id]</code>.</p>
+<p>При включении режима дизайнера для этого стиля, если этот каталог уже существует, вам будет предложено выбрать, следует ли нам перезаписать текущее содержимое этого каталога из стиля или мы должны перезаписать текущий стиль из текущего содержимого этого стиля. каталог.</p>
+<h2 id="_4">Отключение режима дизайнера для стиля<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
+<p>Чтобы отключить режим дизайнера для стиля, просто выполните следующую команду интерфейса командной строки:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-designer:disable <em>[designer_mode_id]</em></p>
+</div>
+<p>По умолчанию это сохранит копию вывода режима дизайнера в файловой системе. Чтобы удалить данные, вы можете запустить ту же команду с параметром <code>--clear</code>:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-designer:disable <em>[designer_mode_id]</em> --clear</p>
+</div>
+<h2 id="_5">Что и где выводится?<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
+<p>Важно помнить, что стиль в XF состоит только из того, что <strong>изменено в этом стиле</strong>. Это означает, что вывод в режиме дизайнера будет состоять только из того, что было изменено в стиле. Шаблоны и свойства стиля, измененные в родительском стиле, не выводятся.</p>
+<h3 id="_6">Шаблоны<a class="headerlink" href="#_6" title="Permanent link"></a></h3>
+<p>Шаблоны будут выведены в каталог <code>[basePath]/[designer_mode_id]/templates</code>. В этом каталоге у вас может быть другой каталог для каждого типа (например, администратор, электронная почта и публичный).</p>
+<p>Шаблоны будут выводиться в формате HTML, и их можно будет напрямую редактировать в файловой системе. Изменения, внесенные в файловую систему, импортируются и компилируются, когда этот шаблон загружается на страницу. Точно так же вы можете отменить шаблон, удалив его из файловой системы (если он был ранее изменен).</p>
+<h3 id="_7">Свойства и группы стилей<a class="headerlink" href="#_7" title="Permanent link"></a></h3>
+<p>Свойства и группы стилей будут выведены в каталоги <code>[basePath]/[designer_mode_id]/style_properties</code> и <code>[basePath]/[designer_mode_id]/style_property_groups</code>. Они экспортируются в формате JSON и служат полезным способом отслеживания изменений в этих файлах через систему контроля версий.</p>
+<p>Не рекомендуется изменять эти файлы напрямую, так как изменения в них <strong>не</strong> будут импортироваться автоматически, как в случае с шаблонами.</p>
+<h2 id="_8">Изменение определенного шаблона<a class="headerlink" href="#_8" title="Permanent link"></a></h2>
+<p>Принимая во внимание, что стиль представляет компоненты, которые изменяются только в рамках этого стиля, при включении режима конструктора файловая система также будет содержать только компоненты, которые изменяются только в рамках этого стиля. Невозможно вывести эффективную версию каждого шаблона и каждого свойства стиля.</p>
+<p>Чтобы пометить шаблон как измененный в рамках стиля, вы можете сделать это обычным способом, отредактировав его в Admin CP. Шаблоны и свойства стиля, измененные в Admin CP, будут автоматически записаны в файловую систему, если включен режим дизайнера. Однако, вероятно, было бы удобнее изменить или «прикоснуться» к шаблону с помощью команды CLI:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-designer:touch-template <em>[designer_mode_id]</em> <em>[template_type:template_title]</em></p>
+</div>
+<p>Пока указанный шаблон существует в родительском или основном стиле, он будет скопирован в текущий стиль и выведен в файловую систему. Затем вы можете изменить шаблон прямо в файловой системе.</p>
+<p>Если вы хотите создать полностью настраиваемый шаблон в своем стиле (который не существует ни в одном другом стиле в дереве), вы можете использовать ту же команду, но вы должны просто передать параметр <code>--custom</code>:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-designer:touch-template <em>[designer_mode_id]</em> <em>[template_type:template_title]</em> --custom</p>
+</div>
+<h2 id="_9">Другие полезные команды<a class="headerlink" href="#_9" title="Permanent link"></a></h2>
+<p>Есть ряд других полезных команд, относящихся к режиму дизайнера:</p>
+<h3 id="_10">Экспорт из базы данных<a class="headerlink" href="#_10" title="Permanent link"></a></h3>
+<p>Эта команда обычно запускается автоматически, когда для стиля включен режим дизайнера, но если по какой-то причине вы хотите перезаписать копию файловой системы тем, что в настоящее время находится в базе данных, вы можете выполнить следующую команду:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-designer:export <em>[designer_mode_id]</em></p>
+</div>
+<p>Также можно экспортировать только определенные типы, например: <code>xf-designer:export-templates</code>.</p>
+<h3 id="_11">Импорт из файловой системы<a class="headerlink" href="#_11" title="Permanent link"></a></h3>
+<p>Эта команда перезапишет копию базы данных стиля тем, что находится в файловой системе:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-designer:import <em>[designer_mode_id]</em></p>
+</div>
+<p>Также можно импортировать только определенные типы, например: <code>xf-designer:import-templates</code>.</p>
+<h3 id="_12">Синхронизация шаблонов<a class="headerlink" href="#_12" title="Permanent link"></a></h3>
+<p>Эта команда аналогична импорту шаблонов (смотрите выше), но вместо того, чтобы перезаписывать все, она импортирует шаблоны и перекомпилирует их только в случае изменения метаданных. Он также будет применять обновления номера версии соответственно.</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-designer:sync-templates <em>[designer_mode_id]</em></p>
+</div>
+<h3 id="_13">Вернуть шаблон<a class="headerlink" href="#_13" title="Permanent link"></a></h3>
+<p>Эту команду можно использовать для отмены шаблона, эффективно удаляя пользовательскую версию из текущего стиля.</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-designer:revert-template <em>[designer_mode_id]</em> <em>[template_type:template_title]</em></p>
+</div>
+<p>Также можно вызвать откат, удалив шаблон из файловой системы.</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="template-syntax/" class="btn btn-neutral float-right" title="Синтаксис шаблонов">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="lets-build-an-add-on/" class="btn btn-neutral" title="Создание дополнения"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../lets-build-an-add-on/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../template-syntax/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

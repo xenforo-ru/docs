@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="xenforo-favicon.png">
+  
+  <title>Начало работы - Документация XenForo 2</title>
+	<link rel="stylesheet" href="./css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="./css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.786333%2B00%3A00" rel="stylesheet">
+		<link href="extra.css?d=2021-10-04%2012%3A35%3A56.786333%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u041d\u0430\u0447\u0430\u043b\u043e \u0440\u0430\u0431\u043e\u0442\u044b";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href=".">Начало работы</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Что нового для разработчиков?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Начало работы</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#xf-20">Скачивание XF 2.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#xf-20_1">Требования XF 2.0</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Настройка локального сервера</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">Готовая виртуальная машина</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">Готовый стек</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">Загрузка</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#srcconfigphp">Создание src/config.php</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_7">Примечание о правах доступа к файлам</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_8">Установка</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_9">Переустановка</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_10">Проверка целостности файла</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_11">Команды управления дополнениями</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">Установка</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">Обновление</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">Перестроение</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_15">Удаление</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Обзор &raquo;</li>
+        
+      
+    
+    <li>Начало работы</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/index.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="xenforo-2">Добро пожаловать в XenForo 2!<a class="headerlink" href="#xenforo-2" title="Permanent link"></a></h1>
+<p>Эта документация призвана помочь вам начать разработку с XenForo 2.0. Предварительные условия для этой документации предполагают, что Вы, помимо прочего, знакомы с PHP и MySQL. Необязательно иметь опыт работы с предыдущей версией XenForo, но это было бы преимуществом.</p>
+<p>На следующих страницах мы проведем вас через краткий обзор того, как настроить локальный сервер, подготовиться к установке, выполнить чистую установку XenForo 2.0 и познакомиться с некоторыми концепциями разработки XF2.</p>
+<h2 id="_1">Что нового для разработчиков?<a class="headerlink" href="#_1" title="Permanent link"></a></h2>
+<p>Хотя XenForo 2.0 добавляет множество улучшений для Ваших форумов и его участников, значительные усилия были приложены для улучшения базовой структуры XenForo. вы можете прочитать дополнительную информацию об этих изменениях в следующих темах:</p>
+<ul>
+<li><a href="https://xenforo.com/community/threads/xenforo-2-0-development-updates-from-xf2demo.139565/post-1205086" target="_blank">
+    Что нового в XenForo 2 для разработчиков (часть 1)
+   </a></li>
+<li><a href="https://xenforo.com/community/threads/xenforo-2-0-development-updates-from-xf2demo.139565/post-1205088" target="_blank">
+    Что нового в XenForo 2 для разработчиков (часть 2)
+   </a></li>
+</ul>
+<h2 id="_2">Начало работы<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>Начать разработку XF легко. вам просто нужно скачать файлы, загрузить их на веб-сервер и запустить установку.</p>
+<p>Если у вас еще нет веб-сервера, не волнуйтесь, вы можете настроить его на своем локальном компьютере.</p>
+<h2 id="xf-20">Скачивание XF 2.0<a class="headerlink" href="#xf-20" title="Permanent link"></a></h2>
+<p>Чтобы загрузить XF 2.0, просто посетите <a href="https://xenforo.com/customers">Зону обслуживания клиентов</a> и войдите в систему как обычно. Найдите нужную лицензию и щелкните ссылку «Загрузить XenForo». Выберите версию, которую вы хотите загрузить, тип пакета и примите лицензионное соглашение. Наконец, нажмите кнопку «Загрузить», чтобы загрузить файлы.</p>
+<h2 id="xf-20_1">Требования XF 2.0<a class="headerlink" href="#xf-20_1" title="Permanent link"></a></h2>
+<p>Требования для работы XF 2.0 изменились по сравнению с XF 1.5. Рекомендуемые требования следующие:</p>
+<ul>
+<li>PHP: 5.4.0+</li>
+<li>MySQL: 5.5+</li>
+<li>Расширения PHP: MySQLi, GD (с поддержкой JPEG), PCRE, SPL, SimpleXML, DOM, JSON, iconv, ctype, cURL</li>
+</ul>
+<p><a href="https://xenforo.com/purchase/requirements-zip">Скачать скрипт тестирования требований.</a></p>
+<h2 id="_3">Настройка локального сервера<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<p>Часто для разработки удобнее настроить локальный веб-сервер. Обычно для этого есть два подхода:</p>
+<ol>
+<li>Установить Apache (или nginx), MySQL (или MariaDB) и PHP самостоятельно.</li>
+<li>Установить готовую виртуальную машину</li>
+<li>Установить предварительно собранный стек.</li>
+</ol>
+<p>Самостоятельная настройка более сложна, но дает вам больше контроля над тем, как все настроено.</p>
+<h3 id="_4">Готовая виртуальная машина<a class="headerlink" href="#_4" title="Permanent link"></a></h3>
+<p>В Интернете доступно множество готовых виртуальных машин, которые обеспечивают то преимущество, что все необходимые службы для запуска XenForo аккуратно упакованы в одном месте, без необходимости их установки и обслуживания непосредственно на Вашем компьютере.</p>
+<p>Некоторые разработчики XenForo используют виртуальную машину под названием <a href="https://box.scotch.io/">Scotch Box</a>, которая включает в себя все необходимое для запуска XenForo с нулевой конфигурацией. У нас есть <a href="scotchbox/">пошаговое руководство</a> по настройке и запуску сервера разработки XenForo - вы можете запустить рабочий виртуальный веб-сервер и сервер базы данных всего за несколько минут, выполнив несколько команд.</p>
+<p><a href="scotchbox/">Установка Scotch Box для использования с XenForo</a></p>
+<h3 id="_5">Готовый стек<a class="headerlink" href="#_5" title="Permanent link"></a></h3>
+<p>Существует множество готовых стеков, которые могут различаться по набору функций, производительности и надежности. Bitnami поддерживает несколько стеков, включая <a href="https://bitnami.com/stack/lamp">LAMP</a>, <a href="https://bitnami.com/stack/mamp">MAMP</a> и <a href="https://bitnami.com/stack/wamp">WAMP</a> для использования в Linux, Mac и Windows соответственно. Все они включают полностью настроенную установку Apache, MySQL и PHP и включают PhpMyAdmin для управления MySQL.</p>
+<h2 id="_6">Загрузка<a class="headerlink" href="#_6" title="Permanent link"></a></h2>
+<p>Чтобы установить XF 2.0, вам просто нужно распаковать ZIP-файл, загруженный из области клиентов, и загрузить некоторые файлы и каталоги внутри.</p>
+<p>После извлечения вы увидите каталог с именем <code>upload</code>. вам нужно зайти в этот каталог и загрузить файлы и каталоги в корневой каталог Вашего сервера. Обычно он находится в каталоге с именем <code>public_html</code>, <code>htdocs</code> или <code>www</code>.</p>
+<h2 id="srcconfigphp">Создание src/config.php<a class="headerlink" href="#srcconfigphp" title="Permanent link"></a></h2>
+<p>Если вы используете CLI для установки XF 2.0, вам нужно будет создать файл <code>config.php</code> вручную. Для этого войдите в каталог <code>src</code> в файлах XF 2.0, которые вы загрузили на свой сервер. Создайте новый файл с именем config.php и укажите в нем хост, порт, имя пользователя, пароль и имя базы данных для Вашего сервера MySQL.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Убедитесь, что вы создали файл конфигурации в каталоге <code>src</code>. Каталог <code>library</code> используется только для устаревших целей.</p>
+</div>
+<p>После завершения он должен выглядеть следующим образом:</p>
+<pre><code class="language-php">&lt;?php
+
+$config['db']['host'] = 'localhost';
+$config['db']['port'] = '3306';
+$config['db']['username'] = 'root';
+$config['db']['password'] = 'mypassword';
+$config['db']['dbname'] = 'xf2';
+</code></pre>
+<p>Теперь вы готовы к установке!</p>
+<p>Если вы используете MySQL 5.5 и выше и хотите иметь полную поддержку Unicode (для таких вещей, как эмодзи), вы также должны добавить следующее перед установкой:</p>
+<pre><code class="language-php">$config['fullUnicode'] = true;
+</code></pre>
+<h2 id="_7">Примечание о правах доступа к файлам<a class="headerlink" href="#_7" title="Permanent link"></a></h2>
+<p>XenForo нужно будет записывать файлы в определенные места во время работы. При нормальной работе это ограничено каталогами <code>data</code> и <code>internal_data</code> (и их подкаталогами). Эти записи в файл будут запускаться такими вещами, как загрузка вложений, поэтому они обычно будут запускаться пользователем PHP, как на Вашем веб-сервере. Следовательно, необходимо убедиться, что в этих каталогах установлены разрешения, чтобы веб-сервер мог писать в них. вам нужно будет сделать это до начала установки.</p>
+<p>Когда задействован интерфейс командной строки, эта ситуация усложняется, поскольку теперь потенциально есть два пользователя, которым необходимо иметь возможность писать в файлы. Таким образом, важно принять меры, чтобы избежать проблем с записью в эти файлы. Вот несколько вариантов.</p>
+<ol>
+<li>Используйте одного и того же пользователя для интерфейса командной строки и веб-сервера. Это может иметь форму переключения на пользователя веб-сервера перед запуском любой команды установки или обновления (или любой другой, которая будет записывать файлы).</li>
+<li>Если возможно, рассмотрите возможность применения ACL к каталогам <code>data</code> и <code>internal_data</code>. Эта концепция зависит от ОС и конфигурации, но общая идея описана <a href="http://symfony.com/doc/current/setup/file_permissions.html">здесь</a>.</li>
+<li>Установите особые разрешения на то, что написано на PHP. Это можно сделать с помощью файла <code>src/config.php</code> с такой строкой: <code>$config['chmodWritableValue'] = 0666;</code>. Этот подход потенциально самый простой для целей разработки.</li>
+</ol>
+<p>Обратите внимание, что если вы разрабатываете дополнение, у вас потенциально могут быть другие места, в которые нужно будет писать пользователям интерфейса командной строки и веб-сервера. Примечательно, что сюда входит каталог <code>_output</code> в дополнениях. В этой ситуации запуск Вашего веб-сервера от имени пользователя CLI может вызвать наименьшее трение. Если вы выберете любой другой путь, вам может потребоваться убедиться, что ваш веб-сервер может писать для всей Вашей установки XenForo; в продакшене это не рекомендуется.</p>
+<h2 id="_8">Установка<a class="headerlink" href="#_8" title="Permanent link"></a></h2>
+<p>Текущий способ установки XF 2.0 - через новую систему командной строки. Многие процессы разработки могут быть выполнены только с использованием интерфейса командной строки, поэтому давайте остановимся на его использовании для установки XF 2.0. Для запуска этих команд вам понадобится доступ к терминалу/оболочке, команда php CLI и текущий рабочий каталог должны быть корнем того, куда вы загрузили файлы XF 2.0.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Чтобы устранить проблемы с правами доступа к файлам, мы рекомендуем запускать установщик от имени того же пользователя, что и PHP, через ваш веб-сервер. Если вы этого не сделаете, вам следует предпринять шаги, чтобы убедиться, что разрешения установлены правильно. Смотрите более подробную информацию в разделе выше.</p>
+</div>
+<p>Чтобы начать установку, просто введите следующую команду:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf:install</p>
+</div>
+<p>вам будет задан ряд вопросов, таких как начальное имя пользователя и пароль администратора, название форума. После этого,
+таблицы базы данных XF 2.0 и основные данные будут импортированы.</p>
+<p>XF 2.0 установлен!</p>
+<h2 id="_9">Переустановка<a class="headerlink" href="#_9" title="Permanent link"></a></h2>
+<p>Иногда может потребоваться переустановка XF2. Это особенно верно на этапе предварительного просмотра, который не поддерживает обновление. Если вы готовы выполнить переустановку, загрузите новые файлы (если применимо) в соответствии с разделом <a href="#downloading-xf-20">Загрузка XF 2.0</a> выше. Как правило, должно быть возможно просто объединить и перезаписать существующие файлы. Если вы выполняете полную чистую переустановку, вы можете сохранить копию файла <code>config.php</code> или воссоздать его в соответствии с инструкциями в <a href="#creating-srcconfigphp">Создание src/config.php</a>.</p>
+<p>Перед загрузкой новых файлов вы должны удалить содержимое Ваших каталогов <code>data</code> и <code>internal_data</code>.</p>
+<p>Наконец, вам просто нужно будет начать установку, как описано выше. вам нужно будет использовать параметр <code>--clear</code>, который удалит все существующие таблицы xf_.</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf:install --clear</p>
+</div>
+<p>После завершения переустановки вы сможете снова войти в систему.</p>
+<p>Если вы разрабатывали дополнения и выбрали сохранение или резервную копию существующего каталога <code>src/addons</code>, вы можете восстановить данные дополнения с помощью команды <a href="development-tools/#import-development-output">Импортирования выходных данных разработки</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Будьте осторожны, если вы решите создать резервную копию и восстановить каталог <code>src/addons</code>. Каталог <code>XF</code> внутри содержит основные данные XF и не должен восстанавливаться из резервной копии, чтобы у вас всегда была самая последняя версия файлов.</p>
+<p>Выполнение переустановки таким образом является разрушительной операцией и приведет к удалению всех созданных Вами данных. Кроме того, имейте в виду, что очищаются только таблицы с префиксом <code>xf_</code>. Это важная причина для рекомендации, что все таблицы, даже для дополнений, должны иметь префикс <code>xf_</code>.</p>
+</div>
+<h2 id="_10">Проверка целостности файла<a class="headerlink" href="#_10" title="Permanent link"></a></h2>
+<p>Когда вы устанавливаете XF2, мы выполняем проверку целостности файла при установке. Если необходимо, и в противном случае вы не можете выполнить проверку через страницу в Admin CP, вы можете запустить команду CLI, чтобы выполнить эту проверку.</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf:file-check <em>[addon_id]</em></p>
+</div>
+<p>Если вы хотите проверить работоспособность всех файлов, включая сам XF, просто опустите аргумент <code>[addon_id]</code>. Только для XF, просто используйте <code>XF</code> вместо аргумента, или для конкретного дополнения просто укажите идентификатор дополнения, который вы хотите проверить.</p>
+<h2 id="_11">Команды управления дополнениями<a class="headerlink" href="#_11" title="Permanent link"></a></h2>
+<p>Помимо вышеперечисленных команд для установки XF2, есть также несколько команд для управления дополнениями.</p>
+<h3 id="_12">Установка<a class="headerlink" href="#_12" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf:addon-install <em>[addon_id]</em></p>
+</div>
+<p>Устанавливает указанное дополнение, если он доступен, и проходит проверку работоспособности файла. Если доступны выходные данные разработки, вам будет предложено подтвердить, хотите ли вы использовать их для установки вместо файлов XML с экспортированными данными.</p>
+<h3 id="_13">Обновление<a class="headerlink" href="#_13" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf:addon-upgrade <em>[addon_id]</em></p>
+</div>
+<p>Обновляет указанное дополнение, если его можно обновить, и проходит проверку работоспособности файла. При желании можно выполнить импорт из результатов разработки.</p>
+<h3 id="_14">Перестроение<a class="headerlink" href="#_14" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf:addon-rebuild <em>[addon_id]</em></p>
+</div>
+<p>Восстанавливает основные данные для указанного дополнения, если они могут быть перестроены, и проходит проверку работоспособности файла. Это повторно импортирует данные дополнения. При желании можно выполнить импорт из результатов разработки.</p>
+<h3 id="_15">Удаление<a class="headerlink" href="#_15" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf:addon-uninstall <em>[addon_id]</em></p>
+</div>
+<p>Удаляет указанное дополнение до тех пор, пока оно не будет удалено.</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="template-syntax/" class="btn btn-neutral float-right" title="Синтаксис шаблонов">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+    
+      <span><a href="template-syntax/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme_extra.js" defer></script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

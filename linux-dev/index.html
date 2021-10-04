@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Среда разработки Linux - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.870225%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.870225%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u0421\u0440\u0435\u0434\u0430 \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0438 Linux";
+    var mkdocs_page_input_path = "linux-dev.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Среда разработки Linux</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#apt">Установка с помощью Apt</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_1">Добавление новых репозиториев</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">Установка пакетов</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Настройка</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#mariadb">MariaDB</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#apache">Apache</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#php">PHP</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#xdebug">Xdebug</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#php-fpm">php-fpm</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">Старт сервисов</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">Ссылки на ресурсы</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">Обобщение</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">Терминальные команды</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mariadb-mysql">Настройте MariaDB / MySQL</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#apache-virtualhost">Отредактируйте Apache VirtualHost</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">Замените следующие файлы</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">Добавьте следующие файлы</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">Перезапустите сервисы</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#htaccess-php">Файлы .htaccess, ориентированные на версии PHP</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Приложения &raquo;</li>
+        
+      
+    
+    <li>Среда разработки Linux</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/linux-dev.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="linux-php">Среда разработки Linux с параллельными версиями PHP<a class="headerlink" href="#linux-php" title="Permanent link"></a></h1>
+<p>Чтобы получить максимальную отдачу от фреймворка XenForo, вам понадобится локальный веб-сервер, способный запускать XenForo, а также способный отладчик и редактор кода, который понимает код и может помочь вам обойти его.</p>
+<p>К счастью, эти требования теперь легко выполнить, и они ничего вам не будут стоить.</p>
+<p>Следующий документ и сопровождающее видео помогут вам шаг за шагом установить все необходимое для начала работы в системе на основе Ubuntu Linux.</p>
+<div class="video-wrapper"><iframe width="560" height="315" src="https://www.youtube.com/embed/yzWzKjtvUIw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<hr />
+<p>Как и в нашей <a href="../macos-dev/">среде разработки macOS</a>, эта конфигурация позволит вам запускать <strong>несколько версий PHP <em>одновременно</em></strong>, поэтому вы можете запускать экземпляры XenForo 1.5 на PHP 5.6, XenForo 2.1 на PHP 7.4 и XenForo 2.2 на PHP 8.0 при желании <strong>без</strong> необходимости вручную переключать версию PHP всякий раз, когда вы хотите получить доступ к определенной версии.</p>
+<p>Многие объяснения того, что мы здесь делаем, можно найти в нашем <a href="../macos-dev/">руководстве по macOS</a>, поэтому этот документ будет довольно коротким и по существу. Если вы хотите просто взять установочный скрипт, перейдите прямо к <a href="#configuring">конфигурированию</a>, сделайте это <a href="../files/linux/install-ubuntu.sh">здесь</a>.</p>
+<p><img alt="Снимок экрана: Ubuntu Linux под управлением XenForo, отлаживается Xdebug с Visual Studio Code" src="../files/images/linux-debugging.jpg" /></p>
+<h2 id="apt">Установка с помощью Apt<a class="headerlink" href="#apt" title="Permanent link"></a></h2>
+<p>Это руководство основано на системе <a href="https://ubuntu.com">Ubuntu</a> или <a href="https://debian.org">Debian</a>, но принципы могут быть применены к любому дистрибутиву Linux, который делает доступными исторические пакеты PHP.</p>
+<p>APT - это <em>Advanced Package Tool (расширенный инструмент пакетов)</em>, встроенный в дистрибутивы Linux на основе Debian. Это делает установку предварительно настроенного программного обеспечения в Linux намного менее болезненной, чем это было раньше.</p>
+<h3 id="_1">Добавление новых репозиториев<a class="headerlink" href="#_1" title="Permanent link"></a></h3>
+<p>Для начала нам нужно указать Apt использовать некоторые дополнительные источники для получения пакетов.</p>
+<p>В терминале выполните следующие команды:</p>
+<pre><code class="language-bash">#!/bin/bash
+
+# Версии PHP для Ubuntu
+sudo add-apt-repository -y ppa:ondrej/php
+
+# TablePlus (опционально)
+wget -O - -q http://deb.tableplus.com/apt.tableplus.com.gpg.key | sudo apt-key add - 
+sudo add-apt-repository &quot;deb [arch=amd64] https://deb.tableplus.com/debian tableplus main&quot;
+
+# ElasticSearch (опционально)
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+echo &quot;deb https://artifacts.elastic.co/packages/7.x/apt stable main&quot; | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
+
+# Получите информацию о последней версии и обновите существующие пакеты
+sudo apt update -y
+sudo apt upgrade -y
+</code></pre>
+<p>Если вы используете Debian, а не Ubuntu, игнорируйте строку <code>ppa:ondrej/php</code> и запускайте ее вместо <em>перед</em> запуском <code>apt update</code>:</p>
+<pre><code class="language-bash">sudo apt-get -y install apt-transport-https lsb-release ca-certificates curl
+sudo curl -sSL -o /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+sudo sh -c 'echo &quot;deb https://packages.sury.org/php/ $(lsb_release -sc) main&quot; &gt; /etc/apt/sources.list.d/php.list'
+</code></pre>
+<h3 id="_2">Установка пакетов<a class="headerlink" href="#_2" title="Permanent link"></a></h3>
+<p>Далее мы установим необходимое нам программное обеспечение.</p>
+<pre><code class="language-bash">#!/bin/bash
+
+# PHP stuff
+sudo apt install php5.6-fpm -y
+sudo apt install php7.4-fpm -y
+sudo apt install php8.0-fpm -y
+sudo apt install php-pear -y
+sudo apt install php-memcache -y
+
+# PHP модули
+for module in xdebug imagick gettext gd bcmath bz2 curl dba xml gmp intl ldap mbstring mysql odbc soap zip enchant sqlite3
+do
+    for version in 7.4 5.6 8.0
+    do
+        sudo apt install php${version}-${module} -y
+    done
+done
+
+# Веб-сервер Apache
+sudo apt install apache2 -y
+# включить модуль Apache FastCGI / FPM
+sudo a2enmod proxy_fcgi
+
+# TablePlus (опционально)
+sudo apt install tableplus -y
+
+# ElasticSearch (опционально)
+sudo apt install elasticsearch -y
+
+# MariaDB (MySQL)
+sudo apt install mariadb-server -y
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Учитывая наличие в этом скрипте циклов <code>for</code>, я бы посоветовал вам сохранить содержимое поля выше в скрипт с именем <code>install.sh</code>, затем <code>chmod 700 install.sh</code>, чтобы сделать его исполняемым, и запустить это в терминале.</p>
+</div>
+<h2 id="_3">Настройка<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<p>После установки всех пакетов нам нужно настроить их в соответствии с нашими потребностями.</p>
+<h3 id="mariadb">MariaDB<a class="headerlink" href="#mariadb" title="Permanent link"></a></h3>
+<p>После установки MariaDB / MySQL нужно немного поработать.</p>
+<p>В терминале запустите следующее:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p>sudo mysql_secure_installation</p>
+</div>
+<p>В этом сценарии примите значения по умолчанию для всего, но убедитесь, что вы <em>сделали</em> пароль root.</p>
+<p>Затем запустите клиент MySQL с помощью <code>sudo</code>:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p>sudo mysql -uroot -p</p>
+</div>
+<p>И после того, как у вас появится рабочее приглашение SQL, введите следующие запросы:</p>
+<pre><code class="language-mysql">USE mysql;
+UPDATE user SET plugin = '';
+FLUSH PRIVILEGES ;
+</code></pre>
+<p>Теперь вы можете выйти из mysql, и вам больше не нужно будет запускать клиент MySQL с помощью <code>sudo</code>.</p>
+<h3 id="apache">Apache<a class="headerlink" href="#apache" title="Permanent link"></a></h3>
+<p>Мы собираемся сохранить всю нашу конфигурацию Apache в одном файле.</p>
+<p>Откройте <code>/etc/apache2/sites-enabled/000-default.conf</code> и добавьте следующий код непосредственно перед закрывающей строкой <code>&lt;/VirtualHost&gt;</code>.</p>
+<pre><code class="language-apacheconf">ServerName localhost
+Timeout 3600
+
+&lt;IfModule dir_module&gt;
+    DirectoryIndex index.html index.php
+&lt;/IfModule&gt;
+
+DocumentRoot &quot;/home/kier/Documents/www&quot;
+
+&lt;Directory &quot;/home/kier/Documents/www&quot;&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride all
+    Require all granted
+&lt;/Directory&gt;
+
+&lt;FilesMatch \.php$&gt;
+    SetHandler &quot;proxy:fcgi://localhost:9080&quot;
+&lt;/FilesMatch&gt;
+</code></pre>
+<p>Эти экземпляры <code>/home/kier/Documents/www</code> необходимо заменить на место, где вы собираетесь хранить свои документы <code>www</code>.</p>
+<p>Перед запуском сервиса Apache убедитесь, что каталог существует.</p>
+<h3 id="php">PHP<a class="headerlink" href="#php" title="Permanent link"></a></h3>
+<p>Нам не нужно сильно менять конфигурацию Ubuntu / Debian по умолчанию для PHP, за исключением некоторых директив Xdebug и инструкций по запуску php-fpm.</p>
+<h4 id="xdebug">Xdebug<a class="headerlink" href="#xdebug" title="Permanent link"></a></h4>
+<p>Отредактируйте <code>/etc/php/5.6/mods-available/xdebug.ini</code> и дайте ему следующее содержимое для Xdebug 2.5.5:</p>
+<pre><code class="language-ini">zend_extension = &quot;xdebug.so&quot;
+xdebug.remote_enable = 1
+xdebug.remote_connect_back = 1
+xdebug.remote_port = 9000
+</code></pre>
+<p>Затем отредактируйте <code>/etc/php/7.4/mods-available/xdebug.ini</code> и <code>/etc/php/5.6/mods-available/xdebug.ini</code> и дайте им обоим следующее содержимое для Xdebug 3.0.x:</p>
+<pre><code class="language-ini">zend_extension = &quot;xdebug.so&quot;
+xdebug.mode = &quot;debug,develop&quot;
+xdebug.discover_client_host = 1
+xdebug.client_port = 9000
+</code></pre>
+<h4 id="php-fpm">php-fpm<a class="headerlink" href="#php-fpm" title="Permanent link"></a></h4>
+<p>Взяв номер версии PHP, удалив десятичную точку и добавив полученное целое число к 9000, чтобы 5.6 стало 9056а 8.0 стало 9080, создайте файл с именем <code>x.conf</code> в <code>/etc/php/(version)/fpm/pool.d/x.conf</code> для PHP версий 5.6, 7.4 и 8.0.</p>
+<p>Дайте каждому файлу следующее содержание:</p>
+<pre><code class="language-ini">user = kier
+listen = 127.0.0.1:9056
+</code></pre>
+<p>...изменение имени пользователя и номера порта 90xx соответственно для каждой версии PHP.</p>
+<h2 id="_4">Старт сервисов<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
+<p>Теперь вы можете перезапустить все сервисы с новыми конфигурациями:</p>
+<pre><code class="language-terminal">#!/bin/bash
+
+sudo systemctl restart elasticsearch
+sudo systemctl restart mariadb
+sudo systemctl restart apache2
+sudo systemctl restart php8.0-fpm
+sudo systemctl restart php7.4-fpm
+sudo systemctl restart php5.6-fpm
+</code></pre>
+<p>Теперь все должно работать, поэтому вы можете следовать <a href="../macos-dev/#selecting-a-php-version">инструкциям по работе с несколькими одновременными версиями PHP из руководства по macOS</a>, поместив файлы в каталог <code>www</code> вы указали в своей конфигурации Apache.</p>
+<p><img alt="Снимок экрана: Три версии PHP, работающие одновременно через веб-сервер Apache" src="../files/images/linux-php-versions.png" /></p>
+<h2 id="_5">Ссылки на ресурсы<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
+<ul>
+<li><a href="https://deb.sury.org">dev.sury.org для пакетов PHP</a></li>
+<li><a href="https://code.visualstudio.com/">Visual Studio Code</a></li>
+<li><a href="https://tableplus.io/">TablePlus</a></li>
+<li><a href="https://xdebug.org">Xdebug</a></li>
+<li><a href="https://addons.mozilla.org/en-GB/firefox/addon/xdebug-helper-for-firefox/">Xdebug Helper для Firefox</a></li>
+<li><a href="https://youtu.be/yzWzKjtvUIw">Видео этого процесса</a></li>
+</ul>
+<hr />
+<h2 id="_6">Обобщение<a class="headerlink" href="#_6" title="Permanent link"></a></h2>
+<h3 id="_7">Терминальные команды<a class="headerlink" href="#_7" title="Permanent link"></a></h3>
+<p>Запустите команды установки для <a href="../files/linux/install-ubuntu.sh">Ubuntu</a> или <a href="../files/linux/install-debian.sh">Debian</a> </p>
+<h3 id="mariadb-mysql">Настройте MariaDB / MySQL<a class="headerlink" href="#mariadb-mysql" title="Permanent link"></a></h3>
+<p>Запустите <a href="#mariadb">клиент mysql как root с sudo</a>, затем выполните SQL-запросы, чтобы отключить аутентификацию MySQL на основе подключаемых модулей.</p>
+<h3 id="apache-virtualhost">Отредактируйте Apache VirtualHost<a class="headerlink" href="#apache-virtualhost" title="Permanent link"></a></h3>
+<p>Отредактируйте <code>/etc/apache2/sites-available/000-default.conf</code>, чтобы включить <a href="#apache">настраиваемую конфигураци</a>.</p>
+<h3 id="_8">Замените следующие файлы<a class="headerlink" href="#_8" title="Permanent link"></a></h3>
+<ol>
+<li><code>/etc/php/5.6/mods-available/</code><a href="../files/linux/php56/xdebug.ini"><code>xdebug.ini</code></a></li>
+<li><code>/etc/php/7.4/mods-available/</code><a href="../files/linux/php74/xdebug.ini"><code>xdebug.ini</code></a></li>
+<li><code>/etc/php/8.0/mods-available/</code><a href="../files/linux/php80/xdebug.ini"><code>xdebug.ini</code></a></li>
+</ol>
+<h3 id="_9">Добавьте следующие файлы<a class="headerlink" href="#_9" title="Permanent link"></a></h3>
+<ol>
+<li><code>/etc/php/5.6/fpm/pool.d/</code><a href="../files/linux/php56/x.conf"><code>x.conf</code></a></li>
+<li><code>/etc/php/7.4/fpm/pool.d/</code><a href="../files/linux/php74/x.conf"><code>x.conf</code></a></li>
+<li><code>/etc/php/8.0/fpm/pool.d/</code><a href="../files/linux/php80/x.conf"><code>x.conf</code></a></li>
+</ol>
+<h3 id="_10">Перезапустите сервисы<a class="headerlink" href="#_10" title="Permanent link"></a></h3>
+<p>Используйте <code>sudo systemctl restart</code> для <code>elasticsearch</code>, <code>mariadb</code>, <code>apache2</code>, <code>php8.0-fpm</code>, <code>php7.4-fpm</code> и <code>php5.6-fpm</code>.</p>
+<h3 id="htaccess-php">Файлы .htaccess, ориентированные на версии PHP<a class="headerlink" href="#htaccess-php" title="Permanent link"></a></h3>
+<p>Следующие файлы можно поместить в каталог на вашем веб-сервере, чтобы все файлы PHP в этой папке использовали определенную версию PHP.</p>
+<p>Переименуйте файлы из <code>htaccess.txt</code> в <code>.htaccess</code> после помещения их в папку назначения.</p>
+<ol>
+<li>PHP 5.6 <a href="../files/macos/php56/htaccess.txt"><code>.htaccess</code></a></li>
+<li>PHP 7.4 <a href="../files/macos/php74/htaccess.txt"><code>.htaccess</code></a></li>
+<li>PHP 8.0 <a href="../files/macos/php80/htaccess.txt"><code>.htaccess</code></a></li>
+</ol>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="windows-dev/" class="btn btn-neutral float-right" title="Среда разработки Windows">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="macos-dev/" class="btn btn-neutral" title="Среда разработки macOS"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../macos-dev/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../windows-dev/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

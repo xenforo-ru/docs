@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Общие концепции - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.843441%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.843441%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u041e\u0431\u0449\u0438\u0435 \u043a\u043e\u043d\u0446\u0435\u043f\u0446\u0438\u0438";
+    var mkdocs_page_input_path = "general-concepts.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Общие концепции</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Компоненты поставщика</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ide">Интегрированная среда разработки (IDE)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Автозагрузчик</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">Пространства имён</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">Краткие названия классов</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">Расширение классов</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_7">Подсказка типов</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Разработчики &raquo;</li>
+        
+      
+    
+    <li>Общие концепции</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/general-concepts.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="_1">Общие концепции<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<p>В следующих разделах подробно рассматриваются некоторые общие системы и концепции, с которыми вы столкнетесь при разработке дополнения XenForo. Если вы знакомы с разработкой XenForo 1.x, то многие из этих концепций покажутся вам знакомыми, хотя их стоит пересмотреть, поскольку есть несколько отличных новых инструментов и функций, которые помогут вам разрабатывать дополнения.</p>
+<h2 id="_2">Компоненты поставщика<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>XF2 не поддерживается специальной структурой, как XF1, однако мы использовали использование некоторых популярных, хорошо протестированных пакетов с открытым исходным кодом, чтобы помочь с конкретными задачами. Например, мы используем проект с именем <a href="https://github.com/swiftmailer/swiftmailer">SwiftMailer</a> для отправки электронной почты и проект с именем <a href="https://github.com/guzzle/guzzle">Guzzle</a> в качестве HTTP клиента. Все сторонние проекты загружаются из каталога <code>src/vendor</code>.</p>
+<p>В настоящее время разработчики дополнений не могут добавлять свои собственные зависимости в это расположение.</p>
+<h2 id="ide">Интегрированная среда разработки (IDE)<a class="headerlink" href="#ide" title="Permanent link"></a></h2>
+<p>Перед тем, как начать разработку XF2, вы можете потратить некоторое время на оценку приложения, с помощью которого вы фактически будете создавать и редактировать файлы PHP. Обычно это называется IDE. Доступен ряд опций, начиная от простого Блокнота и заканчивая чем-то вроде Sublime Text, который может быть расширен для лучшей поддержки PHP с дополнениями, до подходящей IDE, такой как <a href="https://www.jetbrains.com/phpstorm/">PhpStorm</a>. Внутри мы используем PhpStorm в качестве предпочитаемой IDE. Это коммерческий продукт премиум-класса, но могут быть доступны бесплатные альтернативы. В любом случае, никто не может сказать Вам, какое приложение лучше всего соответствует Вашим требованиям, и вам следует потратить некоторое время на ряд продуктов (даже бесплатных) и использовать этот опыт, чтобы выяснить свои предпочтения.</p>
+<h2 id="_3">Автозагрузчик<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<p>XF2 использует автозагрузчик, который автоматически генерируется Composer. Это позволяет автоматически включать весь код XF, код сторонних поставщиков и любой код разработчика дополнений по всему проекту без необходимости вручную <code>include/require</code> Ваши классы.</p>
+<p>Корнем автозагрузки для всех дополнений XF является каталог <code>src/addons</code>. Это означает, что все имена Ваших классов будут относиться к этому базовому местоположению. Также стоит отметить, что XF2 использует строгий шаблон именования «класс на файл». Каждый файл должен содержать только один класс, и имя этого класса должно указывать точное расположение PHP-файла класса в файловой системе.</p>
+<p>Например, если вы хотите создать новый класс в файле с именем <code>src/addons/Demo/Setup.php</code> (где <code>Demo</code> - ваш идентификатор дополнения), тогда этот класс будет называться <code>Demo\Setup</code>. И наоборот, если у вас есть класс с именем <code>Demo\Entity\Thing</code>, вы будете знать, что файл для этого класса находится по пути <code>src/addons/Demo/Entity/Thing.php</code>.</p>
+<h2 id="_4">Пространства имён<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
+<p>В XF мы используем <a href="http://php.net/manual/en/language.namespaces.rationale.php">пространства имен</a>, чтобы мы могли более кратко ссылаться на классы в том же пространстве имен. Рекомендуется, чтобы все дополнения также использовали пространства имен. В приведенном выше примере мы говорили о классе с именем <code>Demo\Setup</code>. Используя пространства имен, класс фактически будет называться просто <code>Setup</code>, но пространство имен будет установлено на <code>Demo</code>. В качестве более конкретного примера мы также говорили выше о классе с именем <code>Demo\Entity\Thing</code>. Посмотрим, как будет выглядеть PHP-код для этого класса:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Entity;
+
+class Thing
+{
+
+}
+</code></pre>
+<p>Если бы был класс с именем <code>AnotherThing</code> в каталоге <code>src/addons/Demo/Entity</code>, мы могли бы ссылаться на этот класс в классе <code>Thing</code> просто как <code>AnotherThing</code>, потому что этот класс находится в том же <code>Demo\Entity</code> пространство имен.</p>
+<h2 id="_5">Краткие названия классов<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
+<p>Иногда классы, указанные в XF, сокращаются. Например, если вы хотите вызвать объект <code>User</code> (подробнее об объектах ниже), то вы можете увидеть, что имя класса обозначается просто <code>XF:User</code>. Использование коротких имен классов и полного имени класса, в которое они разрешаются, полностью зависит от контекста. Следовательно, в контексте вызова сущности короткое имя класса будет преобразовано в следующее полное имя класса <code>XF\Entity\User</code>. Часть <code>XF</code> указывает путь к файлу (на основе идентификатора дополнения), часть <code>Entity</code> подразумевается путем вызова сущности, а часть <code>User</code> указывает конкретную сущность. Точно так же, когда вы начнете создавать свои собственные классы, вы также будете использовать короткие имена классов для ссылки на свои собственные классы. Например, если вам нужно создать новую сущность <code>Thing</code> для дополнения <code>Demo</code>, вы должны написать следующее:</p>
+<pre><code class="language-php">\XF::em()-&gt;create('Demo:Thing');
+</code></pre>
+<p>Это разрешит класс <code>Demo\Entity\Thing</code>. Точно так же, если вы хотите получить доступ к репозиторию <code>Thing</code>, вы должны написать его следующим образом:</p>
+<pre><code class="language-php">\XF::repository('Demo:Thing');
+</code></pre>
+<p>Обратите внимание на идентичность коротких имен классов. Вызов репозитория фактически будет преобразован в <code>Demo\Repository\Thing</code>.</p>
+<h2 id="_6">Расширение классов<a class="headerlink" href="#_6" title="Permanent link"></a></h2>
+<p>Большое количество классов в XF2 являются расширяемыми, что позволяет разработчикам расширять и переопределять основной код без необходимости напрямую редактировать его. Если вы знакомы с разработкой XF1, вы будете в некоторой степени знакомы со следующим процессом:</p>
+<ol>
+<li>Создайте файл PHP прослушивателя</li>
+<li>Создайте класс, который в конечном итоге расширит исходный класс </li>
+<li>Напишите функцию, которая соответствует ожидаемой сигнатуре обратного вызова для одного из событий <code>load_class</code> и добавляет имя Вашего расширенного класса</li>
+<li>Добавьте «код прослушивателя события» в Admin CP, который указывает класс прослушивателя и имя метода для функции, упомянутой выше, и, при необходимости, подсказку относительно того, какой класс расширяется.</li>
+</ol>
+<p>В XF2 мы удалили эти события в пользу специальной системы под названием «Расширения классов». Процесс выглядит следующим образом:</p>
+<ol>
+<li>Создайте класс, который в конечном итоге расширит исходный класс</li>
+<li>Добавьте «Расширение класса» в Admin CP, в котором указывается имя класса, который вы расширяете, и имя класса, который его расширяет.</li>
+</ol>
+<p>Это явно сокращает количество шаблонов, необходимых для расширения классов, а также предоставляет специальный пользовательский интерфейс для просмотра и управления этими расширениями. Давайте посмотрим на процесс, расширив общедоступный контроллер <code>Member</code> и добавив новое действие, которое отображает простое сообщение.</p>
+<p>Первое, что нужно сделать, это создать надстройку. Ранее мы описали, как это сделать, используя команду <code>xf-addon:create</code> <a href="../development-tools/#creating-a-new-add-on">здесь</a>. В этом примере мы предполагаем, что вы создали надстройку с идентификатором и названием «Демо».</p>
+<p>Теперь у вас будет файл addon.json для этого дополнения в следующей папке <code>src/addons/Demo/addon.json</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Хотя, строго говоря, вы можете размещать свои расширенные классы где угодно в каталоге надстроек, рекомендуется помещать расширенные классы в каталог, который легко идентифицирует а) надстройку, к которой принадлежит класс; б) тип класса расширяется и в) имя расширяемого класса. В следующих примерах мы расширяем общедоступный контроллер XF Member, поэтому мы разместим наш расширенный класс по следующему пути: <code>src/addons/Demo/XF/Pub/Controller/Member.php</code>.</p>
+</div>
+<p>Расширенный класс должен существовать до того, как мы добавим расширение класса в Admin CP. Итак, следуйте следующей инструкции:</p>
+<ol>
+<li>Создайте новый каталог с именем <code>XF</code> внутри <code>src/addons/Demo</code></li>
+<li>Создайте новый каталог с именем <code>Pub</code> внутри <code>src/addons/Demo/XF</code></li>
+<li>Создайте новый каталог с именем <code>Controller</code> внутри <code>src/addons/Demo/XF/Pub</code></li>
+<li>Создайте новый файл с именем <code>Member.php</code> внутри <code>src/addons/Demo/XF/Pub/Controller</code></li>
+</ol>
+<p>Первоначальное содержимое Вашего файла PHP должно быть следующим:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\XF\Pub\Controller;
+
+class Member extends XFCP_Member
+{
+
+}
+</code></pre>
+<p>Если вы знакомы с расширением классов PHP в целом, но не знакомы с XF, приведенный выше пример поначалу может показаться запутанным. Причина этого в том, что Вы, возможно, ожидали расширения класса <code>XF\Pub\Controller\Member</code> напрямую, а не <code>XFCP_Member</code>. В XF мы используем систему "XenForo Class Proxy" (сокращенно XFCP) для построения «цепочки наследования», которая в конечном итоге позволяет расширить один класс несколькими надстройками. Соглашение заключается в том, чтобы ссылаться на фиктивный расширенный класс, который является текущим именем класса <code>Member</code>, и ставить перед ним префикс <code>XFCP_</code>.</p>
+<p>Теперь, когда класс создан, мы можем создать расширение класса на странице "Admin CP &gt; Development &gt; Class extensions &gt; Add class extension".</p>
+<p>Все, что вам нужно сделать, это ввести имя базового класса (<code>XF\Pub\Controller\Member</code>) в первое поле и имя расширенного класса (которое вы только что создали) во втором поле (<code>Demo\XF\Pub\Controller\Member</code>) и нажмите кнопку «Сохранить».</p>
+<p>Расширение Вашего класса теперь должно быть активным, но в настоящее время ничего не делает. Чтобы что-то произошло, нам нужно либо переопределить существующий метод в этом классе, создав метод с тем же именем, что и существующий, либо полностью добавить новый метод. Сделаем последнее:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\XF\Pub\Controller;
+
+class Member extends XFCP_Member
+{
+    public function actionHelloWorld()
+    {
+        return $this-&gt;message('Hello world!');
+    }
+}
+</code></pre>
+<p>Мы говорим больше о контроллерах, действиях и ответах на страницах <a href="../controller-basics/">Основы работы с контроллерами</a>, поэтому не беспокойтесь об этом прямо сейчас.</p>
+<p>Теперь мы добавили код в наш расширенный контроллер, давайте посмотрим, как он работает. Просто введите следующий URL (относительно URL Вашего форума): <code>index.php?members/hello-world</code>. Теперь вы должны увидеть "Hello world!" сообщение отображается!</p>
+<p>Как упоминалось ранее, также можно переопределить существующие методы в классе. Например, если мы изменим <code>actionHelloWorld()</code> на <code>actionIndex()</code>, то у вас больше не будет списка "Notable members", вместо этого будет отображаться «Hello world!» сообщение! Это не совсем правильный способ расширения существующего действия контроллера (или любого метода класса, на самом деле), но мы более подробно рассмотрим это в <a href="../controller-basics/#modifying-a-controller-action-reply-properly">Модификация ответа на действие контроллера (правильно)</a>. </p>
+<h2 id="_7">Подсказка типов<a class="headerlink" href="#_7" title="Permanent link"></a></h2>
+<p>Многие объекты в XF создаются с помощью фабричных методов. Например, если мы хотим создать конкретный репозиторий, мы должны написать следующее:</p>
+<pre><code class="language-php">$repo = \XF::repository('Demo:Thing');
+</code></pre>
+<p>Это очень удобный и последовательный способ создания экземпляра объекта. Мы знаем, просто глядя на него, какой объект будет создан. Результирующий код в этом методе знает, как вернуть правильный объект для того, что мы запросили.</p>
+<p>К сожалению, Ваша IDE, вероятно, не имеет ни малейшего понятия (по крайней мере, по умолчанию). Что касается IDE, этот метод вернет экземпляр объекта <code>XF\Mvc\Entity\Repository</code>. В определенной степени это полезно, но потенциально существует множество методов, доступных в конкретном объекте <code>Demo\Repository\Thing</code>, о которых Ваша IDE не знает. В конечном итоге это означает, что когда вы пытаетесь использовать свой объект <code>$repo</code> в коде, Ваша IDE не сможет вносить предложения или автоматически заполнять имена методов и аргументы, которые для этого требуются.</p>
+<p>Вот где подсказки типов становятся полезными, а синтаксис должен поддерживаться по стандарту большинством IDE и некоторыми текстовыми редакторами, поддерживающими PHP. Мы бы просто изменили вызов нашего репозитория следующим образом:</p>
+<pre><code class="language-php">/** @var \Demo\Repository\Thing $repo */
+$repo = \XF::repository('Demo:Thing');
+</code></pre>
+<p>Подсказка типа над вызовом репозитория теперь сообщает IDE, что <code>$repo</code> относится к объекту, представленному классом <code>Demo\Repository\Thing</code>, а не к объекту, который он автоматически выводит изначально.</p>
+<p>Подсказка типов также особенно полезна при расширении классов. Потенциальная проблема с нашими методами расширения класса заключается в том, что, по сути, Ваши классы не расширяют исходный класс, который вы хотите расширить, а вместо этого он проксируется через класс, который на самом деле не существует, например, <code>XFCP_Member</code>, такой как в <a href="#extending-classes">примере выше</a>.</p>
+<p>Чтобы исправить эту проблему, мы автоматически создаем файл с именем <code>extension_hint.php</code> и сохраняем его в Вашем каталоге <code>_output</code>.</p>
+<p>Это добавляет ссылку, которую IDE может читать, но PHP не может, поэтому теперь IDE понимает, что, когда мы используем <code>$this</code> внутри любого из методов в этом расширенном классе, он может предлагать и автоматически заполнять методы и свойства, доступные в элементе контроллер или один из его родителей.</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="routing-basics/" class="btn btn-neutral float-right" title="Основы маршрутизации">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="development-tools/" class="btn btn-neutral" title="Инструменты разработки"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../development-tools/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../routing-basics/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

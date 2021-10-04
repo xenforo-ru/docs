@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Инструменты разработки - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.826109%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.826109%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u0418\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0438";
+    var mkdocs_page_input_path = "development-tools.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Инструменты разработки</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Режим отладки</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Включение режима разработки</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ip">Предотвращение частого выхода из системы для пользователей с динамическим IP</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">Команды разработки</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">Специальные команды дополнений</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">Создание нового дополнения</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_data-xml">Экспорт _data .XML файлов</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">Поднимите версию дополнения</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#addonjson">Синхронизируйте свой addon.json с базой данных</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#addonjson_1">Валидация Вашего файла addon.json</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">Запустите определенный шаг установки</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">Запуск шага установки</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_10">Запуск шага обновления</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_11">Запуск шага удаления</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_12">Сборка релиза дополнения</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">Настройка процесса сборки</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_14">Команды разработки</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_15">Импорт результатов разработки</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_16">Экспорт результатов разработки</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_17">Отладка кода</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_18">Дамп переменной</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Разработчики &raquo;</li>
+        
+      
+    
+    <li>Инструменты разработки</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/development-tools.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="_1">Инструменты разработки<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<p>XF2 предоставляет разработчикам ряд встроенных инструментов, которые вы можете использовать для ускорения разработки дополнений, и мы рассмотрим некоторые из них ниже.</p>
+<h2 id="_2">Режим отладки<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>Режим отладки может быть включен в Вашем <code>config.php</code>, что позволит вам получить доступ к определенным инструментам разработки в Admin CP (таким как создание маршрутов, разрешений, административная навигация и т. д.), А также позволит выводить в нижней части каждой страницы, в котором подробно указано, сколько времени потребовалось для обработки страницы, сколько запросов было выполнено для отображения страницы и сколько памяти было использовано. Всплывающая подсказка, содержащая информацию о текущем контроллере, действии и имени шаблона, доступна при наведении курсора. вы также можете щелкнуть вывод времени, и это даст вам подробное представление о том, какие именно запросы выполнялись, и трассировку стека, которая привела к выполнению этого запроса.</p>
+<p>вы можете включить режим отладки, добавив следующее в <code>config.php</code>:</p>
+<pre><code class="language-php">$config['debug'] = true;
+</code></pre>
+<h2 id="_3">Включение режима разработки<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<p>Режим разработки - это специальный режим, активированный в Вашем файле <code>config.php</code>, который заставит XF автоматически записать Ваши файлы разработки в ваш каталог <code>_output</code>. Этот режим должен быть включен, чтобы было разрешено редактирование шаблона файловой системы. Поскольку режим разработки будет записывать файлы в Вашу файловую систему, важно убедиться, что у вас есть соответствующие права доступа к файлам. Это может варьироваться в зависимости от среды, но типичная конфигурация должна гарантировать, что для любого дополнения, над которым вы работаете, у вас есть каталог <code>_output</code>, установленный chmod <code>0777</code>. Например, если вы работаете над дополнением с идентификатором <code>Demo</code>, его результаты разработки будут записаны в <code>src/addons/Demo/_output</code>, и поэтому этот каталог должен быть полностью доступен для записи.</p>
+<p>Включение режима разработки также автоматически включает <a href="#debug-mode">режим отладки</a>.</p>
+<p>Чтобы включить режим разработки, добавьте следующие строки в ваш файл <code>config.php</code>:</p>
+<pre><code class="language-php">$config['development']['enabled'] = true;
+$config['development']['defaultAddOn'] = 'SomeCompany/MyAddOn';
+</code></pre>
+<p>Значение <code>defaultAddOn</code> является необязательным, но его добавление автоматически заполнит указанное дополнение в XF Admin CP при создании нового контента, который будет связан с дополнением.</p>
+<p>В дополнение к вышесказанному вам может потребоваться добавить некоторую дополнительную конфигурацию, особенно если вы используете более одной установки XF.</p>
+<pre><code class="language-php">$config['enableMail'] = false;
+</code></pre>
+<p>Это отключит отправку всей почты с Вашего форума. Это особенно важно, если вы используете копию живых данных с реальными пользователями и реальными адресами электронной почты (хотя мы бы не советовали этого!).</p>
+<p>В качестве альтернативы непосредственному отключению почты вы можете рассмотреть возможность использования такой службы, как <a href="https://mailtrap.io">MailTrap.io</a>. Это предоставляет вам бесплатный почтовый ящик, который будет получать все электронные письма, отправленные с Вашего форума, что очень полезно для тестирования любых электронных писем, которые может отправлять ваше новое дополнение.</p>
+<pre><code class="language-php">$config['cookie']['prefix'] = 'anything_';
+</code></pre>
+<p>Если вы используете две или более установки XF на одном домене, у вас могут возникнуть проблемы с перезаписью файлов cookie, что вызвано установками, использующими один и тот же префикс cookie. Поэтому рекомендуется менять префикс файлов cookie для каждой установленной Вами установки XF. Без этого вы столкнетесь с проблемами, например, с выходом из одной установки XF при входе в другую.</p>
+<h2 id="ip">Предотвращение частого выхода из системы для пользователей с динамическим IP<a class="headerlink" href="#ip" title="Permanent link"></a></h2>
+<p>Сессии XenForo обычно привязаны к Вашему IP-адресу. Если ваш IP-адрес динамический или вы используете VPN, прокси или балансировщик нагрузки, вы можете часто выходить из системы. вы можете предотвратить это, добавив в файл <code>src/config.php</code> следующее:</p>
+<pre><code class="language-php">$c-&gt;extend('session', function(\XF\Session\Session $session)
+{
+   $session-&gt;setConfig([
+        'ipv4CidrMatch' =&gt; 0,
+        'ipv6CidrMatch' =&gt; 0
+    ]);
+   return $session;
+});
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Никогда не применяйте приведенный выше код к конфигурации действующего/продакшен сайта.</p>
+</div>
+<h2 id="_4">Команды разработки<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
+<p>XF 2.0 поставляется с рядом общих команд CLI для разработки и дополнений, которые призваны помочь вам разрабатывать более эффективно или даже, возможно, автоматизировать/сценарий для некоторых общих процессов.</p>
+<p>В этом разделе мы рассмотрим некоторые общие инструменты и объясним, что они делают.</p>
+<h2 id="_5">Специальные команды дополнений<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
+<h3 id="_6">Создание нового дополнения<a class="headerlink" href="#_6" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:create</p>
+</div>
+<p>Команда <code>xf-addon:create</code> предназначена для первоначальной настройки и создания нового дополнения. После запуска все, что вам нужно, это ответить на несколько основных вопросов:</p>
+<ul>
+<li>Введите идентификатор для этого дополнения</li>
+<li>Введите название</li>
+<li>Введите идентификатор версии (например, 1000010)</li>
+<li>Введите строку версии (например, 1.0.0 Alpha)</li>
+</ul>
+<p>Затем вам будет предоставлена возможность создать дополнение и записать его файл addon.json, а также задать несколько вопросов о том, хотите ли вы добавить файл Setup.php.</p>
+<h3 id="_data-xml">Экспорт _data .XML файлов<a class="headerlink" href="#_data-xml" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:export <em>[addon_id]</em></p>
+</div>
+<p>Эту команду вы будете использовать для экспорта всех данных дополнения в файлы XML внутри каталога <code>_data</code>. Он экспортирует данные из того, что в настоящее время находится в базе данных (а не из выходных файлов разработки).</p>
+<h3 id="_7">Поднимите версию дополнения<a class="headerlink" href="#_7" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:bump-version <em>[addon_id]</em> --version-id 1020370 --version-string 1.2.3</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Если Ваша строка версии содержит пробелы, вам нужно будет заключить ее в кавычки.</p>
+</div>
+<p>Эта команда принимает идентификатор дополнения для Вашего дополнения, идентификатор новой версии и строку новой версии. Это позволяет вам обновить версию дополнения за один шаг, без необходимости выполнять обновления и перестройку самостоятельно. Приведенные выше параметры являются необязательными, и если они не указаны, вам будет предложено их ввести. Если вы укажете только идентификатор версии, мы попытаемся автоматически вывести из него правильную строку версии, если она соответствует нашему <a href="../add-on-structure/#recommended-version-id-format">Рекомендуемому формату идентификатора версии</a>. Когда команда завершится, она автоматически обновит файл <code>addon.json</code> и базу данных, указав правильную информацию о версии.</p>
+<h3 id="addonjson">Синхронизируйте свой addon.json с базой данных<a class="headerlink" href="#addonjson" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:sync-json <em>[addon_id]</em></p>
+</div>
+<p>Иногда вы можете предпочесть отредактировать файл JSON напрямую, указав определенные детали. Это может быть версия, новая иконка, изменение названия или описания. Такое изменение JSON может привести к тому, что система дополнения будет полагать, что есть отложенные изменения или что дополнение можно обновить. Восстановление или обновление может оказаться разрушительной операцией, если вы еще не экспортировали свои текущие данные. Поэтому рекомендуется запускать эту команду как способ импорта этих данных, не затрагивая существующие данные.</p>
+<h3 id="addonjson_1">Валидация Вашего файла addon.json<a class="headerlink" href="#addonjson_1" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:validate-json <em>[addon_id]</em></p>
+</div>
+<p>Если вы хотите проверить, что ваш файл JSON содержит правильное содержимое и в правильном формате, вы можете проверить его. Валидатор проверит, можно ли декодировать контент, что он содержит все правильные обязательные поля (такие как заголовок и идентификатор версии), а также проверит наличие дополнительных ключей (таких как описание и иконка). Если какие-либо ключи отсутствуют, вам будет предложено исправить проблему. Мы также проверяем, есть ли какие-либо неожиданные поля в файле JSON. Они могут быть преднамеренными или представлять собой опечатки. вы можете запустить команду вручную или она будет запущена автоматически при сборке Вашего релиза.</p>
+<h3 id="_8">Запустите определенный шаг установки<a class="headerlink" href="#_8" title="Permanent link"></a></h3>
+<p>Иногда полезно проверить, что шаги Вашего класса установки работают правильно, без необходимости выполнять процесс удаления и повторной установки.</p>
+<p>В этом помогают три команды. Эти команды будут работать только с классами Setup, которые построены с использованием трейта по умолчанию <code>StepRunner</code>.</p>
+<h4 id="_9">Запуск шага установки<a class="headerlink" href="#_9" title="Permanent link"></a></h4>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:install-step <em>[addon_id]</em> <em>[step]</em></p>
+</div>
+<h4 id="_10">Запуск шага обновления<a class="headerlink" href="#_10" title="Permanent link"></a></h4>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:upgrade-step <em>[addon_id]</em> <em>[version]</em> <em>[step]</em></p>
+</div>
+<h4 id="_11">Запуск шага удаления<a class="headerlink" href="#_11" title="Permanent link"></a></h4>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:uninstall-step <em>[addon_id]</em> <em>[step]</em></p>
+</div>
+<h2 id="_12">Сборка релиза дополнения<a class="headerlink" href="#_12" title="Permanent link"></a></h2>
+<p>После того, как вся тяжелая работа сделана, очень жаль, что вам придется пройти через ряд других процессов, прежде чем вы действительно сможете ее выпустить. Даже процесс сбора всех файлов в нужное место и создание ZIP-файла вручную может занять много времени и привести к ошибкам. Мы можем позаботиться об этом автоматически, включая создание файла <code>hashes.json</code>, с помощью одной простой команды.</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:build-release <em>[addon_id]</em></p>
+</div>
+<p>Когда вы запустите эту команду, она сначала запустит команду <code>xf-addon:export</code>, а затем соберет все Ваши файлы во временный каталог <code>_build</code> и запишет их в ZIP-файл. Готовый ZIP-файл также будет включать файл <code>hashes.json</code>. Как только ZIP-файл будет создан, он будет сохранен в Вашем каталоге <code>_releases</code> и именем <code>&lt;ADDON ID&gt;-&lt;VERSION STRING&gt;.zip</code>.</p>
+<h3 id="_13">Настройка процесса сборки<a class="headerlink" href="#_13" title="Permanent link"></a></h3>
+<p>Помимо создания ZIP релиза, могут быть дополнительные файлы, которые вы хотите включить в свой ZIP, другие более сложные процессы сборки, которые вы хотите запустить, такие как минимизация или объединение JS или выполнение определенных команд оболочки. Обо всем этом можно позаботиться в Вашем файле <code>build.json</code>. Это типичный файл <code>build.json</code>:</p>
+<pre><code class="language-json">{
+    &quot;additional_files&quot;: [
+        &quot;js/demo/portal&quot;
+    ],
+    &quot;minify&quot;: [
+        &quot;js/demo/portal/a.js&quot;,
+        &quot;js/demo/portal/b.js&quot;
+    ],
+    &quot;rollup&quot;: {
+        &quot;js/demo/portal/ab-rollup.js&quot;: [
+            &quot;js/demo/portal/a.min.js&quot;,
+            &quot;js/demo/portal/b.min.js&quot;
+        ]
+    },
+    &quot;exec&quot;: [
+        &quot;echo '{title} version {version_string} ({version_id}) has been built successfully!' &gt; 'src/addons/Demo/Portal/_build/built.txt'&quot;
+    ]
+}
+</code></pre>
+<p>Если у вас есть ресурсы, такие как JavaScript, которые необходимо обслуживать вне каталога дополнения, вы можете указать процессу сборки копировать файлы или каталоги, используя массив <code>additional_files</code> в <code>build.json</code>. Во время разработки не всегда возможно хранить файлы вне каталога дополнения, поэтому, если вы предпочитаете, вы можете вместо этого хранить файлы в каталоге дополнения <code>_files</code>. При копировании дополнительных файлов мы сначала проверим их.</p>
+<p>Если вы отправляете некоторые файлы JS вместе с дополнением, вы можете минифицировать эти файлы по соображениям производительности. вы можете указать, какие файлы вы хотите минифицировать, прямо внутри Вашего <code>build.json</code>. вы можете перечислить их в виде массива или просто указать его как <code>'*'</code>, что минифицирует все в Вашем каталоге <code>js</code>, если этот путь содержит файлы JS после копирования дополнительных файлов в сборку. Любые минифицированные файлы будут автоматически иметь суффикс <code>.min.js</code> вместо <code>.js</code>, а исходные файлы все еще будут в пакете.</p>
+<p>Возможно, вы предпочтете объединить несколько файлов JS в один файл. Если вы это сделаете, вы можете использовать массив <code>rollup</code>, чтобы определить это. Ключ - это получившееся объединенное имя файла, а элементы в этом массиве - это пути к файлам JS, которые будут объединены в один файл.</p>
+<p>Наконец, у вас могут быть определенные процессы, которые необходимо запустить непосредственно перед сборкой и окончательной доработкой пакета. Это может быть любая комбинация вещей. В конечном счете, если это команда, которую можно запустить из оболочки (включая сценарии PHP), вы можете указать ее здесь. Приведенный выше пример, конечно, бесполезен, но он, по крайней мере, демонстрирует, что можно использовать определенные заполнители. Эти заполнители заменяются скалярными значениями, которые вы можете получить из объекта <code>XF\AddOn\AddOn</code>, который обычно представляет собой любое значение, доступное в файле <code>addon.json</code> или в объекте <code>AddOn</code>.</p>
+<h2 id="_14">Команды разработки<a class="headerlink" href="#_14" title="Permanent link"></a></h2>
+<p>На самом деле существует довольно много команд, связанных с разработкой, но здесь рассматриваются только две наиболее важные.</p>
+<p>Чтобы использовать любую из этих команд, у вас должен быть включен <a href="#enabling-development-mode">режим разработки</a> в Вашем файле <code>config.php</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Обе следующие команды могут потенциально вызвать потерю данных, если есть ситуация,
+когда база данных и каталог <code>_output</code> перестают синхронизироваться. 
+Всегда рекомендуется использовать VCS (систему контроля версий), такую как 
+<a href="https://github.com">GitHub</a>, чтобы уменьшить влияние таких ошибок.</p>
+</div>
+<h3 id="_15">Импорт результатов разработки<a class="headerlink" href="#_15" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-dev:import --addon <em>[addon_id]</em></p>
+</div>
+<p>Выполнение этой команды импортирует все выходные файлы разработки из каталога дополнения <code>_output</code> в базу данных.</p>
+<h3 id="_16">Экспорт результатов разработки<a class="headerlink" href="#_16" title="Permanent link"></a></h3>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-dev:export --addon <em>[addon_id]</em></p>
+</div>
+<p>Это экспортирует все данные, которые в настоящее время связаны с Вашим дополнением в базе данных, в файлы в Вашем каталоге <code>_output</code>.</p>
+<h2 id="_17">Отладка кода<a class="headerlink" href="#_17" title="Permanent link"></a></h2>
+<p>Должна быть возможность настроить ваш любимый инструмент отладчика (XDebug, Zend Debugger и т. д.) для работы с XF2. Хотя иногда отладочный код может быть столь же рудиментарным, как и просто быстрое определение того, какое значение (или тип значения) хранится в переменной в данный момент времени.</p>
+<h3 id="_18">Дамп переменной<a class="headerlink" href="#_18" title="Permanent link"></a></h3>
+<p>В PHP, конечно же, есть встроенный инструмент, позволяющий справиться с этим. Скорее всего, вы знаете его как <code>var_dump()</code>. XF поставляется с двумя заменами для этого:</p>
+<pre><code class="language-php">\XF::dump($var);
+\XF::dumpSimple($var);
+</code></pre>
+<p>Простая версия в основном просто выгружает значение переменной в виде обычного текста. Например, если вы просто используете его для выгрузки значения массива, вы увидите вывод вверху страницы, подобный этому:</p>
+<pre><code class="language-plain">array(2) {
+  [&quot;user_id&quot;] =&gt; int(1)
+  [&quot;username&quot;] =&gt; string(5) &quot;Admin&quot;
+}
+</code></pre>
+<p>Фактически это тот же результат, что и стандартный var_dump, но немного измененный для удобства чтения и заключенный в теги <code>&lt;pre&gt;</code>, чтобы гарантировать сохранение пробелов при рендеринге.</p>
+<p>Альтернативой на самом деле является компонент VarDumper из проекта Symfony. Он выводит HTML, CSS и JS для создания более функционального и потенциально более удобного для чтения вывода. Он позволяет свернуть определенные разделы, а для определенных значений, которые могут выводить значительный объем данных, таких как объекты, он может автоматически свернуть эти разделы.</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="general-concepts/" class="btn btn-neutral float-right" title="Общие концепции">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="add-on-structure/" class="btn btn-neutral" title="Структура дополнения"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../add-on-structure/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../general-concepts/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

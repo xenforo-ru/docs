@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Основы контроллера - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.803683%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.803683%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u041e\u0441\u043d\u043e\u0432\u044b \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440\u0430";
+    var mkdocs_page_input_path = "controller-basics.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Основы контроллера</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Ответ представления</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Ответ редиректа</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">Ответ об ошибке</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">Ответ сообщение</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">Ответ исключение</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_7">Перенаправление ответа</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_8">Изменение ответа на действие контроллера (должным образом)</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Разработчики &raquo;</li>
+        
+      
+    
+    <li>Основы контроллера</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/controller-basics.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="_1">Основы контроллера<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<p>На базовом уровне контроллеры - это код, который выполняется, когда вы посещаете страницу в XF. Контроллеры обычно несут ответственность за обработку пользовательского ввода и передачу этого пользовательского ввода в соответствующее место, которое, как правило, должно выполнять какое-либо действие с базой данных (Модель) или загружать визуальный контент (Представление).</p>
+<p>Когда пользователь кликает ссылку, запрошенный URL-адрес перенаправляется на конкретный контроллер и действие контроллера. Смотрите <a href="../routing-basics/">Основы маршрутизации</a>. Например, в XF, если вы перейдете по URL-адресу типа <code>index.php?conversations/add</code>, вы будете перенаправлены на контроллер <code>XF\Pub\Controller\Conversation</code> и на действие <code>add</code>.</p>
+<p>Если вы посмотрите на этот класс в файловой системе (смотрите <a href="../general-concepts/#autoloader">Автозагрузчик</a> для описания того, как классы и пути к файлам сопоставляются друг с другом), вы заметите, что существует ряд методов, названных с префиксом <code>action</code>. Все эти методы указывают на конкретное действие контроллера. Итак, чтобы увидеть код, задействованный при просмотре упомянутой выше страницы разговоров/добавления, поищите в этом файле <code>public function actionAdd()</code>.</p>
+<p>Контроллеры XF отвечают за возврат объекта ответа, который обычно состоит из одного из следующих типов:</p>
+<h2 id="_2">Ответ представления<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>Это один из наиболее распространенных ответов, с которыми вы будете иметь дело во время разработки XF. Контроллер, который возвращает ответ представления, обычно требует передачи до трех аргументов. Класс представления (подробнее об этом ниже), имя шаблона и массив <code>$viewParams</code> , который является данными, которые должны быть доступны для шаблон.</p>
+<p>Вот типичный пример действия контроллера, которое возвращает ответ Представления:</p>
+<pre><code class="language-php">public function actionExample()
+{
+    $hello = 'Hello';
+    $world = 'world!';
+
+    $viewParams = [
+        'hello' =&gt; $hello,
+        'world' =&gt; $world
+    ];
+    return $this-&gt;view('Demo:Example', 'demo_example', $viewParams);
+}
+</code></pre>
+<p>Первый аргумент - это сокращенное имя класса для определенного класса View. Этот класс может существовать, а может и не существовать (часто в нем нет необходимости, мы рассмотрим классы представлений позже), но он должен иметь примерно уникальное имя для контроллера и действия. Как и в случае с другими <a href="../general-concepts/#short-class-names">Сокращенными именами классов</a>, конкретное короткое имя класса выше будет преобразовано в <code>Demo\Pub\View\Example</code>. Опять же, <code>Pub</code> автоматически выводится из типа контроллера.</p>
+<p>Второй аргумент - это имя шаблона. В этом случае мы ищем шаблон с именем <code>demo_example</code>.</p>
+<p>Третий аргумент - это массив параметров/переменных шаблона, которые должны быть доступны для представления. Этот массив обычно должен состоять из пар <code>key =&gt; value</code>. В приведенном выше примере в шаблон передаются два параметра шаблона. Часть массива <code>key</code> указывает имя переменной, доступной в шаблоне. Часть массива <code>value</code> указывает значение.</p>
+<p>Итак, если бы у нас было следующее содержимое в шаблоне <code>demo_example</code>:</p>
+<pre><code class="language-html">{$hello} {$world}
+</code></pre>
+<p>Шаблон выведет следующее:</p>
+<pre><code class="language-plain">Hello world!
+</code></pre>
+<h2 id="_3">Ответ редиректа<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<p>Этот ответ возвращается, когда вы хотите перенаправить пользователя на другой URL-адрес после того, как он выполнил какое-либо действие.</p>
+<p>Типичный вариант использования здесь - после того, как пользователь отправил данные через форму, вы можете перенаправить их на другую страницу, например, вернуть пользователя к списку элементов.</p>
+<p>Вот пример типичного действия контроллера, которое выполняет перенаправление:</p>
+<pre><code class="language-php">public function actionRedirect()
+{
+    return $this-&gt;redirect($this-&gt;buildLink('demo/example'), 'This is a redirect message.', 'permanent');
+}
+</code></pre>
+<p>Первый аргумент - это URL-адрес для перенаправления. Этот пример перенаправит пользователя на URL-адрес <code>index.php?demo/example</code>.</p>
+<p>Второй аргумент будет отображаться только в том случае, если форма отправлена по запросу AJAX, который предотвращает перенаправление. Результатом будет «флэш-сообщение», которое появится вверху экрана с выбранным Вами сообщением. вам не нужно предоставлять собственное сообщение. Если он не указан, по умолчанию будет установлено «Ваши изменения были сохранены».</p>
+<p>Третий аргумент по умолчанию - <code>temporary</code>, но вы также можете выбрать постоянное значение, как в примере. Единственная разница здесь - это тип кода HTTP-ответа, предоставляемого сервером. В большинстве случаев идеально подходит временный режим, и он будет отвечать кодом 303. <code>permanent</code> выдаст код ответа 301.</p>
+<p>Хотя таким образом вы можете вызвать постоянное перенаправление, на самом деле для этого есть специальный метод, который можно использовать следующим образом. Он также принимает аргумент 'message', но, как и выше, не является обязательным.</p>
+<pre><code class="language-php">public function actionRedirect()
+{
+    return $this-&gt;redirectPermanently($this-&gt;buildLink('demo/example'));
+}
+</code></pre>
+<h2 id="_4">Ответ об ошибке<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
+<p>Как следует из названия, вы вернете этот ответ, если вам нужно отобразить ошибку для пользователя. Это несколько просто, вот пример:</p>
+<pre><code class="language-php">public function actionError()
+{
+    return $this-&gt;error('Unfortunately the thing you are looking for could not be found.', 404);
+}
+</code></pre>
+<p>Здесь поддерживаются только два аргумента. Первое - это сообщение об ошибке, которое вы хотите отобразить, а второе - это код ответа HTTP, который вы хотите, чтобы сервер отправил. 404 представляет собой соответствующий ответ, если что-то не было найдено.</p>
+<h2 id="_5">Ответ сообщение<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
+<p>Этот ответ очень похож на ответ об ошибке и поддерживает те же аргументы. Основное отличие заключается в том, что отображаемое сообщение не отображается как ошибка.</p>
+<h2 id="_6">Ответ исключение<a class="headerlink" href="#_6" title="Permanent link"></a></h2>
+<p>Иногда необходимо прервать нормальный поток кода Вашего контроллера и вместо этого ответить исключением. Ответы на исключения не обязательно должны представлять ошибку; например, их можно использовать, чтобы заставить ваш контроллер выполнить перенаправление. Однако, как правило, они часто используются для остановки потока Вашего контроллера для отображения ошибки, как в следующем примере:</p>
+<pre><code class="language-php">public function actionException()
+{
+    throw $this-&gt;exception($this-&gt;error('An unexpected error occurred'));
+}
+</code></pre>
+<p>Ответы на исключения принимают только один аргумент, и на самом деле этот аргумент должен быть какой-либо другой формой объекта Reply, например <a href="#error-reply">Error reply</a>. Этот конкретный пример вызывает исключение, и весь код контроллера в этот момент останавливается, и отображается стандартная ошибка.</p>
+<p>Обратите внимание, что ответы об исключениях должны «выбрасываться» с помощью <code>throw</code>, а не с помощью <code>return</code>.</p>
+<h2 id="_7">Перенаправление ответа<a class="headerlink" href="#_7" title="Permanent link"></a></h2>
+<p>При определенных условиях необходимо перенаправить пользователя на совершенно другой контроллер или действие в том же контроллере без выполнения полного перенаправления, без изменения URL-адреса, на который перешел пользователь, и без необходимости дублировать код целевого действия.</p>
+<p>Это выглядит примерно так:</p>
+<pre><code class="language-php">public function actionReroute()
+{
+    return $this-&gt;rerouteController(__CLASS__, 'error');
+}
+
+public function actionError()
+{
+    return $this-&gt;error('Oops! Something went wrong!');
+}
+</code></pre>
+<p>В этом конкретном примере, если пользователь перешел по URL-адресу <code>index.php?demo/reroute</code>, он увидит ответ об ошибке от метода <code>actionError()</code>. Они не будут перенаправлены, и URL-адрес в их браузере не изменится; они просто получат ответ от действия ошибки.</p>
+<p>Ответ перенаправления также поддерживает третий аргумент, который позволяет передавать различные параметры от одного действия контроллера к другому. Это может быть либо массив, либо объект <code>ParameterBag</code> (подробнее об этом позже).</p>
+<h2 id="_8">Изменение ответа на действие контроллера (должным образом)<a class="headerlink" href="#_8" title="Permanent link"></a></h2>
+<p>В разделе <a href="../general-concepts/#extending-classes">Расширение классов</a> мы уже видели, насколько просто расширить класс, но при расширении уже существующего действия контроллера необходимо проявлять особую осторожность.</p>
+<p>Если у вас нет особой необходимости полностью переопределить существующее действие и заменить его чем-то новым (что обычно не рекомендуется), вместо этого вам следует изменить существующий ответ родительского класса. Это делается довольно просто, в качестве примера давайте изменим ответ представления из приведенного выше примера <a href="#view-reply">Ответ представление</a>.</p>
+<pre><code class="language-php">public function actionExample()
+{
+    $reply = parent::actionExample();
+
+    return $reply;
+}
+</code></pre>
+<p>Предполагая, что указанное выше добавлено к расширенному контроллеру, в котором уже существует метод <code>actionExample()</code>, приведенное выше фактически не делает ничего, кроме возврата исходного ответа представления. Теперь давайте изменим существующий параметр <code>hello</code> на "Bonjour" вместо "Hello".</p>
+<pre><code class="language-php">public function actionExample()
+{
+    $reply = parent::actionExample();
+
+    if ($reply instanceof \XF\Mvc\Reply\View)
+    {
+        $reply-&gt;setParam('hello', 'Bonjour');
+    }
+
+    return $reply;
+}
+</code></pre>
+<p>Поскольку ответ контроллера на самом деле может представлять ряд различных объектов, которые имеют разное поведение и методы, крайне важно, чтобы мы пытались расширить только правильный тип ответа. Мы делаем это в приведенном выше примере, проверяя, действительно ли родительский объект <code>$reply</code> является типом <code>View</code>. Если бы мы этого не сделали, мы расширили это действие, и действие контроллера вместо этого отвечает перенаправлением, тогда, скорее всего, возникнет ошибка.</p>
+<p>Перед расширением этого действия при посещении этой страницы будет отображаться "Hello world!". После его расширения в представлении теперь будет отображаться "Bonjour world!".</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="entities-finders-repositories/" class="btn btn-neutral float-right" title="Сущности, файндеры и репозитории">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="routing-basics/" class="btn btn-neutral" title="Основы маршрутизации"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../routing-basics/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../entities-finders-repositories/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

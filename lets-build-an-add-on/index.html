@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Создание дополнения - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.849117%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.849117%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0434\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u044f";
+    var mkdocs_page_input_path = "lets-build-an-add-on.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Создание дополнения</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Создать дополнение</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Создание класса установки</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">Расширение сущности форума</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">Расширение сущности темы</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">Создание новой сущности</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_7">Изменение формы редактирования форума</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_8">Расширение процесса сохранения форума</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_9">Настройка автоматического включения темы</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_10">Создайте страницу портала</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_11">Реализация вкладки навигации</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_12">Добавление (или удаление) тем вручную</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_13">Улучшение страницы портала</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_14">Реализация разрешений и оптимизации</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_15">Создание некоторых опций</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_16">Невозможность изменения видимости</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_17">Последние штрихи</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_18">Сборка дополнения</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Разработчики &raquo;</li>
+        
+      
+    
+    <li>Создание дополнения</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/lets-build-an-add-on.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="_1">Давайте создадим дополнение<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<p>Для некоторых людей увязнуть прямо в проекте - лучший способ учиться, и цель состоит в том, чтобы в следующих разделах вы научились создавать дополнения с нуля. Будь готов; это не простая демонстрация типа «Hello world». На самом деле это довольно полнофункциональное демо-дополнение, которое охватывает ряд концепций XF2.</p>
+<p>Дополнение, которую мы собираемся создать, позволит пользователям с соответствующими разрешениями «добавлять» темы и отображать на новой странице. Мы даже настроим процесс, который автоматически включает темы на определенных форумах. Мы будем использовать новый маршрут для этого с именем <code>portal</code> и в конечном итоге установим его в качестве маршрута индексной страницы и установим вкладку "Home", которая будет выбираться при просмотре этой страницы.</p>
+<h2 id="_2">Создать дополнение<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>На протяжении всего дополнения мы будем использовать идентификатор <code>Demo/Portal</code>. Первое, что нам нужно сделать, это создать дополнение, для этого нам нужно открыть окно командной строки / оболочки / терминала, изменить каталог на корневой каталог установки XF (где находится <code>cmd.php</code>) и запустить следующую команду и введите ответы, показанные ниже:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:create</p>
+<p><strong>Enter an ID for this add-on:</strong> Demo/Portal</p>
+<p><strong>Enter a title:</strong> Demo - Portal</p>
+<p><strong>Enter a version ID:</strong> This integer will be used for internal variable comparisons.<br />
+Each release of your addon should increase this number:  1000010</p>
+<p>Version string set to: 1.0.0 Alpha</p>
+<p><strong>Does this add-on supersede a XenForo 1 add-on? (y/n)</strong> n</p>
+<p>The addon.json file was successfully written out to /var/www/src/addons/Demo/Portal/addon.json</p>
+<p><strong>Does your add-on need a Setup file? (y/n)</strong> y</p>
+<p><strong>Does your Setup need to support running multiple steps? (y/n)</strong> y</p>
+<p>The Setup.php file was successfully written out to /var/www/src/addons/Demo/Portal/Setup.php</p>
+</div>
+<p>Теперь дополнение создано, теперь вы обнаружите, что у вас есть новый каталог в каталоге <code>src/addons</code>, и вы найдете дополнение в списке "Installed add-ons" в Admin CP.</p>
+<p>Один из созданных файлов - это файл <code>addon.json</code>, который в настоящее время выглядит следующим образом:</p>
+<pre><code class="language-json">{
+    &quot;legacy_addon_id&quot;: &quot;&quot;,
+    &quot;title&quot;: &quot;Demo - Portal&quot;,
+    &quot;description&quot;: &quot;&quot;,
+    &quot;version_id&quot;: 1000010,
+    &quot;version_string&quot;: &quot;1.0.0 Alpha&quot;,
+    &quot;dev&quot;: &quot;&quot;,
+    &quot;dev_url&quot;: &quot;&quot;,
+    &quot;faq_url&quot;: &quot;&quot;,
+    &quot;support_url&quot;: &quot;&quot;,
+    &quot;extra_urls&quot;: [],
+    &quot;require&quot;: [],
+    &quot;icon&quot;: &quot;&quot;
+}
+</code></pre>
+<p>Давайте заполним некоторые из этих деталей:</p>
+<pre><code class="language-json">{
+    &quot;legacy_addon_id&quot;: &quot;&quot;,
+    &quot;title&quot;: &quot;Demo - Portal&quot;,
+    &quot;description&quot;: &quot;Add-on which will display featured threads on the forum home page.&quot;,
+    &quot;version_id&quot;: 1000010,
+    &quot;version_string&quot;: &quot;1.0.0 Alpha&quot;,
+    &quot;dev&quot;: &quot;You!&quot;,
+    &quot;dev_url&quot;: &quot;&quot;,
+    &quot;faq_url&quot;: &quot;&quot;,
+    &quot;support_url&quot;: &quot;&quot;,
+    &quot;extra_urls&quot;: [],
+    &quot;require&quot;: [],
+    &quot;icon&quot;: &quot;fa-home&quot;
+}
+</code></pre>
+<p>Теперь мы добавили <code>description</code>, имя разработчика (<code>dev</code>) и указали, что мы хотим отображать иконку (<code>icon</code>). Иконка может быть либо путем (относительно корня дополнения), либо именем <a href="http://fontawesome.io/icons/">Иконки Font Awesome</a>, как мы сделали здесь.</p>
+<p>Поскольку мы не заменяем дополнение XenForo 1, мы можем игнорировать <code>legacy_addon_id</code>. Для полного объяснения всех свойств в файле <code>addon.json</code>, обратитесь к <a href="../add-on-structure/#addonjson-file">разделу структуры дополнения</a>.</p>
+<h2 id="_3">Создание класса установки<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<p>Ну, строго говоря, класс уже создан и записан в <code>Setup.php</code>, но сейчас он ничего не делает. По сути, у нас есть класс скелета, который выглядит так:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal;
+
+use XF\AddOn\AbstractSetup;
+use XF\AddOn\StepRunnerInstallTrait;
+use XF\AddOn\StepRunnerUninstallTrait;
+use XF\AddOn\StepRunnerUpgradeTrait;
+
+class Setup extends AbstractSetup
+{
+        use StepRunnerInstallTrait;
+        use StepRunnerUpgradeTrait;
+        use StepRunnerUninstallTrait;
+}
+</code></pre>
+<p>Мы уже немного поговорили о классе Setup. Мы собираемся разбить процессы установки, обновления и удаления на отдельные этапы.</p>
+<p>Начнем с импорта некоторых полезных классов схемы. Если вы хотите узнать о них больше, вы можете обратиться к разделу <a href="../managing-the-schema/">Управление схемой</a>.</p>
+<p>Сразу после последнего объявления <code>use</code> добавьте следующие строки:</p>
+<pre><code class="language-php">use XF\Db\Schema\Alter;
+use XF\Db\Schema\Create;
+</code></pre>
+<p>Приведенные здесь трейты StepRunner будут обрабатывать процесс циклического прохождения всех доступных шагов, поэтому все, что нам нужно сделать, это начать создавать эти шаги. Мы начнем с добавления кода для создания нового столбца в таблице <code>xf_forum</code>:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal;
+
+use XF\AddOn\AbstractSetup;
+use XF\AddOn\StepRunnerInstallTrait;
+use XF\AddOn\StepRunnerUninstallTrait;
+use XF\AddOn\StepRunnerUpgradeTrait;
+
+use XF\Db\Schema\Alter;
+use XF\Db\Schema\Create;
+
+class Setup extends \XF\AddOn\AbstractSetup
+{
+    use StepRunnerInstallTrait;
+    use StepRunnerUpgradeTrait;
+    use StepRunnerUninstallTrait;
+
+    public function installStep1()
+    {
+        $this-&gt;schemaManager()-&gt;alterTable('xf_forum', function(Alter $table)
+        {
+            $table-&gt;addColumn('demo_portal_auto_feature', 'tinyint')-&gt;setDefault(0);
+        });
+    }
+}
+
+</code></pre>
+<p>Этот столбец добавляется в таблицу <code>xf_forum</code>, чтобы мы могли настроить определенные форумы для автоматического включения тем при их создании. Именование здесь важно; столбцы, добавляемые в основные таблицы XF, всегда должны иметь префикс. Это служит двум важным целям. Во-первых, меньше риск конфликтов с повторяющимися именами столбцов, если у XF или другой дополнения есть причина добавить этот столбец в будущем. Во-вторых, это помогает легче определить, какие столбцы относятся к каким дополнениям, в случае возникновения каких-либо проблем в будущем.</p>
+<p>Пока мы здесь, мы можем добавить еще один шаг в программу установки. Для краткости мы просто отобразим новый код, а не весь класс. Его следует разместить непосредственно под методом <code>installStep1()</code>:</p>
+<pre><code class="language-php">public function installStep2()
+{
+    $this-&gt;schemaManager()-&gt;alterTable('xf_thread', function(Alter $table)
+    {
+        $table-&gt;addColumn('demo_portal_featured', 'tinyint')-&gt;setDefault(0);
+    });
+}
+</code></pre>
+<p>Этот шаг, аналогичный шагу выше, на этот раз добавит новый столбец в таблицу <code>xf_thread</code>. Мы будем использовать этот столбец в качестве кэшированного значения, чтобы быстро определить, представлена ли тема или нет, без необходимости выполнять дополнительные запросы или поиск в таблице <code>xf_demo_portal_featured_thread</code>.</p>
+<p>Говоря об этом, мы должны добавить эту таблицу сейчас. На этот раз прямо под <code>installStep2()</code>:</p>
+<pre><code class="language-php">public function installStep3()
+{
+    $this-&gt;schemaManager()-&gt;createTable('xf_demo_portal_featured_thread', function(Create $table)
+    {
+        $table-&gt;addColumn('thread_id', 'int');
+        $table-&gt;addColumn('featured_date', 'int');
+        $table-&gt;addPrimaryKey('thread_id');
+    });
+}
+</code></pre>
+<p>На этом шаге будет создана новая таблица. Эта таблица будет использоваться для ведения журнала всех обсужденных тем и времени их включения.</p>
+<p>Те же принципы применимы и к именованию. Существенное отличие состоит в том, что все таблицы должны иметь префикс <code>xf_</code>. Причина этого в том, что если выполняется чистая установка XF, мы можем удалить все таблицы с префиксом <code>xf_</code>, включая таблицы, созданные дополнения.</p>
+<p>Одна из самых простых вещей, которую следует забыть при добавлении кода, который добавляет различные изменения схемы, - это забыть применить изменения схемы самостоятельно. вы можете выполнить шаги установки / обновления с помощью команды CLI. В этом случае выполните следующие команды:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:install-step Demo/Portal 1
+<em>$</em> php cmd.php xf-addon:install-step Demo/Portal 2
+<em>$</em> php cmd.php xf-addon:install-step Demo/Portal 3</p>
+</div>
+<h2 id="_4">Расширение сущности форума<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
+<p>Пока мы добавили столбец в таблицу <code>xf_forum</code>, теперь пора расширить структуру сущности Forum. Нам нужно сделать это, чтобы объект знал о нашем новом столбце, и чтобы данные можно было читать и записывать в него через объект.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Для следующих шагов потребуется включить <a href="../development-tools/#enabling-development-mode">Режим разработки</a>. Не забудьте установить <code>Demo/Portal</code> в качестве значения <code>defaultAddOn</code> в <code>config.php</code>.</p>
+</div>
+<p>Первым шагом в этом процессе является создание "Code event listener". Это можно сделать в Admin CP в разделе «Разработка», нажмите на ссылку "Code event listeners" и нажмите кнопку "Add code event listener".</p>
+<p>Нам нужно прослушивать событие <code>entity_structure</code>. Мы будем использовать это, чтобы изменить структуру сущности форума по умолчанию, чтобы добавить наш недавно созданный столбец <code>demo_portal_auto_feature</code>.</p>
+<p>В поле "Event hint" мы введем имя расширяемого класса, например: <code>XF\Entity\Forum</code>. Это гарантирует, что наш слушатель будет выполняться только в сущности форума.</p>
+<p>Для класса "Execute callback" введите <code>Demo\Portal\Listener</code>, а для метода введите <code>forumEntityStructure</code>.</p>
+<p>Стоит добавить описание, чтобы объяснить, для чего предназначен этот слушатель, так как это поможет легче идентифицировать слушателя в списке слушателей событий кода. "Расширение структуры XF\Entity\Forum" должно быть достаточно. Наконец, убедитесь, что выбрано дополнение "Demo - Portal".</p>
+<p>Прежде чем мы нажмем "Save", нам нужно создать класс Listener. Итак, создайте новый файл с именем <code>Listener.php</code> в <code>src/addons/Demo/Portal</code>. Первоначально содержимое этого файла должно быть следующим. Мы знаем, какие аргументы требуются этой функции, из документации под селектором событий кода.</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal;
+
+use XF\Mvc\Entity\Entity;
+
+class Listener
+{
+    public static function forumEntityStructure(\XF\Mvc\Entity\Manager $em, \XF\Mvc\Entity\Structure &amp;$structure)
+    {
+
+    }
+}
+</code></pre>
+<p>Обратите внимание на объявление <code>use</code> между именем <code>namespace</code> и <code>class</code>. Мы будем ссылаться на класс, объявленный здесь, более одного раза, поэтому его объявление здесь позволяет нам ссылаться на него по гораздо более короткому псевдониму, в данном случае <code>Entity</code>.</p>
+<p>Этот код на самом деле пока ничего не делает, но сейчас хорошее время, чтобы сохранить прослушиватель событий кода, поэтому нажмите кнопку "Save".</p>
+<p>Прежде чем мы добавим функциональный код в нашу новую функцию, возможно, сейчас самое время посмотреть, как работает система вывода при разработке. Проверьте новые каталоги и файлы, добавленные в каталог дополнения. В частности, в каталоге <code>_output/code_event_listeners</code> есть новый файл JSON, который должен выглядеть следующим образом:</p>
+<pre><code class="language-json">{
+    &quot;event_id&quot;: &quot;entity_structure&quot;,
+    &quot;execute_order&quot;: 10,
+    &quot;callback_class&quot;: &quot;Demo\\Portal\\Listener&quot;,
+    &quot;callback_method&quot;: &quot;forumEntityStructure&quot;,
+    &quot;active&quot;: true,
+    &quot;hint&quot;: &quot;XF\\Entity\\Forum&quot;,
+    &quot;description&quot;: &quot;Extends the XF\\Entity\\Forum structure&quot;
+}
+</code></pre>
+<p>Каждый раз, когда в слушатель вносятся изменения, этот файл обновляется автоматически.</p>
+<p>Хорошо, давайте добавим еще код. Вернувшись в класс <code>Listener</code>, добавьте в функцию <code>forumEntityStructure</code> следующее:</p>
+<pre><code class="language-php">$structure-&gt;columns['demo_portal_auto_feature'] = ['type' =&gt; Entity::BOOL, 'default' =&gt; false];
+</code></pre>
+<p>Сущность форума теперь знает о нашем новом столбце, но есть еще несколько шагов, о которых мы должны позаботиться в первую очередь, прежде чем мы сможем приступить к реализации способа фактического начала установки значений в этом столбце.</p>
+<h2 id="_5">Расширение сущности темы<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
+<p>Опять же, поскольку мы добавили новый столбец в таблицу xf_thread table, мы должны сделать так, чтобы объект Thread знал об этом. Это очень похоже на то, что мы сделали выше.</p>
+<p>Вернитесь к "Add code event listener" и снова прослушайте <code>entity_structure</code>. "Event hint" на этот раз будет <code>XF\Entity\Thread</code>. Мы можем использовать тот же класс обратного вызова, что и раньше (<code>Demo\Portal\Listener</code>), но на этот раз метод будет называться <code>threadEntityStructure</code>. Добавьте описание, аналогичное предыдущему. Перед сохранением мы должны добавить код непосредственно под функцией <code>forumEntityStructure</code>:</p>
+<pre><code class="language-php">public static function threadEntityStructure(\XF\Mvc\Entity\Manager $em, \XF\Mvc\Entity\Structure &amp;$structure)
+{
+    $structure-&gt;columns['demo_portal_featured'] = ['type' =&gt; Entity::BOOL, 'default' =&gt; false];
+}
+</code></pre>
+<p>Этот код почти идентичен тому, что мы добавили в структуру сущности форума; на самом деле единственная разница - это имя столбца. Но нам нужно добавить еще кое-что. Мы должны создать отношение сущностей, чтобы в дальнейшем, если нам понадобится доступ к указанной сущности темы (которую мы создаем в следующем разделе), мы могли бы легко сделать это с помощью запроса файндера. Ниже строки <code>$structure-&gt;columns</code> добавьте:</p>
+<pre><code class="language-php">$structure-&gt;relations['FeaturedThread'] = [
+    'entity' =&gt; 'Demo\Portal:FeaturedThread',
+    'type' =&gt; Entity::TO_ONE,
+    'conditions' =&gt; 'thread_id',
+    'primary' =&gt; true
+];
+</code></pre>
+<p>Смотрите <a href="../entities-finders-repositories/#relations">Отношения</a> для получения дополнительной информации об отношениях. Нажмите "Save", чтобы сохранить слушателя.</p>
+<h2 id="_6">Создание новой сущности<a class="headerlink" href="#_6" title="Permanent link"></a></h2>
+<p>Выше в <code>installStep3()</code> мы создали новую таблицу. Нам нужно будет создать объект для взаимодействия и создания новых записей в этой таблице. Поскольку это совершенно новый объект, нам не нужно ничего делать, кроме создания класса внутри <code>src/addons/Demo/Portal/Entity/FeaturedThread.php</code>, каркас которого будет выглядеть следующим образом:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal\Entity;
+
+use XF\Mvc\Entity\Structure;
+
+class FeaturedThread extends \XF\Mvc\Entity\Entity
+{
+
+}
+</code></pre>
+<p>Нам нужно использовать это для определения структуры сущности, которая представляет нашу новую таблицу <code>xf_demo_portal_featured_thread</code>, которую мы создали ранее. Структура этого объекта должна выглядеть так:</p>
+<pre><code class="language-php">public static function getStructure(Structure $structure)
+{
+    $structure-&gt;table = 'xf_demo_portal_featured_thread';
+    $structure-&gt;shortName = 'Demo\Portal:FeaturedThread';
+    $structure-&gt;primaryKey = 'thread_id';
+    $structure-&gt;columns = [
+        'thread_id' =&gt; ['type' =&gt; self::UINT, 'required' =&gt; true],
+        'featured_date' =&gt; ['type' =&gt; self::UINT, 'default' =&gt; time()]
+    ];
+    $structure-&gt;getters = [];
+    $structure-&gt;relations = [
+        'Thread' =&gt; [
+            'entity' =&gt; 'XF:Thread',
+            'type' =&gt; self::TO_ONE,
+            'conditions' =&gt; 'thread_id',
+            'primary' =&gt; true
+        ],
+    ];
+
+    return $structure;
+}
+</code></pre>
+<p>Список столбцов, вероятно, не требует пояснений на основе MySQL, который мы написали ранее для создания таблицы. Отношения включают в себя отношение <code>Thread</code>, которое позволит нам получить запись связанной сущности темы (и даже отношения сущностей темы) из этой сущности.</p>
+<h2 id="_7">Изменение формы редактирования форума<a class="headerlink" href="#_7" title="Permanent link"></a></h2>
+<p>Теперь нам нужен способ изменить шаблон <code>forum_edit</code>, чтобы добавить туда новый флажок, который в конечном итоге может записывать обратно в новый столбец, который мы теперь создали. Мы сделаем это, создав модификацию шаблона. Это делается на панели администратора в разделе "Appearance", а затем нажмите "Template modifications". Нажмите вкладку "Admin", а затем кнопку "Add template modification".</p>
+<p>В поле "Template", введите "forum_edit". Это шаблон, который нам нужно изменить.</p>
+<p>В поле "Modification key" введите "demo_portal_forum_edit". Это уникальный ключ, который определяет модификацию Вашего шаблона. Предпочтительным условием для этого является, как минимум, упоминание дополнения с последующим изменением имени шаблона.</p>
+<p>Поле "Description" должно содержать некоторый текст, который поможет вам определить цель этой модификации при просмотре списка модификаций шаблона. Что-то вроде "Adds auto feature checkbox to the forum_edit template" должно быть достаточно.</p>
+<p>Когда вы ввели имя шаблона в поле "Template", вы можете заметить, что был отображен предварительный просмотр содержимого шаблона. Нам нужно использовать это, чтобы определить предпочтительное место для нашего флажка. Просматривая страницу редактирования форума, вы можете заметить ряд флажков, и это выглядит вполне подходящим местом.</p>
+<p>Самый простой способ установить флажок в этом разделе - это просто заменить верхний флажок, поэтому в поле "Find" добавьте:</p>
+<pre><code class="language-plain">&lt;xf:option name=&quot;allow_posting&quot;
+</code></pre>
+<p>И в поле замены:</p>
+<pre><code class="language-html">&lt;xf:option name=&quot;demo_portal_auto_feature&quot; selected=&quot;$forum.demo_portal_auto_feature&quot;
+    label=&quot;Автоматически добавлять темы в этом форуме&quot;
+    hint=&quot;Если этот флажок установлен, любые новые темы, опубликованные на этом форуме, будут автоматически отмечены.&quot; /&gt;
+$0
+</code></pre>
+<p>Нам не нужно беспокоиться о создании фраз, но мы сможем подобрать их позже. Обратите внимание, что атрибут name совпадает с именем столбца, который мы создали ранее, и, что более важно, отмеченное состояние строки флажка также считывает вновь добавленный столбец из объекта форума.</p>
+<p>Когда мы сохраняем модификацию шаблона позже, если содержимое поля поиска соответствует какой-либо части шаблона, оно будет заменено содержимым поля замены. Фактически мы не удаляем то, что мы сопоставили, потому что <code>$0</code> в поле замены повторно вставляет сопоставленный текст.</p>
+<p>Мы можем использовать кнопку "Test", чтобы проверить, работает ли замена должным образом. При нажатии кнопки тестирования появится наложение с измененным шаблоном. Если все пойдет хорошо, должна быть выделена зеленая область с новым кодом, который мы хотим добавить.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Это довольно простая замена. Для более продвинутого сопоставления можно также использовать тип "Regular expression". Подробное объяснение работы с регулярными выражениями выходит за рамки этого руководства, но в Интернете есть много ресурсов, которые могут помочь.</p>
+</div>
+<p>Наконец, нажмите «Сохранить», чтобы сохранить модификацию шаблона. Если все прошло успешно, когда вы вернетесь к списку модификаций шаблона, вы увидите, что в сводке журнала отображается <span style="color: green; font-weight: 700;">1</span> / 0 / <span style="color: red;">0</span> , что означает, что модификация успешно применена один раз. Еще лучший индикатор того, что он работал, как планировалось, - это перейти на страницу "Nodes", указанную в разделе "Forums" в Admin CP, и отредактировать существующий форум. Теперь должна появиться наша недавно добавленная модификация шаблона.</p>
+<h2 id="_8">Расширение процесса сохранения форума<a class="headerlink" href="#_8" title="Permanent link"></a></h2>
+<p>У нас есть столбец, у нас есть пользовательский интерфейс для передачи ввода в этот столбец, теперь нам нужно обработать сохранение данных в этот столбец. Мы сделаем это, расширив контроллер Forum и расширив специальный метод, который вызывается при сохранении узла и его данных. Во-первых, давайте создадим "Class extension", которое можно найти в разделе "Development" в Admin CP. Нажмите "Add class extension".</p>
+<p>Здесь нам нужно указать "Base class name", которое является именем класса, который мы расширяем, в данном случае это будет <code>XF\Admin\Controller\Forum</code>. И нам нужно указать "Extension class name", которое является классом, который будет расширять базовый класс. Введите его как <code>Demo\Portal\XF\Admin\Controller\Forum</code>. Мы должны создать этот класс перед тем, как нажать «Сохранить».</p>
+<p>Создайте новый файл в <code>src/addons/Demo/Portal/XF/Admin/Controller</code> с именем <code>Forum.php</code>. Это может показаться довольно длинным путем, но мы рекомендуем такой путь для расширенных классов. Это позволяет вам более легко идентифицировать файлы, представляющие расширенные классы, благодаря тому факту, что они находятся в каталоге с тем же именем, что и расширенный идентификатор «дополнения» (в данном случае <code>XF</code>). Это также дает понять, какой именно класс был расширен, поскольку структура каталогов следует по тому же пути, что и класс по умолчанию. На данный момент содержимое файла должно выглядеть так:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal\XF\Admin\Controller;
+
+class Forum extends XFCP_Forum
+{
+
+}
+</code></pre>
+<p>Смотрите <a href="../general-concepts/#extending-classes">Расширение классов</a> и <a href="../general-concepts/#type-hinting">Тип подсказки</a> для получения дополнительной информации.</p>
+<p>Нажмите «Сохранить», чтобы сохранить "Class extension". Теперь мы можем добавить код. Конкретный метод, который нам нужно расширить, - это защищенная функция под названием <code>saveTypeData</code>. При расширении любого существующего метода в любом классе важно проверить исходный метод по нескольким причинам. Во-первых, мы хотим убедиться, что аргументы, которые мы используем в расширенном методе, совпадают с аргументами расширяемого метода. Во-вторых, нам нужно знать, что на самом деле делает этот метод. Например, должен ли метод возвращать что-то определенного типа или определенный объект? Это, безусловно, относится к большинству действий контроллера, как мы упоминали в разделе <a href="../controller-basics/#modifying-a-controller-action-reply-properly">Изменение ответа действия контроллера (должным образом)</a>. Однако, хотя этот метод находится внутри контроллера, на самом деле это не действие самого контроллера. Фактически, этот конкретный метод является "void" методом; от него ничего не ожидается. Однако мы всегда должны гарантировать, что вызываем родительский метод в нашем расширенном методе, поэтому давайте просто добавим сам новый метод без нового кода, который нам нужно добавить:</p>
+<pre><code class="language-php">protected function saveTypeData(FormAction $form, \XF\Entity\Node $node, \XF\Entity\AbstractNode $data)
+{
+    parent::saveTypeData($form, $node, $data);
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Список аргументов этого конкретного метода предполагает, что у нас есть объявление <code>use</code>, которое заменяет полный класс <code>\XF\Mvc\FormAction</code> на просто <code>FormAction</code>. Поэтому вам нужно будет добавить это объявление использования самостоятельно. Добавьте <code>use XF\Mvc\FormAction;</code> между строками <code>namespace</code> и <code>class</code>.</p>
+</div>
+<p>Итак, прямо сейчас мы расширили этот метод, и наше расширение должно быть вызвано, но сейчас оно не делает ничего, кроме вызова своего родительского метода. Теперь нам нужно получить значение ввода со страницы редактирования форума и применить его к объекту <code>$data</code> (которым в данном случае является объект Forum).</p>
+<pre><code class="language-php">protected function saveTypeData(FormAction $form, \XF\Entity\Node $node, \XF\Entity\AbstractNode $data)
+{
+    parent::saveTypeData($form, $node, $data);
+
+    $form-&gt;setup(function() use ($data)
+    {
+        $data-&gt;demo_portal_auto_feature = $this-&gt;filter('demo_portal_auto_feature', 'bool');
+    });
+}
+</code></pre>
+<p>Использование объекта <code>FormAction</code> позволяет нам иметь различные точки расширения в процессе, который выполняется в ходе обычной отправки формы. Он доступен не для всех действий контроллера. Это гораздо более распространено, например, в Admin CP, которые часто следуют простой модели CRUD (создание, чтение, обновление, удаление). Многие другие процессы в XF происходят внутри объекта службы, который обычно имеет определенные точки расширения, связанные с запущенной службой. Это конкретное использование объекта <code>FormAction</code> несколько отличается от того, с чем вы обычно сталкиваетесь. Сохранение узла - это несколько другой процесс, потому что, помимо работы с сущностью узла, вы также будете работать с узлом связанного типа, например субъект форума. Однако у нас есть доступ к объекту действия формы в этом методе, поэтому мы должны его использовать. Мы использовали его здесь, чтобы добавить определенное поведение к фазе "setup" процесса. А именно, когда вызывается метод <code>run()</code> объекта <code>FormAction</code>, он будет проходить различные фазы в определенном порядке. Неважно, в каком порядке эти поведения были добавлены к объекту, они все равно будут выполняться в порядке <code>setup</code>, <code>validate</code>, <code>apply</code>, <code>complete</code>.</p>
+<p>Код, который мы добавили выше, позволяет нам установить для нашего столбца <code>demo_portal_auto_feature</code> в сущности форума любое значение, сохраненное для ввода <code>demo_portal_auto_feature</code>, который мы добавили на страницу редактирования форума. Теперь должно быть возможно проверить, что все это работает. Просто отредактируйте форум по своему выбору и установите флажок. вы должны уметь наблюдать две вещи. Во-первых, когда вы вернетесь к редактированию этого форума, этот флажок должен быть установлен. Во-вторых, если вы посмотрите в таблице xf_forum форум, который вы только что отредактировали, поле <code>demo_portal_auto_feature</code> теперь должно быть установлено на 1. Оставьте это значение включенным для этого форума, так как в конечном итоге мы будем автоматически отображать темы с этого форума.</p>
+<h2 id="_9">Настройка автоматического включения темы<a class="headerlink" href="#_9" title="Permanent link"></a></h2>
+<p>Мы добавили новый столбец в объект форума, который позволит нам автоматически отображать ветку, когда она создается на этом форуме, так что теперь пора добавить код, который это сделает.</p>
+<p>В XF2 мы активно используем служебные объекты. Обычно они используют подход типа "setup and go"; вы настраиваете свою конфигурацию, а затем вызываете метод для завершения действия. Мы используем служебный объект для настройки и создания темы, так что это идеальное место для добавления необходимого кода. Все начинается с другого расширения класса, поэтому перейдите на страницу "Add class extension".</p>
+<p>На этот раз базовым классом будет <code>XF\Service\Thread\Creator</code>, а классом расширения будет <code>Demo\Portal\XF\Service\Thread\Creator</code>, и, как обычно, этот новый класс будет выглядеть примерно как код ниже. Создайте этот код по пути <code>src/addons/Demo/Portal/XF/Service/Thread/Creator.php</code>, затем нажмите «Сохранить», чтобы создать расширение.</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal\XF\Service\Thread;
+
+class Creator extends XFCP_Creator
+{
+
+}
+</code></pre>
+<p>Пока мы здесь, мы также создадим еще одно расширение. Базой будет <code>XF\Pub\Controller\Forum</code>, а классом расширения будет <code>Demo\Portal\XF\Pub\Controller\Forum</code>. Создайте следующий код в пути <code>src/addons/Demo/Portal/XF/Pub/Controller/Forum.php</code> и нажмите «Сохранить»:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal\XF\Pub\Controller;
+
+class Forum extends XFCP_Forum
+{
+
+}
+</code></pre>
+<p>В конечном итоге мы собираемся расширить метод <code>_save()</code> в нашем расширенном объекте-создателе темы, чтобы мы могли добавить нашу тему после того, как он был создан. Чтобы соответствовать подходу "setup and go", мы создадим метод, который можно использовать, чтобы указать, следует ли создавать тему как избранный или нет. Для этого нам понадобятся две вещи; свойство класса для хранения значения (по умолчанию - null) и общедоступный метод, позволяющий установить это свойство.</p>
+<pre><code class="language-php">protected $featureThread;
+
+public function setFeatureThread($featureThread)
+{
+    $this-&gt;featureThread = $featureThread;
+}
+</code></pre>
+<p>Возвращаясь к нашему недавно расширенному контроллеру форума, мы теперь расширим метод, который настраивает службу создателя, и включим отображение, если для объекта форума установлено необходимое значение. Помните, что перед расширением метода нам нужно знать, что он должен вернуть (если есть), и убедиться, что мы вызываем родительский метод. Если родительский метод действительно что-то возвращает, то это то, что мы должны вернуть после завершения нашего кода. Метод <code>setupThreadCreate()</code> в этом случае возвращает настроенную службу создателя, поэтому мы начнем это следующим образом:</p>
+<pre><code class="language-php">protected function setupThreadCreate(\XF\Entity\Forum $forum)
+{
+    /** @var \Demo\Portal\XF\Service\Thread\Creator $creator */
+    $creator = parent::setupThreadCreate($forum);
+
+    return $creator;
+}
+</code></pre>
+<p>Как и ожидалось, на самом деле это ничего не делает; вызывается расширенный код, но все, что он делает, это возвращает то, что было возвращено родительским вызовом. Теперь мы должны изменить <code>$creator</code>, чтобы настроить отображение, если оно применимо к форуму, с которым мы сейчас работаем.</p>
+<p>Между строками <code>$creator</code> и <code>return</code> добавьте:</p>
+<pre><code class="language-php">if ($forum-&gt;demo_portal_auto_feature)
+{
+    $creator-&gt;setFeatureThread(true);
+}
+</code></pre>
+<p>Теперь мы можем добавить метод <code>_save()</code> к расширенному классу создателя:</p>
+<pre><code class="language-php">protected function _save()
+{
+    $thread = parent::_save();
+
+    return $thread;
+}
+</code></pre>
+<p>Чтобы убедиться, что эта тема будет представлен, между строками <code>$thread</code> и <code>return</code> нам просто нужно добавить:</p>
+<pre><code class="language-php">if ($this-&gt;featureThread &amp;&amp; $thread-&gt;discussion_state == 'visible')
+{
+    /** @var \Demo\Portal\Entity\FeaturedThread $featuredThread */
+    $featuredThread = $thread-&gt;getRelationOrDefault('FeaturedThread');
+    $featuredThread-&gt;save();
+
+    $thread-&gt;fastUpdate('demo_portal_featured', true);
+}
+</code></pre>
+<p>Поскольку мы ранее создали отношение <code>FeaturedThread</code> для сущности темы, мы можем использовать это отношение и для создания! Здесь мы используем метод <code>getRelationOrDefault()</code>. Это будет видеть, действительно ли это отношение возвращает существующую запись, а если нет, оно создаст объект и установит для него любые значения по умолчанию, даже идентификатор темы! Это означает, что на самом деле нам нужно сделать немного больше, чем получить отношение по умолчанию и сохранить его, чтобы вставить в базу данных.</p>
+<p>Кроме того, мы должны установить для поля <code>demo_portal_featured</code> значение <code>true</code>. Поскольку объект темы уже был сохранен (когда исходный класс сохранил объект), мы можем использовать метод <code>fastUpdate()</code> для быстрого обновления этого поля.</p>
+<p>Теперь нам нужно все это попробовать и убедиться, что это работает. Перейдите на форум, на котором вы включили опцию <code>demo_portal_auto_feature</code> ранее, и создайте новую тему. Единственный способ узнать, работает ли он прямо сейчас, - это проверить таблицу <code>xf_demo_portal_featured_thread</code>, и при этом мы должны увидеть там новую запись!</p>
+<h2 id="_10">Создайте страницу портала<a class="headerlink" href="#_10" title="Permanent link"></a></h2>
+<p>Еще предстоит проделать значительный объем работы, прежде чем мы закончим, но теперь у нас есть возможность отображать темы, было бы неплохо, если бы мы могли где-то их отображать, поэтому давайте начнем создавать нашу страницу портала.</p>
+<p>Для этого нам нужен новый общедоступный маршрут. Перейдите в Admin CP и в разделе "Development" нажмите "Routes", затем нажмите "Add route: Public". Пока мы будем делать это довольно просто. Префиксом маршрута будет "portal", контекстом раздела будет "home", а контроллером - "Demo\Portal:Portal".</p>
+<p>Теперь мы должны создать этот контроллер по пути <code>src/addons/Demo/Portal/Pub/Controller/Portal.php</code> со следующим основным содержимым:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal\Pub\Controller;
+
+class Portal extends \XF\Pub\Controller\AbstractController
+{
+
+}
+</code></pre>
+<p>Мы хотим, чтобы наш портал отображался для людей, когда они посещают страницу портала <code>index.php?portal</code>. В этом URL-адресе нет части "action" - только только что созданный префикс маршрута. Имея это в виду, код, который нам нужно добавить для отображения страницы портала, должен находиться в методе <code>actionIndex()</code>. Вот основной код, который нам понадобится:</p>
+<pre><code class="language-php">public function actionIndex()
+{
+    $viewParams = [];
+    return $this-&gt;view('Demo\Portal:View', 'demo_portal_view', $viewParams);
+}
+</code></pre>
+<p>Это пока не совсем сработает, потому что мы еще не создали шаблон, но пока этого достаточно, чтобы хотя бы продемонстрировать, что наш маршрут и контроллер общаются друг с другом. Таким образом, посещение портала <code>index.php?portal</code> должно как минимум отображать 'Template error'.</p>
+<p>Как было упомянуто в разделе <a href="../controller-basics/#view-reply">View reply</a>, первый аргумент - это класс представления, но нам не нужно создавать этот класс. При необходимости этот класс может быть расширен другими дополнениями, даже если он не существует. Второй аргумент - это шаблон, который нам нужно создать сейчас по пути <code>src/addons/Demo/Portal/_output/templates/public/demo_portal_view.html</code>. На данный момент этот шаблон должен просто содержать следующее:</p>
+<pre><code class="language-html">&lt;xf:title&gt;Portal&lt;/xf:title&gt;
+</code></pre>
+<p>Если мы теперь посетим страницу портала, ошибка шаблона исчезнет, и хотя у нас все еще будет довольно пустая страница, она, по крайней мере, теперь будет иметь заголовок "Portal".</p>
+<p>Теперь пора начать добавлять код, который будет отображать список избранных тем. Первым шагом к этому является создание репозитория для некоторых из наших общих базовых запросов поиска. Итак, создайте новый файл по пути <code>src/addons/Demo/Portal/Repository/FeaturedThread.php</code> и добавьте следующий код:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal\Repository;
+
+use XF\Mvc\Entity\Finder;
+use XF\Mvc\Entity\Repository;
+
+class FeaturedThread extends Repository
+{
+    /**
+     * @return Finder
+     */
+    public function findFeaturedThreadsForPortalView()
+    {
+        $visitor = \XF::visitor();
+
+        $finder = $this-&gt;finder('Demo\Portal:FeaturedThread');
+        $finder
+            -&gt;setDefaultOrder('featured_date', 'DESC')
+            -&gt;with('Thread', true)
+            -&gt;with('Thread.User')
+            -&gt;with('Thread.Forum', true)
+            -&gt;with('Thread.Forum.Node.Permissions|' . $visitor-&gt;permission_combination_id)
+            -&gt;with('Thread.FirstPost', true)
+            -&gt;with('Thread.FirstPost.User')
+            -&gt;where('Thread.discussion_type', '&lt;&gt;', 'redirect')
+            -&gt;where('Thread.discussion_state', 'visible');
+
+        return $finder;
+    }
+}
+</code></pre>
+<p>Здесь мы используем средство поиска для запроса всех избранных тем в обратном порядке <code>featured_date</code> и присоединяемся к таблице <code>xf_thread</code> и из этой таблицы присоединяемся к таблице <code>xf_user</code> для создателя темы, таблица <code>xf_forum</code> и таблица<code>xf_post</code> оттуда снова присоединиться к таблице <code>xf_user</code> для создателя сообщения. Мы утверждали, что ветка, форум и первое сообщение должны существовать, указав для этого аргумента <code>true</code>, поэтому они будут выполняться как <code>INNER JOIN</code>, тогда как пользовательские запросы будут выполняться с <code>LEFT JOIN</code>. Возможно, что автор некоторых тем и сообщений может не существовать (например, если они были опубликованы автоматически системой подачи RSS или опубликованы гостями).</p>
+<p>У нас также есть специальное соединение, которое извлекает разрешения текущего посетителя вместе с запросом. Это уменьшит количество запросов, необходимых для рендеринга страницы портала, поскольку мы будем делать ряд вещей (позже), чтобы отображать избранные темы только тем пользователям, у которых есть разрешение на их просмотр.</p>
+<p>Это не возвращает результаты этого запроса. Это возвращает сам объект поиска. Это обеспечивает четкую точку расширения на случай, если другому дополнению необходимо расширить наш код, а также позволяет нам вносить дальнейшие изменения перед извлечением этих данных (например, для установки предела / смещения для разбивки на страницы или установки другого порядка).</p>
+<p>Давайте теперь воспользуемся этим в нашем методе <code>actionIndex()</code> внутри нашего контроллера портала. Измените существующую строку <code>$viewParams = [];</code> на следующую:</p>
+<pre><code class="language-php">/** @var \Demo\Portal\Repository\FeaturedThread $repo */
+$repo = $this-&gt;repository('Demo\Portal:FeaturedThread');
+
+$finder = $repo-&gt;findFeaturedThreadsForPortalView();
+
+$viewParams = [
+    'featuredThreads' =&gt; $finder-&gt;fetch()
+];
+</code></pre>
+<p>На этом этапе мы не будем беспокоиться об изменении базового средства поиска, которое мы получили из репозитория. Вместо этого давайте начнем фактически видеть некоторые результаты и обновим шаблон demo_portal_view следующим образом (после тегов <code>&lt;xf:title&gt;</code>):</p>
+<pre><code class="language-html">&lt;xf:if is=&quot;$featuredThreads is not empty&quot;&gt;
+    &lt;xf:foreach loop=&quot;$featuredThreads&quot; value=&quot;$featuredThread&quot;&gt;
+        &lt;xf:macro name=&quot;thread_block&quot;
+            arg-thread=&quot;{$featuredThread.Thread}&quot;
+            arg-post=&quot;{$featuredThread.Thread.FirstPost}&quot;
+            arg-featuredThread=&quot;{$featuredThread}&quot;
+        /&gt;
+    &lt;/xf:foreach&gt;
+&lt;xf:else /&gt;
+    &lt;div class=&quot;blockMessage&quot;&gt;Пока нет ни одной темы.&lt;/div&gt;
+&lt;/xf:if&gt;
+
+&lt;xf:macro name=&quot;thread_block&quot; arg-thread=&quot;!&quot; arg-post=&quot;!&quot; arg-featuredThread=&quot;!&quot;&gt;
+    &lt;xf:css src=&quot;message.less&quot; /&gt;
+
+    &lt;div class=&quot;block&quot;&gt;
+        &lt;div class=&quot;block-container&quot; data-xf-init=&quot;lightbox&quot;&gt;
+            &lt;h4 class=&quot;block-header&quot;&gt;&lt;a href=&quot;{{ link('threads', $thread) }}&quot;&gt;{$thread.title}&lt;/a&gt;&lt;/h4&gt;
+            &lt;div class=&quot;block-body&quot;&gt;
+                &lt;xf:macro name=&quot;message&quot;
+                    arg-post=&quot;{$post}&quot;
+                    arg-thread=&quot;{$thread}&quot;
+                    arg-featuredThread=&quot;{$featuredThread}&quot;
+                /&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;block-footer&quot;&gt;
+                &lt;a href=&quot;{{ link('threads', $thread) }}&quot;&gt;Продолжить чтение...&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/xf:macro&gt;
+
+&lt;xf:macro name=&quot;message&quot; arg-post=&quot;!&quot; arg-thread=&quot;!&quot; arg-featuredThread=&quot;!&quot;&gt;
+    &lt;div class=&quot;message message--post message--simple&quot;&gt;
+        &lt;div class=&quot;message-inner&quot;&gt;
+            &lt;div class=&quot;message-cell message-cell--main&quot;&gt;
+                &lt;div class=&quot;message-content js-messageContent&quot;&gt;
+                    &lt;div class=&quot;message-attribution&quot;&gt;
+                        &lt;div class=&quot;contentRow contentRow--alignMiddle&quot;&gt;
+                            &lt;div class=&quot;contentRow-figure&quot;&gt;
+                                &lt;xf:avatar user=&quot;{$post.User}&quot; size=&quot;xxs&quot; defaultname=&quot;{$post.username}&quot; href=&quot;&quot; /&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;contentRow-main contentRow-main--close&quot;&gt;
+                                &lt;ul class=&quot;listInline listInline--bullet u-muted&quot;&gt;
+                                    &lt;li&gt;&lt;xf:username user=&quot;{$thread.User}&quot; /&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;xf:date time=&quot;{$featuredThread.featured_date}&quot; /&gt;&lt;/li&gt;
+                                    &lt;li&gt;&lt;a href=&quot;{{ link('forums', $thread.Forum) }}&quot;&gt;{$thread.Forum.title}&lt;/a&gt;&lt;/li&gt;
+                                    &lt;li&gt;{{ phrase('replies:') }} {$thread.reply_count|number}&lt;/li&gt;
+                                &lt;/ul&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;message-userContent lbContainer js-lbContainer&quot;
+                         data-lb-id=&quot;post-{$post.post_id}&quot;
+                         data-lb-caption-desc=&quot;{{ $post.User ? $post.User.username : $post.username }} &amp;middot; {{ date_time($post.post_date) }}&quot;
+                    &gt;
+                        &lt;blockquote class=&quot;message-body&quot;&gt;
+                            {{ bb_code($post.message, 'post', $post.User, {
+                                'attachments': $post.attach_count ? $post.Attachments : [],
+                                'viewAttachments': $thread.canViewAttachments()
+                            }) }}
+                        &lt;/blockquote&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/xf:macro&gt;
+</code></pre>
+<p>По общему признанию, здесь <strong>много</strong> происходит. Хотя это может показаться устрашающим, в основном это просто разметка, чтобы отображать наши избранные темы в разумном стиле. Однако есть несколько вещей, на которые стоит обратить внимание.</p>
+<p>Мы начинаем шаблон с условия, которое читается как <code>&lt;xf:if is="$featuredThreads is not empty"&gt;</code>. Это необходимо для проверки того, что объект, возвращаемый средством поиска, действительно содержит записи избранной темы. Если этого не произошло, мы выводим соответствующее сообщение.</p>
+<p>Если у нас есть какие-то записи, нам нужно перебрать каждую, чтобы отобразить ее. Для каждой записи мы вызываем <code>macro</code>. Макросы - это многоразовые части кода шаблона, которые самодокументируются (в том смысле, что вы видите, какие аргументы поддерживаются) и поддерживают свою собственную область видимости, которая не может быть загрязнена аргументами в шаблоне, вызывающем макрос; Это означает, что макросам известны только явно переданные аргументы и глобальный параметр <code>$xf</code>.</p>
+<p>Макрос блока темы отображает базовый блок для избранной темы, а затем вызывает другой макрос для отображения каждого сообщения.</p>
+<h2 id="_11">Реализация вкладки навигации<a class="headerlink" href="#_11" title="Permanent link"></a></h2>
+<p>Возможно, вы заметили при настройке маршрута, что мы указали контекст раздела как "home", и когда вы посетили страницу портала, была выбрана домашняя вкладка, или, в качестве альтернативы, вы могли вообще не видеть домашнюю вкладку, если <code>homePageUrl</code> не установлен в опциях. Мы хотим использовать домашнюю вкладку по умолчанию, а не создавать ее сами и, возможно, иметь дублирующую вкладку.</p>
+<p>Для этого мы должны использовать прослушиватель событий кода, чтобы изменить URL-адрес на URL-адрес нашего портала. В административной панели в разделе Development нажмите "Code event listeners" и нажмите "Add code event listener". Прослушайте событие <code>home_page_url</code>, класс обратного вызова снова будет <code>Demo\Portal\Listener</code>, и на этот раз метод будет называться <code>homePageUrl</code>.</p>
+<p>Код этого нового метода должен быть довольно простым:</p>
+<pre><code class="language-php">public static function homePageUrl(&amp;$homePageUrl, \XF\Mvc\Router $router)
+{
+    $homePageUrl = $router-&gt;buildLink('canonical:portal');
+}
+</code></pre>
+<p>Наконец, нам следует подумать об изменении маршрута индексной страницы к странице нашего портала. Перейдите в Admin CP и в разделе "Setup" нажмите "Options", а затем "Basic board information". Измените параметр "Index page route" на <code>portal/</code>.</p>
+<p>Пока вы находитесь в Admin CP, давайте посмотрим, что происходит теперь, когда вы нажимаете на заголовок Board в заголовке. Это приведет вас к вашей индексной странице. Все в порядке, эта индексная страница теперь должна быть вашим порталом! В дополнение к этому, вкладка Home должна быть видна и выбрана.</p>
+<p>В качестве необязательного шага вы можете добавить несколько дополнительных навигационных записей на главную вкладку. Но пока идем дальше.</p>
+<h2 id="_12">Добавление (или удаление) тем вручную<a class="headerlink" href="#_12" title="Permanent link"></a></h2>
+<p>Итак, мы можем автоматически добавлять новые темы. А как насчет того, чтобы вручную указать существующие темы? Или вручную показывать темы во время создания, когда автоматическое добавление не поддерживается? Это будет хороший способ сделать нашу текущую страницу портала более загруженной.</p>
+<p>Для этого мы добавим модификацию шаблона в конкретный макрос, и этот макрос фактически используется во время ответа в теме, редактирование темы и при создании темы. Это потребует расширения службы редактора и внесения изменений в существующий код, который обрабатывал автоматические функции.</p>
+<p>Первый шаг - это новая модификация шаблона. Поэтому перейдите в "Add template modification" (убедитесь, что в списке "Template modifications" выбрана вкладка "Public"). На этот раз мы модифицируем шаблон <code>helper_thread_options</code>, мы будем использовать <code>demo_portal_helper_thread_options</code> в качестве ключа, и вы можете написать разумное описание. На самом деле мы можем сделать здесь "Simple replacement", поэтому оставьте этот переключатель выбранным и в поле "Find" добавьте:</p>
+<pre><code class="language-html">&lt;xf:if is=&quot;$thread.canLockUnlock()&quot;&gt;
+</code></pre>
+<p>В поле "Replace" добавьте:</p>
+<pre><code class="language-html">&lt;xf:if is=&quot;($thread.isInsert() AND !$thread.Forum.demo_portal_auto_feature AND $thread.canFeatureUnfeature())
+    OR ($thread.isUpdate() &amp;&amp; $thread.canFeatureUnfeature())&quot;
+&gt;
+    &lt;xf:option label=&quot;{{ phrase('demo_portal_featured') }}&quot; name=&quot;featured&quot; value=&quot;1&quot; selected=&quot;{$thread.demo_portal_featured}&quot;&gt;
+        &lt;xf:hint&gt;{{ phrase('demo_portal_featured_hint') }}&lt;/xf:hint&gt;
+        &lt;xf:afterhtml&gt;
+            &lt;xf:hiddenval name=&quot;_xfSet[featured]&quot; value=&quot;1&quot; /&gt;
+        &lt;/xf:afterhtml&gt;
+    &lt;/xf:option&gt;
+&lt;/xf:if&gt;
+$0
+</code></pre>
+<p>Это условие немного длинновато, но оно позволяет нам отображать выбранный флажок при двух конкретных условиях: а) Если тема еще не создана, а опция автоматической функции отключена для форума и есть разрешение на включение или б) это существующая тема и есть разрешение на добавление / отмену функции.</p>
+<p>Быстрый "Test" должен показать, что этот дополнительный код будет вставлен чуть выше существующего флажка "Open" в существующем <code>&lt;xf:checkboxrow&gt;</code>. Если все в порядке, нажмите "Save".</p>
+<p>Нам пришлось использовать код шаблона непосредственно в модификации здесь, потому что включение шаблона (как мы делали раньше) не будет работать таким образом в существующем теге ввода или строки. Теперь нам также нужно будет создать фразы для метки и подсказки, потому что позже их невозможно будет обнаружить.</p>
+<p>В разделе "Appearance" перейдите в "Phrases" и нажмите "Add phrase". Убедитесь, что ваше дополнение выбрано. "Title" первой фразы будет "demo_portal_featured", а текст будет просто "Featured". Нажмите "Save and Exit". Снова нажмите "Add phrase". "Title" для второй фразы будет "demo_portal_featured_hint", а текст будет "Featured threads will appear on the Portal page."</p>
+<p>Вернемся к коду шаблона, который мы только что добавили в модификацию; возможно, вы что-то заметили. Мы вызвали метод для сущности темы, <code>canFeatureUnfeature()</code>, но этот метод еще не существует. В конечном итоге мы собираемся использовать это для проверки разрешений, которая будет определять, может ли пользователь вручную включать тему или нет.</p>
+<p>Чтобы добавить этот метод, нам нужно новое расширение класса для сущности <code>XF\Entity\Thread</code>. Итак, сделайте это сейчас, как мы это делали раньше. Расширенный класс будет <code>Demo\Portal\XF\Entity\Thread</code>, поэтому создайте его по пути <code>src/addons/Demo/Portal/XF/Entity/Thread.php</code> с содержимым:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal\XF\Entity;
+
+class Thread extends XFCP_Thread
+{
+    public function canFeatureUnfeature()
+    {
+        return true;
+    }
+}
+</code></pre>
+<p>Итак, мы еще не сделали здесь особо ценного. Все, что делает метод <code>canFeatureUnfeature()</code>, прямо сейчас возвращает значение <code>true</code>. Позже мы реализуем некоторые необходимые разрешения и добавим их сюда.</p>
+<p>Чтобы проверить, работает ли это на данный момент, откройте одну из ранее представленных тем и выберите "Edit thread" в меню инструментов. Мы должны увидеть, что в строке флажка "Set thread status" есть добавленный флажок "Featured", и он должен быть отмечен, что указывает на то, что эта тема действительно включена в список избранных.</p>
+<p>Теперь мы можем перейти к изменению службы редактора тем, чтобы найти это значение и функцию или ее отсутствие соответственно. Для этого нам понадобятся два новых расширения класса. Вернитесь на страницу "Add class extensions". Первый будет иметь базовый класс <code>XF\Pub\Controller\Thread</code> и класс расширения <code>Demo\Portal\XF\Pub\Controller\Thread</code>. У второго будет базовый класс <code>XF\Service\Thread\Editor</code> и класс расширения <code>Demo\Portal\XF\Service\Thread\Editor</code>.</p>
+<p>Служба редактора на самом деле будет очень похожа на расширенную службу создания, которую мы создали ранее, поэтому создайте ее в соответствующем месте. Вот весь код расширенного класса:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal\XF\Service\Thread;
+
+class Editor extends XFCP_Editor
+{
+    protected $featureThread;
+
+    public function setFeatureThread($featureThread)
+    {
+        $this-&gt;featureThread = $featureThread;
+    }
+
+    protected function _save()
+    {
+        $thread = parent::_save();
+
+        if ($this-&gt;featureThread !== null &amp;&amp; $thread-&gt;discussion_state == 'visible')
+        {
+            /** @var \Demo\Portal\Entity\FeaturedThread $featuredThread */
+            $featuredThread = $thread-&gt;getRelationOrDefault('FeaturedThread', false);
+
+            if ($this-&gt;featureThread)
+            {
+                if (!$featuredThread-&gt;exists())
+                {
+                    $featuredThread-&gt;save();
+                    $thread-&gt;fastUpdate('demo_portal_featured', true);
+                }
+            }
+            else
+            {
+                if ($featuredThread-&gt;exists())
+                {
+                    $featuredThread-&gt;delete();
+                    $thread-&gt;fastUpdate('demo_portal_featured', false);
+                }
+            }
+        }
+
+        return $thread;
+    }
+}
+</code></pre>
+<p>Это немного сложнее, чем код в службе создания. Например, могут быть ситуации, когда тема редактируется, а у пользователя нет разрешения на редактирование темы, и поэтому мы не показываем флажки. В этих случаях мы не хотим автоматически предполагать, что тема должна быть лишена функций. Поскольку свойство класса <code>$featureThread</code> по умолчанию имеет значение <code>null</code>, мы можем использовать это так, чтобы, по сути, свойство имело три состояния. В этом случае <code>null</code> будет означать "no change", <code>true</code> будет означать, что мы включили тему, а <code>false</code> будет означать, что мы удалили его.</p>
+<p>В случае отсутствия функций мы фактически просто удаляем указанный объект темы, вызывая метод <code>delete()</code>. В обоих случаях мы снова используем метод <code>fastUpdate()</code>, чтобы обновить кешированное значение в сущности темы, чтобы представить текущее выделенное состояние.</p>
+<p>Прежде чем мы закончим процесс редактирования, нам нужно добавить код в наш расширенный контроллер темы и, в частности, расширить метод <code>setupThreadEdit()</code>. Весь код расширенного контроллера темы будет выглядеть так:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal\XF\Pub\Controller;
+
+class Thread extends XFCP_Thread
+{
+    public function setupThreadEdit(\XF\Entity\Thread $thread)
+    {
+        /** @var \Demo\Portal\XF\Service\Thread\Editor $editor */
+        $editor = parent::setupThreadEdit($thread);
+
+        $canFeatureUnfeature = $thread-&gt;canFeatureUnfeature();
+        if ($canFeatureUnfeature)
+        {
+            $editor-&gt;setFeatureThread($this-&gt;filter('featured', 'bool'));
+        }
+
+        return $editor;
+    }
+}
+</code></pre>
+<p>Этого должно быть достаточно, чтобы иметь возможность редактировать тему и устанавливать статус как избранный (или отключенный). Если вы попробуете это сейчас, вы сможете увидеть, как темы появляются и исчезают со страницы вашего портала соответственно.</p>
+<p>Нам необходимо расширить другой метод в контроллере темы для обработки ситуации, когда элементы управления статусом темы также отображаются в некоторых формах ответа темы.</p>
+<p>Нам просто нужно добавить следующий код под методом <code>setupThreadEdit()</code>, который мы добавили выше:</p>
+<pre><code class="language-php">public function finalizeThreadReply(\XF\Service\Thread\Replier $replier)
+{
+    parent::finalizeThreadReply($replier);
+
+    $setOptions = $this-&gt;filter('_xfSet', 'array-bool');
+    if ($setOptions)
+    {
+        $thread = $replier-&gt;getThread();
+
+        if ($thread-&gt;canFeatureUnfeature() &amp;&amp; isset($setOptions['featured']))
+        {
+            $replier-&gt;setFeatureThread($this-&gt;filter('featured', 'bool'));
+        }
+    }
+}
+</code></pre>
+<p>Обратите внимание, что мы фактически ничего не вернули в этом методе, потому что он не должен ничего возвращать.</p>
+<p>Для последнего шага в ручном включении / отключении темы нам нужно вернуться к контроллеру форума и немного изменить наш существующий код, чтобы, если включение не происходит автоматически, мы могли бы обработать его вручную. Это должно быть довольно просто. Зайдите в свой расширенный контроллер форума и замените это:</p>
+<pre><code class="language-php">if ($forum-&gt;demo_portal_auto_feature)
+{
+    $creator-&gt;setFeatureThread(true);
+}
+</code></pre>
+<p>Этим:</p>
+<pre><code class="language-php">if ($forum-&gt;demo_portal_auto_feature)
+{
+    $creator-&gt;setFeatureThread(true);
+}
+else
+{
+    $setOptions = $this-&gt;filter('_xfSet', 'array-bool');
+    if ($setOptions)
+    {
+        $thread = $creator-&gt;getThread();
+
+        if ($thread-&gt;canFeatureUnfeature() &amp;&amp; isset($setOptions['featured']))
+        {
+            $creator-&gt;setFeatureThread($this-&gt;filter('featured', 'bool'));
+        }
+    }
+}
+</code></pre>
+<p>Это в основном то же самое, что и у нас уже было, например, если на форуме включено автоматическое включение, мы просто устанавливаем тему как избранную, в противном случае мы проверяем, доступен ли флажок, и как мы это делали для других случаев. , установите его в любое состояние флажка.</p>
+<p>Теперь мы должны протестировать создание 3 тем, чтобы убедиться, что это работает должным образом. Сначала на форуме с включенным автоматическим включением, чтобы убедиться, что он все еще работает, затем на форуме без включенного автоматического включения, с установленным флажком "Featured" и снова с ним. Предполагая, что все работает, идем дальше.</p>
+<h2 id="_13">Улучшение страницы портала<a class="headerlink" href="#_13" title="Permanent link"></a></h2>
+<p>Итак, страница портала выглядит разумно, но мы можем сделать немного лучше.</p>
+<p>Сначала мы должны настроить наш код так, чтобы отображались только X избранных тем, а также мы должны добавить некоторую навигацию по страницам. На этом этапе, если вы еще этого не сделали, возможно, стоит указать еще несколько тем, чтобы мы могли действительно протестировать разбиение на страницы!</p>
+<p>Для начала нам нужно вернуться к нашему контроллеру портала и добавить код в начало метода <code>actionIndex()</code>:</p>
+<pre><code class="language-php">$page = $this-&gt;filterPage();
+$perPage = 5;
+</code></pre>
+<p>Первая строка здесь - это специальный вспомогательный метод для получения номера текущей страницы. Второй - сколько элементов мы будем загружать на страницу. Обычно это происходит из опции, но пока мы жестко запрограммируем это на 5.</p>
+<p>Следующее, что нужно сделать, это изменить эту строку:</p>
+<pre><code class="language-php">$finder = $repo-&gt;findFeaturedThreadsForPortalView();
+</code></pre>
+<p>К этому:</p>
+<pre><code class="language-php">$finder = $repo-&gt;findFeaturedThreadsForPortalView()
+    -&gt;limitByPage($page, $perPage);
+</code></pre>
+<p>Это изменяет наш запрос так, что он будет ограничиваться значениями страниц / страниц, которые мы определили выше. Это автоматически вычислит правильный предел (<code>$perPage</code>) и смещение (<code>($page - 1) * $perPage</code>) для текущей страницы. Затем нам нужно передать еще несколько параметров в параметры нашего представления, поэтому измените их:</p>
+<pre><code class="language-php">$viewParams = [
+    'featuredThreads' =&gt; $finder-&gt;fetch()
+];
+</code></pre>
+<p>На:</p>
+<pre><code class="language-php">$viewParams = [
+    'featuredThreads' =&gt; $finder-&gt;fetch(),
+    'total' =&gt; $finder-&gt;total(),
+    'page' =&gt; $page,
+    'perPage' =&gt; $perPage
+];
+</code></pre>
+<p>Чтобы использовать отображение нашей навигации по страницам, нам нужно знать общее количество записей, которые мы можем получить из средства поиска с помощью метода <code>total()</code>, номер текущей страницы и количество отображаемых на странице.</p>
+<p>Если вы вернетесь на портал, вы увидите только 5 избранных тем. Однако теперь нам нужно добавить навигацию по страницам. Итак, откройте шаблон <code>demo_portal_view</code> и сразу после закрывающего тега <code>&lt;/xf:foreach&gt;</code> добавьте следующее:</p>
+<pre><code class="language-html">&lt;xf:pagenav page=&quot;{$page}&quot; perpage=&quot;{$perPage}&quot; total=&quot;{$total}&quot; link=&quot;portal&quot; wrapperclass=&quot;block&quot; /&gt;
+</code></pre>
+<p>Перезагрузив страницу портала на этом этапе, если у вас есть более 5 избранных тем, вы теперь увидите навигацию по страницам в нижней части списка избранных тем.</p>
+<p>Еще кое-что, что может быть полезно для улучшения внешнего вида этой страницы, - это добавить боковую панель или, точнее, позицию виджета, которая отображается на боковой панели.</p>
+<p>Позиции виджетов добавляются в Admin CP в разделе "Development". Перейдите на страницу "Widget positions" и нажмите "Add widget position". Введите "Position ID" для <code>demo_portal_view_sidebar</code>, "Title" для <code>Demo portal view: Sidebar</code> и соответствующее описание. Убедившись, что позиция включена и выбран правильный идентификатор дополнения, нажмите "Save".</p>
+<p>Чтобы добавить эту позицию в шаблон, просто добавьте следующее под тегом <code>&lt;xf:title&gt;</code>:</p>
+<pre><code class="language-html">&lt;xf:widgetpos id=&quot;demo_portal_view_sidebar&quot; position=&quot;sidebar&quot; /&gt;
+</code></pre>
+<p>Конечно, мы по-прежнему не увидим боковую панель, пока не добавим к ней несколько виджетов. Сами виджеты не назначаются дополнениями, поэтому виджеты, которые вы создаете для этой позиции, если вы хотите поставить некоторые настроенные виджеты по умолчанию, необходимо будет добавить в класс Setup.</p>
+<p>Для простоты мы просто продублируем виджеты, которые в настоящее время назначены на позицию <code>forum_list_sidebar</code> (по умолчанию). Итак, мы добавим их в новый метод <code>installStep4()</code> в класс Setup:</p>
+<pre><code class="language-php">public function installStep4()
+{
+    $this-&gt;createWidget('demo_portal_view_members_online', 'members_online', [
+        'positions' =&gt; ['demo_portal_view_sidebar' =&gt; 10]
+    ]);
+
+    $this-&gt;createWidget('demo_portal_view_new_posts', 'new_posts', [
+        'positions' =&gt; ['demo_portal_view_sidebar' =&gt; 20]
+    ]);
+
+    $this-&gt;createWidget('demo_portal_view_new_profile_posts', 'new_profile_posts', [
+        'positions' =&gt; ['demo_portal_view_sidebar' =&gt; 30]
+    ]);
+
+    $this-&gt;createWidget('demo_portal_view_forum_statistics', 'forum_statistics', [
+        'positions' =&gt; ['demo_portal_view_sidebar' =&gt; 40]
+    ]);
+
+    $this-&gt;createWidget('demo_portal_view_share_page', 'share_page', [
+        'positions' =&gt; ['demo_portal_view_sidebar' =&gt; 50]
+    ]);
+}
+</code></pre>
+<p>И, конечно же, не забудьте выполнить этот шаг настройки для себя:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:install-step Demo/Portal 4</p>
+</div>
+<h2 id="_14">Реализация разрешений и оптимизации<a class="headerlink" href="#_14" title="Permanent link"></a></h2>
+<p>Прямо сейчас мы отображаем все избранные темы на портале, независимо от того, есть ли у посетителя разрешение на их просмотр или нет. Это не идеально; могут быть случаи использования, когда вы хотите отображать темы с определенных закрытых форумов, и чтобы они были видны только пользователям, которые обычно могут просматривать этот форум.</p>
+<p>Для этого нам нужно изменить наш код, чтобы мы «перевыбирали» количество записей, которые нам нужно отобразить, отфильтровывали любые не просматриваемые результаты, а затем срезали полученную коллекцию до фактического количества, которое мы хотим отображать на странице. Это несколько проще, чем кажется.</p>
+<p>Для начала перейдите к контроллеру портала и измените эту строку:</p>
+<pre><code class="language-php">-&gt;limitByPage($page, $perPage);
+</code></pre>
+<p>На:</p>
+<pre><code class="language-php">-&gt;limit($perPage * 3);
+</code></pre>
+<p>И ниже добавьте:</p>
+<pre><code class="language-php">$featuredThreads = $finder-&gt;fetch()
+    -&gt;filter(function(\Demo\Portal\Entity\FeaturedThread $featuredThread)
+    {
+        return ($featuredThread-&gt;Thread-&gt;canView());
+    })
+    -&gt;sliceToPage($page, $perPage);
+</code></pre>
+<p>Наконец измените:</p>
+<pre><code class="language-php">'featuredThreads' =&gt; $finder-&gt;fetch(),
+</code></pre>
+<p>На:</p>
+<pre><code class="language-php">'featuredThreads' =&gt; $featuredThreads,
+</code></pre>
+<p>Возможно, вы заметили ранее в шаблоне <code>demo_portal_view</code>, что каждое сообщение, которое мы обрабатываем, также указывает свои вложения:</p>
+<pre><code class="language-plain">'attachments': $post.attach_count ? $post.Attachments : [],
+</code></pre>
+<p>Прямо сейчас это будет генерировать дополнительный запрос для каждого сообщения. Поэтому вместо этого мы должны попытаться выполнить единый запрос для всех отображаемых сообщений и заранее добавить их к сообщениям. Возможно, это звучит сложнее, чем есть на самом деле. Просто добавьте приведенный ниже код под строкой <code>-&gt;slice(0, $perPage, true);</code>.</p>
+<pre><code class="language-php">$threads = $featuredThreads-&gt;pluckNamed('Thread');
+$posts = $threads-&gt;pluckNamed('FirstPost', 'first_post_id');
+
+/** @var \XF\Repository\Attachment $attachRepo */
+$attachRepo = $this-&gt;repository('XF:Attachment');
+$attachRepo-&gt;addAttachmentsToContent($posts, 'post');
+</code></pre>
+<p>Сначала мы используем метод <code>pluckNamed()</code>, чтобы получить коллекцию тем, а затем снова, чтобы получить коллекцию сообщений (с ключом по идентификатору сообщения) из тем. Когда у нас есть сообщения, мы можем просто передать их специальному методу в репозитории вложений, который выполняет один запрос и «гидратирует» отношение вложений для каждого сообщения.</p>
+<p>Последняя вещь, связанная с разрешениями, которую нужно завершить, - это создать новое разрешение для управления тем, кто может вручную включать / отключать темы. Для этого в Admin CP в разделе "Development" нажмите "Permission definitions" и нажмите "Add permission". "Permission group" будет "forum", "Permission ID" будет <code>demoPortalFeature</code>, "Title" должно быть <code>Can feature / unfeature threads</code>, установите "Interface group" на <code>Forum moderator permissions</code> и после выбора подходящего порядок отображения и, убедившись, что ваше дополнение выбрано, нажмите "Save".</p>
+<p>Чтобы действительно использовать это разрешение, нам нужно вернуться к нашей расширенной сущности темы, чтобы изменить метод <code>canFeatureUnfeature()</code>. Замените <code>return true;</code> на:</p>
+<pre><code class="language-php">return \XF::visitor()-&gt;hasNodePermission($this-&gt;node_id, 'demoPortalFeature');
+</code></pre>
+<p>На этом этапе, поскольку разрешения не имеют значений по умолчанию, если вы перейдете к редактированию какой-либо цепочки, вы должны обнаружить, что флажок "Featured" отсутствует. Но если вы дадите себе это разрешение, флажок вернется. Итак, это должно продемонстрировать, что разрешение работает должным образом!</p>
+<h2 id="_15">Создание некоторых опций<a class="headerlink" href="#_15" title="Permanent link"></a></h2>
+<p>В настоящее время мы отображаем только 5 избранных тем на странице, но было бы неплохо иметь возможность отображать больше. Создавать варианты очень просто. Хотя это не обязательно, мы сначала создадим новую группу опций, а затем добавим в эту группу новую опцию.</p>
+<p>На панели администратора в разделе Setup выберите Options и нажмите кнопку "Add option group". Мы просто назовем "Group ID" <code>demoPortal</code> и дадим ему название "Demo - Portal options". Присвойте ему соответствующие ̀"Description" и "Display order" и нажмите "Save".</p>
+<p>Теперь нажмите "Add option". Установите для параметра "Option ID" значение <code>demoPortalFeaturedPerPage</code>, "Title" на <code>Featured threads per page</code>, измените формат на <code>Spin box</code>, "Data type" на <code>Positive integer</code> и "Default value" на <code>10</code>. Нажмите "Save".</p>
+<p>Чтобы реализовать это, вернитесь к контроллеру портала и измените:</p>
+<pre><code class="language-php">$perPage = 5;
+</code></pre>
+<p>На:</p>
+<pre><code class="language-php">$perPage = $this-&gt;options()-&gt;demoPortalFeaturedPerPage;
+</code></pre>
+<p>Наверное, не помешает добавить еще один вариант. Возможно, другой полезной опцией будет возможность изменить порядок сортировки по умолчанию с <code>xf_demo_portal_featured_thread.feartured_date</code> на <code>xf_thread.post_date</code>. Вернитесь в группу "Demo - Portal options" и нажмите "Add option".</p>
+<p>Установите "Option ID" на <code>demoPortalDefaultSort</code>, "Title" на <code>Default sort order</code> и "Edit format" на <code>Radio buttons</code>. Для "Format parameters" установите их следующим образом:</p>
+<p><code>plain
+ featured_date={{ phrase('demo_portal_featured_date') }}
+ post_date={{ phrase('demo_portal_post_date') }}</code></p>
+<p>Наконец, установите "Default value" на <code>featured_date</code> и нажмите "Save".</p>
+<p>Нам нужно будет создать фразы, используемые для меток переключателей, аналогично тому, как мы создавали фразы ранее для модификации шаблона.</p>
+<p>Установите значение параметра на "Post date".</p>
+<p>Строго говоря, мы могли бы просто обновить наш метод репозитория, чтобы использовать новую опцию напрямую, однако, возможно, стоит посмотреть, как работают пользовательские методы поиска. Создайте новый файл по пути <code>src/addons/Demo/Portal/Finder/FeaturedThread.php</code> с содержимым:</p>
+<pre><code class="language-php">&lt;?php
+
+namespace Demo\Portal\Finder;
+
+use XF\Mvc\Entity\Finder;
+
+class FeaturedThread extends Finder
+{
+    public function applyFeaturedOrder($direction = 'ASC')
+    {
+        $options = \XF::options();
+
+        if ($options-&gt;demoPortalDefaultSort == 'featured_date')
+        {
+            $this-&gt;setDefaultOrder('featured_date', $direction);
+        }
+        else
+        {
+            $this-&gt;setDefaultOrder('Thread.post_date', $direction);
+        }
+
+        return $this;
+    }
+}
+</code></pre>
+<p>Как видите, все, что мы здесь сделали, - это создали довольно простой класс, расширяющий объект <code>Finder</code>, и простой метод, который смотрит на значение нашей опции и применяет соответствующий порядок по умолчанию. Теперь мы можем обновить наш метод репозитория, чтобы использовать его вместо этого.</p>
+<p>В нашем репозитории избранных тем найдите:</p>
+<pre><code class="language-php">-&gt;setDefaultOrder('featured_date', 'DESC')
+</code></pre>
+<p>И измените на:</p>
+<pre><code class="language-php">-&gt;applyFeaturedOrder('DESC')
+</code></pre>
+<p>Наконец, вероятно, имеет смысл обновить наше представление портала, чтобы отображать соответствующую отметку времени - либо указанную дату, либо дату публикации, в зависимости от значения нашей опции.</p>
+<p>В шаблоне <code>demo_portal_view</code> меняем:</p>
+<pre><code class="language-html">&lt;li&gt;&lt;xf:date time=&quot;{$featuredThread.featured_date}&quot; /&gt;&lt;/li&gt;
+</code></pre>
+<p>На:</p>
+<pre><code class="language-html">&lt;li&gt;
+    &lt;xf:if is=&quot;$xf.options.demoPortalDefaultSort == 'featured_date'&quot;&gt;
+        &lt;xf:date time=&quot;{$featuredThread.featured_date}&quot; /&gt;
+    &lt;xf:else /&gt;
+        &lt;xf:date time=&quot;{$thread.post_date}&quot; /&gt;
+    &lt;/xf:if&gt;
+&lt;/li&gt;
+</code></pre>
+<h2 id="_16">Невозможность изменения видимости<a class="headerlink" href="#_16" title="Permanent link"></a></h2>
+<p>Чтобы приблизиться к этому, нам нужно будет снова изменить сущность Thread, но на этот раз мы сделаем это с помощью события <code>entity_post_save</code>. Как мы упоминали в <a href="../entities-finders-repositories/#the-entity-life-cycle">Жизненный цикл объекта</a>, метод `_postSave()- это то место, где действия могут выполняться в результате вставки объекта или обновлено. Первоначально мы отключим тему, когда она больше не будет видна.</p>
+<p>Итак, вернитесь на страницу "Add code event listeners" и на этот раз послушайте событие <code>entity_post_save</code>. Подсказкой события на этот раз будет <code>XF\Entity\Thread</code>. Для обратного вызова execute мы будем использовать тот же класс, что и раньше (<code>Demo\Portal\Listener</code>), но мы добавим сюда новый метод с именем <code>threadEntityPostSave</code>. Давайте добавим этот метод сейчас, чтобы он был там, когда мы сохраняем слушателя:</p>
+<pre><code class="language-php">public static function threadEntityPostSave(\XF\Mvc\Entity\Entity $entity)
+{
+
+}
+</code></pre>
+<p>Нажмите «Сохранить», чтобы сохранить слушателя.</p>
+<p>Содержимое этой функции довольно простое, давайте посмотрим на это:</p>
+<pre><code class="language-php">if ($entity-&gt;isUpdate())
+{
+    $visibilityChange = $entity-&gt;isStateChanged('discussion_state', 'visible');
+    if ($visibilityChange == 'leave')
+    {
+        $featuredThread = $entity-&gt;FeaturedThread;
+        if ($featuredThread)
+        {
+            $featuredThread-&gt;delete();
+            $entity-&gt;fastUpdate('demo_portal_featured', false);
+        }
+    }
+}
+</code></pre>
+<p>Раньше у нас были темы без признаков, но на этот раз мы хотим сделать это условным для состояния темы. Мы можем обнаружить изменения состояния, используя метод <code>isStateChanged</code>. Это вернет либо <code>enter</code>, либо <code>leave</code> для имени столбца и переданного значения. Например, если <code>discussion_state</code> изменится с <code>visible</code> на <code>deleted</code>, тогда метод вернет <code>leave</code> в приведенном выше примере.</p>
+<p>Как только мы обнаружили, что «покидаем» видимое состояние, мы можем просто убедиться, что у нас есть указанное отношение темы, удалить его и обновить кэшированное значение.</p>
+<p>Это будет охватывать только ситуацию, когда тема мягко удаляется или отправляется в очередь утверждения. Нам также необходимо учитывать ситуацию, когда ветка удаляется безвозвратно.</p>
+<p>Для этого нам понадобится другой слушатель, на этот раз для события <code>entity_post_delete</code>. Итак, добавьте это, используя тот же класс обратного вызова, и на этот раз имя метода <code>threadEntityPostDelete</code>. Добавьте следующий код в класс слушателя:</p>
+<pre><code class="language-php">public static function threadEntityPostDelete(\XF\Mvc\Entity\Entity $entity)
+{
+    $featuredThread = $entity-&gt;FeaturedThread;
+    if ($featuredThread)
+    {
+        $featuredThread-&gt;delete();
+    }
+}
+</code></pre>
+<p>После нажатия кнопки «Сохранить» для сохранения слушателя стоит провести тест. Чтобы проверить это, вам может быть лучше следить за таблицей <code>xf_demo_portal_featured_thread</code>, поскольку пока код уже не будет отображать невидимые темы, но всегда важно не оставлять потерянные данные. Все хорошо, мы почти закончили...</p>
+<h2 id="_17">Последние штрихи<a class="headerlink" href="#_17" title="Permanent link"></a></h2>
+<p>Говоря о потерянных данных, мы должны приводить в порядок базу данных всякий раз, когда дополнения удаляется. Мы можем сделать это в классе Setup, который мы создали ранее.</p>
+<p>Мы собираемся создать 3 новых метода, которые соответствуют нашим первым трем шагам установки:</p>
+<pre><code class="language-php">public function uninstallStep1()
+{
+    $this-&gt;schemaManager()-&gt;alterTable('xf_forum', function(Alter $table)
+    {
+        $table-&gt;dropColumns('demo_portal_auto_feature');
+    });
+}
+
+public function uninstallStep2()
+{
+    $this-&gt;schemaManager()-&gt;alterTable('xf_thread', function(Alter $table)
+    {
+        $table-&gt;dropColumns('demo_portal_featured');
+    });
+}
+
+public function uninstallStep3()
+{
+    $this-&gt;schemaManager()-&gt;dropTable('xf_demo_portal_featured_thread');
+}
+</code></pre>
+<p>Нам не нужно создавать шаг удаления для удаления виджетов, поскольку они будут удалены автоматически при удалении позиций виджетов. То же самое верно и для любых других данных, которые мы создали и связали с дополнением - они будут автоматически удалены при удалении.</p>
+<h2 id="_18">Сборка дополнения<a class="headerlink" href="#_18" title="Permanent link"></a></h2>
+<p>Последний шаг для любого дополнения - его выпуск! Это включает извлечение файлов XML из базы данных (которые поставляются в пакете и используются для установки), вычисление хэша каждого файла и добавление его в наш <code>hashes.json</code> и упаковку только соответствующих файлов в ZIP-файл.</p>
+<p>К счастью, это можно сделать с помощью одной команды CLI! Просто выполните команду ниже:</p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+<p><em>$</em> php cmd.php xf-addon:build-release Demo/Portal</p>
+<p><strong>Performing add-on export.</strong></p>
+<p><strong>Exporting data for Demo - Portal to ../src/addons/Demo/Portal/_data.</strong></p>
+<p>10/10 [============================] 100%</p>
+<p><strong>Written successfully.</strong></p>
+<p><strong>Building release ZIP.</strong></p>
+<p><strong>Writing release ZIP to ../src/addons/Demo/Portal/_releases.</strong></p>
+<p><strong>Release written successfully.</strong></p>
+</div>
+<p>Итак, на этом мы завершаем наше демонстрационное дополнение! Если вы хотите загрузить исходный код этого дополнения, созданный с использованием тех самых команд, которые были продемонстрированы выше, нажмите здесь: <a href="../files/Demo-Portal-1.0.0%20Alpha.zip">Demo-Portal-1.0.0 Alpha.zip</a>.</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="designing-styles/" class="btn btn-neutral float-right" title="Разработка стилей">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="managing-the-schema/" class="btn btn-neutral" title="Управление схемой"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../managing-the-schema/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../designing-styles/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

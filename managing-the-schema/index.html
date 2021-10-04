@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Управление схемой - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.887760%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.887760%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0441\u0445\u0435\u043c\u043e\u0439";
+    var mkdocs_page_input_path = "managing-the-schema.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Управление схемой</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Адаптер базы данных</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Управление схемой</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Разработчики &raquo;</li>
+        
+      
+    
+    <li>Управление схемой</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/managing-the-schema.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="_1">Управление схемой<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<p>Мы рассмотрели некоторые из новых подходов, доступных для взаимодействия с данными. Конечно, есть особые обстоятельства, при которых может потребоваться прямое взаимодействие с базой данных.</p>
+<h2 id="_2">Адаптер базы данных<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>Адаптер базы данных по умолчанию в XF2 основан на MySQL и расширении mysqli PHP. Настроенный адаптер базы данных доступен в любом классе XF, используя следующее:</p>
+<pre><code class="language-php">$db = \XF::db();
+</code></pre>
+<p>У адаптера есть несколько доступных методов, которые будут выполнять SQL-запрос и затем форматировать результаты в массив. Например, чтобы получить доступ к одной записи пользователя:</p>
+<pre><code class="language-php">$db = \XF::db();
+$user = $db-&gt;fetchRow('SELECT * FROM xf_user WHERE user_id = ?', 1);
+</code></pre>
+<p>Переменная <code>$user</code> теперь будет содержать массив всех значений из первой строки, найденной в результате запроса. Чтобы получить одно значение из этого запроса, например имя пользователя, вы можете сделать следующее:</p>
+<pre><code class="language-php">$username = $user['username'];
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Запросы к базе данных, записанные напрямую и переданные адаптеру базы данных, не являются автоматически "безопасными". Они создают риск уязвимости SQL-инъекции, если вводимые пользователем данные не очищаются и не передаются в запрос без предварительной подготовки. Чтобы сделать это правильно, используйте подготовленные операторы, как в приведенном выше примере. Параметры представлены в самом запросе с помощью заполнителя <code>?</code>. Эти заполнители затем заменяются значениями в следующем аргументе после того, как они были соответствующим образом экранированы. Если вам необходимо использовать более одного параметра, его следует передать в метод типа выборки в виде массива. В случае необходимости вы можете экранировать или цитировать значения напрямую, используя <code>$db-&gt;quote($value)</code>.</p>
+<p>вы можете найти более подробную информацию о подготовленных выписках <a href="http://php.net/manual/en/mysqli.quickstart.prepared-statements.php">здесь</a>.</p>
+</div>
+<p>Также можно запросить отдельное значение из записи. Например:</p>
+<pre><code class="language-php">$db = \XF::db();
+$username = $db-&gt;fetchOne('SELECT username FROM xf_user WHERE user_id = ?', 1);
+</code></pre>
+<p>Если у вас есть запрос, который должен возвращать несколько строк, вы можете использовать либо <code>fetchAll</code>:</p>
+<pre><code class="language-php">$db = \XF::db();
+$users = $db-&gt;fetchAll('SELECT * FROM xf_user LIMIT 10');
+</code></pre>
+<p>Или <code>fetchAllKeyed</code>:</p>
+<pre><code class="language-php">$db = \XF::db();
+$users = $db-&gt;fetchAllKeyed('SELECT * FROM xf_user LIMIT 10', 'user_id');
+</code></pre>
+<p>Оба эти метода вернут массив массивов, представляющих каждую запись пользователя. Разница между методами <code>fetchAll</code> и <code>fetchAllKeyed</code> состоит в том, что возвращаемый массив будет иметь разные ключи. С помощью <code>fetchAll</code> массив будет иметь ключи с числовыми последовательными целыми числами. С помощью <code>fetchAllKeyed</code> массив будет привязан к имени поля, указанного во втором аргументе.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Если вы используете <code>fetchAllKeyed</code>, обратите внимание, что второй аргумент - это поле для ввода ключа в массив, но <strong>третий</strong> аргумент - это то место, где вы передаете значения параметров для соответствия заполнителям <code>?</code>.</p>
+</div>
+<p>Доступны некоторые другие методы типа выборки, включая <code>fetchAllColumn</code> для захвата массива значений определенного столбца из всех возвращаемых строк:</p>
+<pre><code class="language-php">$db = \XF::db();
+$usernames = $db-&gt;fetchAllColumn('SELECT username FROM xf_user LIMIT 10');
+</code></pre>
+<p>В приведенном выше примере будет возвращен массив из 10 имен пользователей, найденных в результате запроса.</p>
+<p>Наконец, вам может не понадобиться или не нужно возвращать какие-либо данные, и в этом случае вы можете просто выполнить простой запрос:</p>
+<pre><code class="language-php">$db = \XF::db();
+$db-&gt;query('DELETE FROM xf_user WHERE user_id = ?', 1);
+</code></pre>
+<h2 id="_3">Управление схемой<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<p>XF2 включает в себя совершенно новый способ управления схемой базы данных, который использует объектно-ориентированный подход к выполнению определенных операций с таблицами. Давайте сначала посмотрим на традиционное изменение, используя адаптер базы данных, как показано выше:</p>
+<pre><code class="language-php">$db = \XF::db();
+$db-&gt;query(&quot;
+    ALTER TABLE xf_some_existing_table
+    ADD COLUMN new_column INT(10) UNSIGNED NOT NULL DEFAULT 0,
+    MODIFY COLUMN some_existing_column varchar(250) NOT NULL DEFAULT ''
+&quot;);
+</code></pre>
+<p>А также рассмотрим типичный запрос на создание таблицы:</p>
+<pre><code class="language-php">$db = \XF::db();
+$sm = $db-&gt;getSchemaManager();
+
+$defaultTableConfig = $sm-&gt;getTableConfigSql();
+
+$db-&gt;query(&quot;
+    CREATE TABLE xf_some_table (
+        some_id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+        some_name VARCHAR(50) NOT NULL,
+        PRIMARY KEY (user_id)
+    ) {$defaultTableConfig}
+&quot;);
+</code></pre>
+<p>Альтернативный и предпочтительный подход в XF2 использует новый объект <code>SchemaManager</code>. Давайте посмотрим на оба этих запроса, выполняемых менеджером схемы, начиная с alter:</p>
+<pre><code class="language-php">$sm = \XF::db()-&gt;getSchemaManager();
+$sm-&gt;alterTable('xf_some_existing_table', function(\XF\Db\Schema\Alter $table)
+{
+    $table-&gt;addColumn('new_column', 'int')-&gt;setDefault(0);
+    $table-&gt;changeColumn('some_existing_column')-&gt;length(250);
+});
+</code></pre>
+<p>И создание таблицы:</p>
+<pre><code class="language-php">$sm = \XF::db()-&gt;getSchemaManager();
+$sm-&gt;createTable('xf_some_table', function(\XF\Db\Schema\Create $table)
+{
+    $table-&gt;addColumn('some_id', 'int')-&gt;autoIncrement();
+    $table-&gt;addColumn('some_name', 'varchar', 50);
+});
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Когда вы изменяете существующие таблицы XenForo или создаете свои собственные таблицы, вы <strong>ДОЛЖНЫ</strong> указать значение по умолчанию, иначе вы столкнетесь с проблемами при запросе таблицы.</p>
+</div>
+<p>Оба этих примера производят тот же самый запрос, что и их более прямые аналоги выше. Хотя вы можете заметить, что некоторые вещи (намеренно) отсутствуют. Например, ни в одном из примеров не указана длина полей <code>int</code>. Это просто потому, что, опуская это, MySQL предоставит ему значение по умолчанию, равное 10 для целых чисел без знака. Говоря об этом, мы также не указываем, что столбец <code>some_id</code> беззнаковый. Использование беззнаковых целых чисел в XF, безусловно, является наиболее распространенным вариантом использования, поэтому оно добавляется автоматически. Если вам действительно нужна возможность поддерживать отрицательные целые числа, вы можете отменить это с помощью метода <code>-&gt;unsigned(false)</code>. Еще одно упущение - отсутствие определения <code>NOT NULL</code> для всего. Опять же, это применяется автоматически, но вы можете отменить это с помощью <code>-&gt;nullable(true)</code>.</p>
+<p>Это может быть неясно из примера изменения, но при изменении существующих полей определение существующего поля автоматически сохраняется. Это означает, что вместо того, чтобы указывать полное определение столбца, включая все биты, которые фактически не изменились, вы можете просто указать части, которые хотите изменить.</p>
+<p>Есть и другой автоматический вывод, который происходит в отношении первичных ключей. вы можете явно определить первичный ключ (или любой другой тип ключа), если хотите, но часто автоматически увеличивающиеся поля обычно будут Вашим первичным ключом для таблицы. Итак, в примере создания таблицы поле <code>some_id</code> автоматически назначается в качестве первичного ключа для этой таблицы.</p>
+<p>Наконец, для подхода создания таблицы мы можем автоматически добавить правильную конфигурацию таблицы для указанного механизма хранения (который по умолчанию имеет значение <code>InnoDB</code>, но может быть легко изменен на другие типы движка).</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="lets-build-an-add-on/" class="btn btn-neutral float-right" title="Создание дополнения">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="criteria/" class="btn btn-neutral" title="Критерии"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../criteria/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../lets-build-an-add-on/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

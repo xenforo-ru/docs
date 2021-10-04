@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Scotch Box - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.898953%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.898953%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Scotch Box";
+    var mkdocs_page_input_path = "scotchbox.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Scotch Box</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#scotch-box">Установка Scotch Box</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Куда деваются файлы?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Остановка и перезапуск сервера</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Официальная документация</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#scotch-box-pro">Scotch Box Pro</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Приложения &raquo;</li>
+        
+      
+    
+    <li>Scotch Box</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/scotchbox.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="scotchbox">Scotchbox<a class="headerlink" href="#scotchbox" title="Permanent link"></a></h1>
+<p>Ниже приводится описание того, как установить отличный <a href="https://box.scotch.io/">Scotch Box</a> на свой компьютер, чтобы получить полностью рабочую среду разработки для XenForo всего за несколько минут с горстка простых команд.</p>
+<p>XenForo имеет настраиваемую конфигурацию Scotch Box, которая предоставляет все необходимое для запуска XenForo, включая отладчик и кэш данных для повышения производительности.</p>
+<p>Scotch Box работает в среде <a href="https://www.virtualbox.org/">VirtualBox</a> / <a href="https://www.vagrantup.com/">Vagrant</a>.</p>
+<h2 id="scotch-box">Установка Scotch Box<a class="headerlink" href="#scotch-box" title="Permanent link"></a></h2>
+<p>Начните с решения, где на вашем компьютере вы хотите, чтобы ваш виртуальный веб-сервер хранил свои файлы. Рекомендуется выбрать расположение в домашнем каталоге вашего пользователя.</p>
+<p>В следующих примерах расположения мы будем использовать каталог с именем <em>MyServer</em>, расположенный в корне вашего собственного каталога пользователей, идентифицированный вашим именем <em>{username}</em>:</p>
+<ul>
+<li><code>/Users/{username}/MyServer</code> (Mac)</li>
+<li><code>C:\Users\{username}\MyServer</code> (Windows)</li>
+<li><code>/home/{username}/MyServer</code> (некоторые дистрибутивы Linux)</li>
+<li><code>/users/{username}/MyServer</code> (другие дистрибутивы Linux)</li>
+</ul>
+<p>После того, как вы выбрали место, выполните следующие действия:</p>
+<ol>
+<li>Установите <a href="https://www.virtualbox.org/">VirtualBox</a> на свой компьютер</li>
+<li>Установите <a href="https://www.vagrantup.com/">Vagrant</a> на свой компьютер</li>
+<li>
+<p>Используя клиент <strong>git</strong>, клонируйте <code>https://github.com/scotch-io/scotch-box</code> в каталог <em>MyServer</em>. Используя клиент командной строки с расположением примера Mac выше, команда будет:</p>
+<p><code>git clone https://github.com/scotch-io/scotch-box /Users/{username}/MyServer</code></p>
+</li>
+<li>
+<p>После завершения процесса клонирования загрузите этот пользовательский <strong>Vagrantfile</strong> и перезапишите Vagrantfile, который был создан в */Users/{username}/MyServer/Vagrantfile: <a href="../files/scotchbox/Vagrantfile">Загрузить пользовательский Vagrantfile</a>.</p>
+</li>
+<li>
+<p>Когда пользовательский Vagrantfile на месте, выполните следующие команды:</p>
+<p><code>cd /Users/{username}/MyServer
+vagrant up</code></p>
+</li>
+</ol>
+<p>Ваша виртуальная машина Scotch Box создана и готова к использованию.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Scotch Box также предоставляет версию своей виртуальной машины '<a href="https://box.scotch.io/pro/">Scotch Box Pro</a>' по разумной цене. Если вы предпочитаете запускать Scotch Box Pro, обратитесь к <a href="#scotch-box-pro">разделу ниже, описывающему различия между настройкой и запуском Scotch Box и Scotch Box Pro</a>.</p>
+</div>
+<h2 id="_1">Куда деваются файлы?<a class="headerlink" href="#_1" title="Permanent link"></a></h2>
+<p>После того, как ваш Scotch Box запущен и работает, вы можете хранить свои PHP и JS-файлы XenForo на своем хост-компьютере, что позволяет вам использовать текстовый редактор или IDE по выбору, в то время как виртуальная машина отвечает за компиляцию и обслуживание этих файлов через свою сеть. сервер.</p>
+<p>Вы сможете посетить свой новый веб-сервер в своем веб-браузере по следующему адресу:</p>
+<pre><code>http://192.168.33.10
+</code></pre>
+<p>Веб-сервер будет извлекать файлы для обслуживания из</p>
+<pre><code>/Users/{username}/MyServer/public
+</code></pre>
+<p>Если вы хотите, чтобы ваш XenForo был установлен по адресу <code>http://192.168.33.10/xenforo</code>, вам следует поместить содержимое папки <code>upload</code> из пакета XenForo в <code>/Users/{username}/MyServer/public/xenforo</code>.</p>
+<h2 id="_2">Остановка и перезапуск сервера<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>Вы можете остановить сервер Scotch Box в любое время, запустив</p>
+<pre><code>cd /Users/{username}/MyServer
+vagrant halt
+</code></pre>
+<p>...и вы можете перезапустить его, запустив</p>
+<pre><code>cd /Users/{username}/MyServer
+vagrant up
+
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Хотя Vagrant / Scotch Box автоматически выключится при перезагрузке компьютера, он не запустится автоматически снова.</p>
+<p>Каждый раз, когда вы перезагружаетесь, вам нужно будет снова запустить команду <code>vagrant up</code>, чтобы использовать сервер.</p>
+</div>
+<h2 id="_3">Официальная документация<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
+<p>Это руководство взято из официальной документации Scotch Box, которая находится по адресу <a href="https://box.scotch.io">https://box.scotch.io</a></p>
+<h2 id="scotch-box-pro">Scotch Box Pro<a class="headerlink" href="#scotch-box-pro" title="Permanent link"></a></h2>
+<p>В то время как базовый Scotch Box требует некоторой дополнительной настройки (которая передается через пользовательский Vagrantfile) для запуска XenForo 2, <a href="https://box.scotch.io/pro/">Scotch Box Pro</a> не требует дополнительной настройки и готов к запуску XenForo 2 без загрузки дополнительных пакетов.</p>
+<p>Чтобы запустить Scotch Box Pro, приобретите его на веб-сайте Scotch Box Pro, а затем запустите команду <em>git clone</em>, предоставленную как часть инструкций, которые вы получите после покупки.</p>
+<p>Теперь вы можете установить, используя те же инструкции, что и выше, с единственным исключением, что вы должны загрузить <a href="../files/scotchboxpro/Vagrantfile">этот пользовательский Vagrantfile</a> вместо того, который указан в инструкциях для Scotch Box.</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	
+	<a href="vscode/" class="btn btn-neutral" title="Visual Studio Code и Xdebug"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../vscode/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

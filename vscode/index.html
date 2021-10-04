@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Visual Studio Code и Xdebug - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.919012%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.919012%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Visual Studio Code \u0438 Xdebug";
+    var mkdocs_page_input_path = "vscode.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../routing-basics/">Основы маршрутизации</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Visual Studio Code и Xdebug</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Папка рабочей области</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Расширения</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#php">Отключить встроенный PHP</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">Установить расширения</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">Отладка</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#xdebug-helper">Добавить Xdebug helper</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">Конфигурация отладки</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">Пример отладки</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">Расширенная отладка</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_8">Ссылки на ресурсы</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Приложения &raquo;</li>
+        
+      
+    
+    <li>Visual Studio Code и Xdebug</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/vscode.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="visual-studio-code">Visual Studio Code<a class="headerlink" href="#visual-studio-code" title="Permanent link"></a></h1>
+<p><a href="https://code.visualstudio.com/">Visual Studio Code</a> - отличный редактор кода от Microsoft.</p>
+<p>По умолчанию он предлагает подсветку синтаксиса и определенную степень интеллектуальности кода, но легко устанавливаемые расширения могут превратить его в очень мощную среду разработки.</p>
+<p>Начните с загрузки и установки <a href="https://code.visualstudio.com/Download">VS Code</a>.</p>
+<h2 id="_1">Папка рабочей области<a class="headerlink" href="#_1" title="Permanent link"></a></h2>
+<p>В качестве отправной точки вы можете указать VS Code на свою папку <code>www</code>.</p>
+<p>В меню <code>File</code> выберите <code>Open Folder...</code> и укажите в ней папку <code>www</code>.</p>
+<p>Теперь любые файлы, которые вы помещаете в эту папку, будут мгновенно отображаться на панели проводника VS Code.</p>
+<h2 id="_2">Расширения<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>Перейдите к представлению <code>Extensions</code> на левой панели интерфейса - он выглядит как группа из трех блоков с четвертым, плавающим рядом.</p>
+<h3 id="php">Отключить встроенный PHP<a class="headerlink" href="#php" title="Permanent link"></a></h3>
+<p>Вы должны отключить встроенные функции языка PHP, поскольку они заменены функциями PHP Intelephense, расширения, которое мы установим на следующем шаге.</p>
+<p>Для этого введите <code>@builtin php</code> в поле поиска вверху списка расширений. Это вызовет два компонента: основы языка PHP и функции языка PHP. Используйте значок шестеренки, чтобы <strong>Отключить</strong> Функции языка PHP, но не трогайте Основы языка PHP, так как мы по-прежнему будем использовать элементы подсветки синтаксиса этого компонента.</p>
+<h3 id="_3">Установить расширения<a class="headerlink" href="#_3" title="Permanent link"></a></h3>
+<p>Вам нужно будет установить набор расширений, чтобы включить расширенные функции, которые превращают VS Code в отличную среду разработки.</p>
+<p>Используйте поле поиска, чтобы найти и установить следующие расширения:</p>
+<ul>
+<li>PHP Intelephense</li>
+<li>PHP Debug</li>
+<li>Visual Studio Intellicode</li>
+<li>SQLTools MySQL/MariaDB</li>
+</ul>
+<p>После завершения установки перечисленных здесь расширений убедитесь, что они полностью активированы, выйдя из VS Code и перезапустив его. Это помогает очистить все кешированные настройки и повторно инициализировать движок.</p>
+<h2 id="_4">Отладка<a class="headerlink" href="#_4" title="Permanent link"></a></h2>
+<p><a href="https://code.visualstudio.com/docs/editor/debugging">Отладка</a> - это мощный инструмент программирования, который позволяет остановить программу в любой момент и проверить ее среду, состояние и контекст, а затем перейти к следующему коду.</p>
+<h3 id="xdebug-helper">Добавить Xdebug helper<a class="headerlink" href="#xdebug-helper" title="Permanent link"></a></h3>
+<p>Большая часть выполняемой вами отладки будет запускаться из вашего браузера, поэтому вам необходимо установить расширение, которое будет инструктировать отладчик о запуске.</p>
+<p>Для простоты мы подробно опишем <a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc">Xdebug helper для Google Chrome</a>, но <a href="https://xdebug.org/docs/remote#browser-extensions">документация Xdebug</a> содержит список расширений для других браузеров.</p>
+<p>Загрузите расширение и установите его, затем переключите его в режим <strong>Debug</strong>, как описано на веб-странице расширения.</p>
+<h3 id="_5">Конфигурация отладки<a class="headerlink" href="#_5" title="Permanent link"></a></h3>
+<p>Прежде чем мы сможем начать использовать Xdebug в VS Code, нам нужно добавить конфигурацию отладки.</p>
+<p>В меню <code>Run</code> выберите <code>Add Configuration...</code> и выберите <code>PHP</code> в следующем диалоговом окне. Это создаст файл <code>launch.json</code> с двумя конфигурациями - 'Listen for XDebug' и 'Launch currently open script'.</p>
+<p>На левой панели переключитесь в режим <code>Run</code> - он выглядит как треугольник с наложенной ошибкой.</p>
+<p>В верхней части панели вы найдете гаджет со значком 'Play' (треугольник) и текстом 'Listen for XDebug'. Нажмите треугольник, и вы заметите, что строка состояния в нижней части окна VS Code меняет цвет, показывая, что он прослушивает.</p>
+<p>Вы можете в любой момент включить или выключить режим прослушивания.</p>
+<p>Чтобы начать отладку скрипта, разместите в коде точки останова, добавив точку в поле слева от номеров строк в скрипте.</p>
+<p>Когда сценарий запускается, выполнение приостанавливается при достижении точки останова, что позволяет вам проверить состояние и контекст приложения в этой точке.</p>
+<h3 id="_6">Пример отладки<a class="headerlink" href="#_6" title="Permanent link"></a></h3>
+<p>Откройте скрипт <code>index.php</code>, который Laragon поместил в папку <code>www</code>.</p>
+<p>Поместите точку останова в строке 2 - <code>if (!empty($_GET['q'])) {</code> и убедитесь, что VS Code находится в режиме 'Listen for XDebug'.</p>
+<p>Откройте новую вкладку браузера и установите помощник Xdebug в режим <strong>Debug</strong>, затем введите URL-адрес <code>http://localhost/?q=info</code> в адресную строку.</p>
+<p>Xdebug должен запускать VS Code для перехода в режим отладки и приостановки выполнения непосредственно перед запуском операторов в строке 2.</p>
+<p>На панели <strong>VARIABLES</strong>, разверните группу <strong>Superglobals</strong>, и вы увидите, что <code>$_GET</code> отмечен как <code>array(1)</code>, что означает, что у него есть один член. Разверните свернутый раздел <code>$_GET</code>, и вы увидите, что его член - это <code>q</code> со значением <code>info</code>, как и следовало ожидать, просто передав <code>?q=info</code> через GET скрипту.</p>
+<p>Теперь вы можете использовать кнопку <code>Step Over</code> (или нажать F10 на клавиатуре) на панели инструментов отладки, чтобы выполнение продолжалось по одной строке за раз, пока весь PHP не будет завершен и страница не загрузится полностью в браузере.</p>
+<h3 id="_7">Расширенная отладка<a class="headerlink" href="#_7" title="Permanent link"></a></h3>
+<p>Подробное описание того, как использовать Step Debugger, выходит за рамки этого руководства, но в Интернете есть множество ресурсов, которые помогут вам понять суть.</p>
+<ul>
+<li><a href="https://code.visualstudio.com/docs/editor/debugging">Отладка Visual Studio</a> (Visual Studio Code Docs)</li>
+<li><a href="https://www.fourkitchens.com/blog/article/step-step-through-debugging/">Пошаговая отладка</a> (Four Kitchens)</li>
+</ul>
+<h2 id="_8">Ссылки на ресурсы<a class="headerlink" href="#_8" title="Permanent link"></a></h2>
+<ul>
+<li><a href="https://xenforo.com/purchase/requirements-zip">Скрипт требований XenForo</a></li>
+<li><a href="https://xenforo.com/purchase/">XenForo</a></li>
+</ul>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="scotchbox/" class="btn btn-neutral float-right" title="Scotch Box">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="windows-dev/" class="btn btn-neutral" title="Среда разработки Windows"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../windows-dev/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../scotchbox/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

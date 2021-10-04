@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Hkr32">
+  
+  <link rel="shortcut icon" href="../xenforo-favicon.png">
+  
+  <title>Основы маршрутизации - Документация XenForo 2</title>
+	<link rel="stylesheet" href="../css/theme.css" type="text/css" />
+	<link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/highlight.css"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap?d=2021-10-04%2012%3A35%3A56.894885%2B00%3A00" rel="stylesheet">
+		<link href="../extra.css?d=2021-10-04%2012%3A35%3A56.894885%2B00%3A00" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u041e\u0441\u043d\u043e\u0432\u044b \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0438\u0437\u0430\u0446\u0438\u0438";
+    var mkdocs_page_input_path = "routing-basics.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Документация XenForo 2</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Обзор</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Начало работы</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Администраторы сайта (или обычные)</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../rest-api/">REST API</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Разработчики</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../add-on-structure/">Структура дополнения</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../development-tools/">Инструменты разработки</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../general-concepts/">Общие концепции</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Основы маршрутизации</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Простой пример</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">Префикс маршрута</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">Контекст раздела</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">Контроллер</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">Действия контроллера</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_7">Более сложный пример (форматы маршрута)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_8">Параметры маршрута</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sub-names">Sub-names</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../controller-basics/">Основы контроллера</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../entities-finders-repositories/">Сущности, файндеры и репозитории</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../criteria/">Критерии</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../managing-the-schema/">Управление схемой</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../lets-build-an-add-on/">Создание дополнения</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Дизайнеры</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../designing-styles/">Разработка стилей</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../template-syntax/">Синтаксис шаблонов</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Приложения</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../macos-dev/">Среда разработки macOS</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../linux-dev/">Среда разработки Linux</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../windows-dev/">Среда разработки Windows</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../vscode/">Visual Studio Code и Xdebug</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../scotchbox/">Scotch Box</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Документация XenForo 2</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Разработчики &raquo;</li>
+        
+      
+    
+    <li>Основы маршрутизации</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/xenforo-ru/docs/edit/main-ru/docs/routing-basics.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+	<h1 id="_1">Основы маршрутизации<a class="headerlink" href="#_1" title="Permanent link"></a></h1>
+<p>В приложении PHP, таком как XF2, нам нужен способ принимать пользовательский запрос для определенного URL-адреса, понимать, какой контроллер, действие и какие данные представляет этот URL-адрес, чтобы можно было представить соответствующий ответ пользователю. Концепция преобразования URL-адреса в местоположение в коде известна как «Маршрутизация».</p>
+<p>В XF2 маршрутизация почти полностью управляется из одного места в Admin CP. Это расположение - <code>Admin CP &gt; Development &gt; Routes</code>. Маршруты сгруппированы по одному из двух типов: Публичный и Административный, и они обеспечивают маршрутизацию запросов в Публичных и Административных приложениях соответственно.</p>
+<h2 id="_2">Простой пример<a class="headerlink" href="#_2" title="Permanent link"></a></h2>
+<p>На странице маршрутов (смотрите выше) вы должны увидеть запись, указанную для <code>account/</code>. Это публичный маршрут, обеспечивающий маршрутизацию запросов к URL-адресу <code>index.php?account/</code>. Этот конкретный маршрут довольно прост; он состоит только из небольшого количества настроек. Примечательно, что он состоит из «префикса маршрута», контекста раздела и класса контроллера. Давайте разберемся с этими битами более подробно:</p>
+<h3 id="_3">Префикс маршрута<a class="headerlink" href="#_3" title="Permanent link"></a></h3>
+<p>Префикс маршрута - это, по сути, бит после <code>index.php?</code> и перед первым <code>/</code>. Это первый шаг в определении того, к какому контроллеру направить запрос.</p>
+<h3 id="_4">Контекст раздела<a class="headerlink" href="#_4" title="Permanent link"></a></h3>
+<p>Контекст раздела сообщает навигационным системам в XF, какой элемент навигации следует выбрать, когда посетитель просматривает страницу, на которую направлен этот маршрут. Для общедоступных маршрутов контекстом раздела должен быть идентификатор навигационной записи верхнего уровня. Для маршрутов администратора это должно относиться к идентификатору наиболее конкретной записи навигации администратора (независимо от глубины).</p>
+<p>В случае маршрута учетной записи контекст раздела не обязательно применяется по умолчанию, потому что у нас нет вкладки навигации «учетная запись». Но, чтобы увидеть это в действии, просто измените здесь значение «Контекст раздела» на «форумы», сохраните изменения и перейдите в свою учетную запись во внешнем интерфейсе. Теперь вы должны увидеть, что выбрана вкладка навигации «Форумы»!</p>
+<h3 id="_5">Контроллер<a class="headerlink" href="#_5" title="Permanent link"></a></h3>
+<p>Это имя класса контроллера, который должен вызываться, когда запрос соответствует этому маршруту. В случае маршрута "account/" мы указываем <code>XF:Account</code>. Это загрузит контроллер учетной записи. (Смотрите <a href="../general-concepts/#short-class-names">Краткие имена классов</a> для получения дополнительной информации). Код для этого находится в следующем месте <code>src/XF/Pub/Controller/Account.php</code>. Обратите внимание, как короткие имена классов могут преобразовываться в "infix", а также в префикс (XF) и суффикс (Account). В этом случае инфикс для этого контроллера (Pub) выводится из типа маршрута Account (публичный).</p>
+<h2 id="_6">Действия контроллера<a class="headerlink" href="#_6" title="Permanent link"></a></h2>
+<p>Выше мы объяснили, как маршрут сопоставляется с конкретным контроллером, но мы еще не знаем, как вызывается конкретное действие в этом контроллере. Контроллеры - это, по сути, классы, которые содержат несколько методов действий, и это часть URL-адреса после <a href="#route-prefix">префикса маршрута</a>, который указывает действие контроллера. Учитывая URL-адрес <code>index.php?account/account-details</code>, вы должны быть перенаправлены к классу <code>XF\Pub\Controller\Account</code> и методу с именем <code>actionAccountDetails()</code>. Если маршрут не определяет действие, то вызывается метод просто <code>actionIndex()</code>.</p>
+<p>вы можете узнать больше о контроллерах в разделе <a href="../controller-basics/">Основы работы с контроллерами</a>.</p>
+<h2 id="_7">Более сложный пример (форматы маршрута)<a class="headerlink" href="#_7" title="Permanent link"></a></h2>
+<p>Давайте посмотрим на маршрут <code>members/</code>. Этот маршрут по-прежнему довольно прост, как маршрут <code>account/</code>, но в нем заполнено дополнительное поле; «Формат маршрута». Чтобы понять, как это работает, взгляните на свой собственный профиль пользователя в интерфейсе пользователя. URL-адрес этого профиля будет выглядеть примерно так: <code>index.php?members/your-name.1</code>. В частности, обратите внимание на часть <code>your-name.1</code>. Это та часть, которую мы пытаемся сопоставить, используя «Формат маршрута».</p>
+<p>«Формат маршрута» позволяет нам извлекать данные из URL-адреса запроса, чтобы мы могли передать эту информацию в действие контроллера, чтобы действие могло загружать определенную информацию; в этом случае загружаются сведения о запрошенном профиле пользователя. Это также помогает нам строить ссылки на основе переданных данных. Вот синтаксис:</p>
+<pre><code class="language-plain">:int&lt;user_id,username&gt;/:page
+</code></pre>
+<p>Здесь интересно отметить, что важной частью URL-адреса профиля для поиска профиля является не кусок <code>your-name</code>, а фактически идентификатор пользователя (<code>1</code>). Чтобы продемонстрировать это, измените URL-адрес и замените <code>your-name</code> на <code>not-your-name</code>. вы увидите, что найден правильный профиль, и выполняется перенаправление на правильный URL.</p>
+<p>Приведенный выше формат указывает, что это параметр на основе целого числа. Для создания исходящей ссылки мы извлекаем целое число из ключа user_id переданных данных. Если в данные передается ключ имени пользователя, он будет "slugified" и добавлен к целочисленному идентификатору, как вы видите в URL-адресе Вашего профиля. Для сопоставления входящего URL-адреса это превращается в регулярное выражение, соответствующее целочисленному формату параметра.</p>
+<p><code>:page</code> - это ярлык для создания части ссылки page-123. В этом случае он ищет страницу в параметрах ссылки. Если он найден, он помещается в URL-адрес, а затем удаляется из параметров. Для входящего синтаксического анализа, если он совпадает (он может быть пустым), он добавит номер страницы к параметрам, передаваемым в контроллер.</p>
+<h2 id="_8">Параметры маршрута<a class="headerlink" href="#_8" title="Permanent link"></a></h2>
+<p>Когда маршрут соответствует определенному контроллеру и действию, любые параметры в URL-адресе упаковываются в специальный объект, который мы называем <code>ParameterBag</code>. Этот объект специально разработан для разделения обычных параметров URL-адресов с параметрами, полученными при сопоставлении маршрута. Объект <code>ParameterBag</code> передается в каждое действие контроллера и используется следующим образом:</p>
+<pre><code class="language-php">$userId = $params-&gt;user_id;
+</code></pre>
+<h2 id="sub-names">Sub-names<a class="headerlink" href="#sub-names" title="Permanent link"></a></h2>
+<p>Также возможно разделить маршруты на другие sub-names. вы можете увидеть это в действии, посмотрев на маршрут <code>members/following</code>. В этом примере <code>following</code> - это sub-name маршрута <code>members</code>. Обычно URL-адрес выглядит как <code>index.php?members/following</code>, часть <code>following</code> указывает действие и просто совпадает с обычным маршрутом <code>members/</code>. Однако, если есть маршрут, который соответствует префиксу "members" и последующему "sub-name", он будет использоваться вместо него. Это верно здесь, поэтому он создает ссылку, подобную следующей:</p>
+<pre><code class="language-plain">members/:int&lt;user_id,username&gt;/following/:page
+</code></pre>
+<p>Для сопоставления входящего маршрута этот маршрут будет протестирован перед маршрутом основных участников; если он совпадает, он будет использован.</p>
+<p>Эта система sub-name позволяет изменять поведение, например изменять положение параметров или группировать маршруты на разные контроллеры или с разными параметрами. вы можете увидеть пример последнего в дополнениях Resource Manager и Media Gallery.</p>
+
+            </div>
+          </div>
+          
+
+<div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+	
+	<a href="controller-basics/" class="btn btn-neutral float-right" title="Основы контроллера">Следующая <span class="icon icon-circle-arrow-right"></span></a>
+	
+	
+	<a href="general-concepts/" class="btn btn-neutral" title="Общие концепции"><span class="icon icon-circle-arrow-left"></span> Предыдущая</a>
+	
+</div>
+
+
+<footer>
+	<div role="contentinfo">
+		<!-- Copyright etc -->
+		
+		<p><a href="https://xenforo.com/" target="_blank">Документация разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo Ltd.</a><br><a href="https://xenforo.su/" target="_blank">Перевод документации разработчика для XenForo&reg; 2.x &copy;2010-2021 XenForo.su</a></p>
+		
+		<p>
+			Создан с помощью <a href="http://www.mkdocs.org">MkDocs</a> с использованием <a href="https://github.com/snide/sphinx_rtd_theme">темы</a>, предоставленной <a href="https://readthedocs.org">Read the Docs</a> и измененной <a href="https://xenforo.com">XenForo Ltd.</a>
+		</p>
+	</div>
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/xenforo-ru/docs/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../general-concepts/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../controller-basics/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
